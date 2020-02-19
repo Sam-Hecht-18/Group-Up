@@ -15,6 +15,7 @@
 		A06DD5F723FC5D4F000DFF7C /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A06DD5F523FC5D4F000DFF7C /* LaunchScreen.storyboard */; };
 		A06DD60223FC5D50000DFF7C /* GroupUpTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A06DD60123FC5D50000DFF7C /* GroupUpTests.swift */; };
 		A06DD60D23FC5D50000DFF7C /* GroupUpUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A06DD60C23FC5D50000DFF7C /* GroupUpUITests.swift */; };
+		A07E1B5A23FDC56D005E999B /* MapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A07E1B5923FDC56D005E999B /* MapViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -49,6 +50,7 @@
 		A06DD60823FC5D50000DFF7C /* GroupUpUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = GroupUpUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		A06DD60C23FC5D50000DFF7C /* GroupUpUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupUpUITests.swift; sourceTree = "<group>"; };
 		A06DD60E23FC5D50000DFF7C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		A07E1B5923FDC56D005E999B /* MapViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -103,6 +105,7 @@
 				A06DD5EC23FC5D4C000DFF7C /* SceneDelegate.swift */,
 				A06DD5EE23FC5D4C000DFF7C /* ViewController.swift */,
 				A06DD5F023FC5D4C000DFF7C /* Main.storyboard */,
+				A07E1B5923FDC56D005E999B /* MapViewController.swift */,
 				A06DD5F323FC5D4F000DFF7C /* Assets.xcassets */,
 				A06DD5F523FC5D4F000DFF7C /* LaunchScreen.storyboard */,
 				A06DD5F823FC5D4F000DFF7C /* Info.plist */,
@@ -262,6 +265,7 @@
 				A06DD5EF23FC5D4C000DFF7C /* ViewController.swift in Sources */,
 				A06DD5EB23FC5D4C000DFF7C /* AppDelegate.swift in Sources */,
 				A06DD5ED23FC5D4C000DFF7C /* SceneDelegate.swift in Sources */,
+				A07E1B5A23FDC56D005E999B /* MapViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
