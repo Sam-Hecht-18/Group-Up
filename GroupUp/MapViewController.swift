@@ -9,24 +9,44 @@
 import UIKit
 import MapKit
 
-class MapViewController: UIViewController {
+class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewDelegate {
+    
     let map = MKMapView()
+    let locationManager = CLLocationManager()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.addSubview(map)
+        //Add as a subivew
+        //Set up properties
+        //Set up constraints
+        //view.addSubview(map)
+        view.backgroundColor = .blue
+        view.isHidden = false
+        print("working")
+//        locationManager.delegate = self
+//        locationManager.desiredAccuracy = kCLLocationAccuracyBest
+//        locationManager.requestAlwaysAuthorization()
+//        locationManager.requestWhenInUseAuthorization()
+//        locationManager.startUpdatingLocation()
+//        locationManager.distanceFilter = 20
+//
+//
+//        map.showsUserLocation = true
+//        let region = MKCoordinateRegion(center: locationManager.location?.coordinate ?? CLLocationCoordinate2D(), span: MKCoordinateSpan(latitudeDelta: 0.025, longitudeDelta: 0.025))
+//        map.setRegion(region, animated: true)
+//        map.delegate = self
+//
+//        map.translatesAutoresizingMaskIntoConstraints = true
+//        map.centerXAnchor.constraint(equalTo: view.centerXAnchor, constant: 0).isActive = true
+//        map.centerYAnchor.constraint(equalTo: view.centerYAnchor, constant: 0).isActive = true
+//        map.widthAnchor.constraint(equalToConstant: view.frame.width).isActive = true
+//        map.heightAnchor.constraint(equalToConstant: view.frame.height).isActive = true
         
-        // Do any additional setup after loading the view.
+        
+        
     }
     
+    
 
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
-    }
-    */
 
 }
