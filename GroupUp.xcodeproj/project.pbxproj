@@ -18,6 +18,9 @@
 		A07E1B5A23FDC56D005E999B /* MapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A07E1B5923FDC56D005E999B /* MapViewController.swift */; };
 		A086D340240446B800E3A640 /* SidebarMenuViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A086D33F240446B800E3A640 /* SidebarMenuViewController.swift */; };
 		A086D342240446DD00E3A640 /* SidebarSlideInTransition.swift in Sources */ = {isa = PBXBuildFile; fileRef = A086D341240446DD00E3A640 /* SidebarSlideInTransition.swift */; };
+		A2AFBE1A240447D70090F639 /* NavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2AFBE19240447D70090F639 /* NavigationController.swift */; };
+		A2AFBE1C2404482D0090F639 /* LogInScreenViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2AFBE1B2404482D0090F639 /* LogInScreenViewController.swift */; };
+		A2AFBE1E240448400090F639 /* SignUpViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2AFBE1D240448400090F639 /* SignUpViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -55,6 +58,9 @@
 		A07E1B5923FDC56D005E999B /* MapViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapViewController.swift; sourceTree = "<group>"; };
 		A086D33F240446B800E3A640 /* SidebarMenuViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SidebarMenuViewController.swift; sourceTree = "<group>"; };
 		A086D341240446DD00E3A640 /* SidebarSlideInTransition.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SidebarSlideInTransition.swift; sourceTree = "<group>"; };
+		A2AFBE19240447D70090F639 /* NavigationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationController.swift; sourceTree = "<group>"; };
+		A2AFBE1B2404482D0090F639 /* LogInScreenViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = LogInScreenViewController.swift; path = /Users/s013411/Documents/GroupUp/GroupUp/LogInScreenViewController.swift; sourceTree = "<absolute>"; };
+		A2AFBE1D240448400090F639 /* SignUpViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -105,10 +111,13 @@
 		A06DD5E923FC5D4C000DFF7C /* GroupUp */ = {
 			isa = PBXGroup;
 			children = (
+				A2AFBE1B2404482D0090F639 /* LogInScreenViewController.swift */,
 				A06DD5EA23FC5D4C000DFF7C /* AppDelegate.swift */,
+				A2AFBE19240447D70090F639 /* NavigationController.swift */,
 				A06DD5EC23FC5D4C000DFF7C /* SceneDelegate.swift */,
 				A06DD5EE23FC5D4C000DFF7C /* ViewController.swift */,
 				A07E1B5923FDC56D005E999B /* MapViewController.swift */,
+				A2AFBE1D240448400090F639 /* SignUpViewController.swift */,
 				A023B77F2401D5B400A2F5ED /* EventManagerSlideUpViewController.swift */,
 				A086D33F240446B800E3A640 /* SidebarMenuViewController.swift */,
 				A086D341240446DD00E3A640 /* SidebarSlideInTransition.swift */,
@@ -268,7 +277,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				A086D340240446B800E3A640 /* SidebarMenuViewController.swift in Sources */,
+				A2AFBE1A240447D70090F639 /* NavigationController.swift in Sources */,
 				A023B7802401D5B400A2F5ED /* EventManagerSlideUpViewController.swift in Sources */,
+				A2AFBE1C2404482D0090F639 /* LogInScreenViewController.swift in Sources */,
+				A2AFBE1E240448400090F639 /* SignUpViewController.swift in Sources */,
 				A06DD5EF23FC5D4C000DFF7C /* ViewController.swift in Sources */,
 				A086D342240446DD00E3A640 /* SidebarSlideInTransition.swift in Sources */,
 				A06DD5EB23FC5D4C000DFF7C /* AppDelegate.swift in Sources */,
