@@ -9,22 +9,19 @@
 import UIKit
 
 class SidebarMenuViewController: UIViewController {
+        enum MenuType: Int{
+            case home
+            
+        }
+        override func viewDidLoad() {
+            super.viewDidLoad()
 
-    override func viewDidLoad() {
-        super.viewDidLoad()
-
-        // Do any additional setup after loading the view.
+            overrideUserInterfaceStyle = .dark
+        }
+        override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+            guard let menuType = MenuType(rawValue: indexPath.row) else {return}
+            dismiss(animated: true ){
+                print("dismissed: \(menuType)")
+            }
+        }
     }
-    
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
-    }
-    */
-
-}
