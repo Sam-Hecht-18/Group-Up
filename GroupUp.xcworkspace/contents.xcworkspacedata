@@ -2,12 +2,6 @@
 <Workspace
    version = "1.0">
    <FileRef
-      location = "group:StartUpScreenViewController.swift">
-   </FileRef>
-   <FileRef
-      location = "group:/Users/s013411/Documents/GroupUp/GroupUp/LogInScreenViewController.swift">
-   </FileRef>
-   <FileRef
       location = "group:GroupUp.xcodeproj">
    </FileRef>
    <FileRef
