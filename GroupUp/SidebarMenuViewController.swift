@@ -20,14 +20,18 @@ class SidebarMenuViewController: UITableViewController {
         override func viewDidLoad() {
             super.viewDidLoad()
             tableViewMenu.delegate = self
-            overrideUserInterfaceStyle = .dark
+            //overrideUserInterfaceStyle = .dark
+            view.addSubview(tableViewMenu)
+            view.addSubview(tableViewMenuCell)
+            tableViewMenuCell.contentView.addSubview(homeImageView)
+            
             homeImageView.translatesAutoresizingMaskIntoConstraints = false
             homeImageView.widthAnchor.constraint(equalToConstant: 30).isActive = true
             homeImageView.heightAnchor.constraint(equalToConstant: 30).isActive = true
             homeImageView.leadingAnchor.constraint(equalTo: tableViewMenuCell.contentView.leadingAnchor, constant: 16).isActive = true
             homeImageView.centerYAnchor.constraint(equalTo: tableViewMenuCell.contentView.centerYAnchor, constant: 0).isActive = true
             
-            tableViewMenuCell.contentView.addSubview(homeImageView)
+            
             
             
         }
