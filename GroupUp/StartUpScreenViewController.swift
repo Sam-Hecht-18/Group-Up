@@ -9,9 +9,43 @@
 import UIKit
 
 class StartUpScreenViewController: UIViewController {
+    
+    let logInButton = UIButton()
+    let signUpButton = UIButton()
+    let imageView = UIImageView()
+    
+    func logInSetUp(){
+        view.addSubview(logInButton)
+        
+        logInButton.setTitle("log in", for: .normal)
+        logInButton.setTitleColor(.white, for: .normal)
+        logInButton.backgroundColor = .lightGray
+        logInButton.titleLabel?.font = UIFont(name: "Helvetica Nue", size: 25)
+        logInButton.translatesAutoresizingMaskIntoConstraints = false
+        logInButton.centerXAnchor.constraint(equalTo: view.centerXAnchor, constant: 0).isActive = true
+        logInButton.centerYAnchor.constraint(equalTo: view.centerYAnchor, constant: 0).isActive = true
+        
+        
+    }
+    
+    func signUpSetUp(){
+        view.addSubview(signUpButton)
+        
+        signUpButton.setTitle("sign up", for: .normal)
+        signUpButton.setTitleColor(.white, for: .normal)
+        signUpButton.backgroundColor = .lightGray
+        signUpButton.titleLabel?.font = UIFont(name: "Helvetica Nue", size: 25)
+        signUpButton.translatesAutoresizingMaskIntoConstraints = false
+        
+        
+    }
+    
+    
+    
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        
 
         // Do any additional setup after loading the view.
     }
