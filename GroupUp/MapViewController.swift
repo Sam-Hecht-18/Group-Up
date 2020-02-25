@@ -42,7 +42,7 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
         //40.0102° N, 75.2797° W
         let location = CLLocationCoordinate2D(latitude: 40.0423, longitude: -75.3167)
         map.addAnnotation(customPin(pinTitle: "Harriton", pinSubtitle: "", location: location))
-       
+        
         
     }
     func checkLocationServices(){
@@ -62,10 +62,10 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
             break
         case .notDetermined:
             locationManager.requestWhenInUseAuthorization()
-           // break
+        // break
         case .restricted:
-             //Show alert instructing them how to turn on permissions
-             break
+            //Show alert instructing them how to turn on permissions
+            break
         case .authorizedAlways:
             
             break
@@ -92,7 +92,7 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
         map.setRegion(region, animated: true)
         
         map.delegate = self
-
+        
         map.translatesAutoresizingMaskIntoConstraints = false
         map.centerXAnchor.constraint(equalTo: view.centerXAnchor, constant: 0).isActive = true
         map.centerYAnchor.constraint(equalTo: view.centerYAnchor, constant: 0).isActive = true
@@ -120,48 +120,51 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
     }
     
     func mapView(_ mapView: MKMapView, didSelect view: MKAnnotationView) {
-
-        
-        let destCoordinate = view.annotation?.coordinate ?? CLLocationCoordinate2D()
-        let sourceCoordinate = locationManager.location?.coordinate ?? CLLocationCoordinate2D()
-        
-        let sourcePlaceMark = MKPlacemark(coordinate: sourceCoordinate)
-        let destPlaceMark = MKPlacemark(coordinate: destCoordinate)
-        
-        let sourceItem = MKMapItem(placemark: sourcePlaceMark)
-        let destItem = MKMapItem(placemark: destPlaceMark)
-        
-        let destinationRequest = MKDirections.Request()
-        destinationRequest.source = sourceItem
-        destinationRequest.destination = destItem
-        destinationRequest.transportType = .automobile
-        destinationRequest.requestsAlternateRoutes = false
-        
-        let directions = MKDirections(request: destinationRequest)
-        resetMapView(withNew: directions)
-        
-        directions.calculate { (response, error) in
-            guard let response = response else{
-                if error != nil{
-                    print("Something is wrong :(")
+        //Checks to make sure you're not clicking on your own location
+         if view.annotation?.coordinate.latitude != mapView.userLocation.coordinate.latitude && view.annotation?.coordinate.longitude != mapView.userLocation.coordinate.longitude{
+            
+            
+            
+            let destCoordinate = view.annotation?.coordinate ?? CLLocationCoordinate2D()
+            let sourceCoordinate = locationManager.location?.coordinate ?? CLLocationCoordinate2D()
+            
+            let sourcePlaceMark = MKPlacemark(coordinate: sourceCoordinate)
+            let destPlaceMark = MKPlacemark(coordinate: destCoordinate)
+            
+            let sourceItem = MKMapItem(placemark: sourcePlaceMark)
+            let destItem = MKMapItem(placemark: destPlaceMark)
+            
+            let destinationRequest = MKDirections.Request()
+            destinationRequest.source = sourceItem
+            destinationRequest.destination = destItem
+            destinationRequest.transportType = .automobile
+            destinationRequest.requestsAlternateRoutes = false
+            
+            let directions = MKDirections(request: destinationRequest)
+            resetMapView(withNew: directions)
+            
+            directions.calculate { (response, error) in
+                guard let response = response else{
+                    if error != nil{
+                        print("Something is wrong :(")
+                    }
+                    return
                 }
-                return
+                let route = response.routes[0]
+                
+                var eta: Int = Int(route.expectedTravelTime)
+                //print("The travel time is: \(eta)")
+                eta /= 60
+                
+                self.getETA(withETA: eta)
+                self.getDistance(withDistance: Int(route.distance))
+                
+                
+                
+                self.map.addOverlay(route.polyline)
+                self.resetMapViewBounds(withNew: route)
+                
             }
-            let route = response.routes[0]
-            
-            var eta: Int = Int(route.expectedTravelTime)
-            //print("The travel time is: \(eta)")
-            eta /= 60
-            
-            self.getETA(withETA: eta)
-            self.getDistance(withDistance: Int(route.distance))
-            
-            
-            
-            self.map.addOverlay(route.polyline)
-            self.resetMapViewBounds(withNew: route)
-            
-            
         }
     }
     
@@ -172,7 +175,7 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
             etaMutable -= eta/60 * 60
         }
         self.timeAndDistance.append("\(etaMutable) min ")
-       
+        
     }
     
     func getDistance(withDistance distance : Int){
@@ -201,8 +204,8 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
             map.removeOverlays(map.overlays)
         }
         directions.cancel()
-            
+        
         
     }
-
+    
 }
