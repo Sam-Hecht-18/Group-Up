@@ -25,7 +25,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 //
         window = UIWindow(frame: windowScene.coordinateSpace.bounds)
         window?.windowScene = windowScene
-        let nc = UINavigationController(rootViewController: SidebarMenuViewController())
+        let nc = UINavigationController(rootViewController: MapViewController())
         window?.rootViewController = nc
         window?.makeKeyAndVisible()
         

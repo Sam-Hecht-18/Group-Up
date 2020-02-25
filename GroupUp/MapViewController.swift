@@ -25,7 +25,7 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
     var timeAndDistance = String()
     let map = MKMapView()
     let locationManager = CLLocationManager()
-    
+    let eventManagerSlideUpView = EventManagerSlideUpViewController()
     
     
     
@@ -36,11 +36,13 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
         //Add as a subivew
         //Set up properties
         //Set up constraints
-        overrideUserInterfaceStyle = .dark
+        //overrideUserInterfaceStyle = .dark
         //map.overrideUserInterfaceStyle = .dark
         view.addSubview(map)
         setUpMapView()
         checkLocationServices()
+        addEventManagerSlideUpViewController()
+        
         //40.0102° N, 75.2797° W
         let location = CLLocationCoordinate2D(latitude: 40.0423, longitude: -75.3167)
         map.addAnnotation(customPin(pinTitle: "Harriton", pinSubtitle: "", location: location))
@@ -103,16 +105,14 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
     }
     
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
-        print("You updated yo location")
         
-        let region = MKCoordinateRegion(center: locationManager.location?.coordinate ?? CLLocationCoordinate2D(latitude: 37.33182, longitude: -122.03118), span: MKCoordinateSpan(latitudeDelta: 0.025, longitudeDelta: 0.025))
+        let region = MKCoordinateRegion(center: locationManager.location?.coordinate ?? CLLocationCoordinate2D(), span: MKCoordinateSpan(latitudeDelta: 0.025, longitudeDelta: 0.025))
         
         map.setRegion(region, animated: true)
         
     }
     
     func mapView(_ mapView: MKMapView, rendererFor overlay: MKOverlay) -> MKOverlayRenderer {
-        print("BRUV")
         if let polyline = overlay as? MKPolyline{
             let render = MKPolylineRenderer(overlay: polyline)
             render.strokeColor = .purple
@@ -123,9 +123,10 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
     
     func mapView(_ mapView: MKMapView, didSelect view: MKAnnotationView) {
         //Checks to make sure you're not clicking on your own location
+       
          if view.annotation?.coordinate.latitude != mapView.userLocation.coordinate.latitude && view.annotation?.coordinate.longitude != mapView.userLocation.coordinate.longitude{
             
-            
+            //eventManagerSlideUpView.popUpViewToMiddle()
             
             let destCoordinate = view.annotation?.coordinate ?? CLLocationCoordinate2D()
             let sourceCoordinate = locationManager.location?.coordinate ?? CLLocationCoordinate2D()
@@ -161,8 +162,8 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
                 self.getETA(withETA: eta)
                 self.getDistance(withDistance: Int(route.distance))
                 
-                
-                
+                self.eventManagerSlideUpView.updateTimeAndDistanceLabel(self.timeAndDistance)
+                self.timeAndDistance = String()
                 self.map.addOverlay(route.polyline)
                 self.resetMapViewBounds(withNew: route)
                 
@@ -210,4 +211,18 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
         
     }
     
+    
+    func addEventManagerSlideUpViewController(){
+        
+        // 2- Add eventManagerSlideUpView as a child view
+        self.addChild(eventManagerSlideUpView)
+        view.addSubview(eventManagerSlideUpView.view)
+        eventManagerSlideUpView.didMove(toParent: self)
+
+        
+        // 3- Adjust event manager frame and initial position.
+        let height = view.frame.height
+        let width  = view.frame.width
+        eventManagerSlideUpView.view.frame = CGRect(x: 0, y: self.view.frame.maxY, width: width, height: height)
+    }
 }
