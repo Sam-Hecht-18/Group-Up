@@ -36,6 +36,8 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
         //Add as a subivew
         //Set up properties
         //Set up constraints
+        overrideUserInterfaceStyle = .dark
+        //map.overrideUserInterfaceStyle = .dark
         view.addSubview(map)
         setUpMapView()
         checkLocationServices()

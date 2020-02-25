@@ -13,9 +13,10 @@ class SidebarMenuViewController: UITableViewController {
             case home
             
         }
-        let tableViewMenu = UITableView()
+        let tableViewMenu = UITableView(frame: CGRect.zero, style: .grouped)
         let tableViewMenuCell = UITableViewCell()
         let homeImageView = UIImageView(image: UIImage(named: "Home"))
+        let homeLabel = UILabel()
     
         override func viewDidLoad() {
             super.viewDidLoad()
@@ -23,13 +24,24 @@ class SidebarMenuViewController: UITableViewController {
             //overrideUserInterfaceStyle = .dark
             view.addSubview(tableViewMenu)
             view.addSubview(tableViewMenuCell)
+            
+            //tableViewMenu.addSubview(tableViewMenuCell)
             tableViewMenuCell.contentView.addSubview(homeImageView)
+            tableViewMenuCell.contentView.addSubview(homeLabel)
+            tableViewMenu.separatorStyle = .none
             
             homeImageView.translatesAutoresizingMaskIntoConstraints = false
             homeImageView.widthAnchor.constraint(equalToConstant: 30).isActive = true
             homeImageView.heightAnchor.constraint(equalToConstant: 30).isActive = true
             homeImageView.leadingAnchor.constraint(equalTo: tableViewMenuCell.contentView.leadingAnchor, constant: 16).isActive = true
             homeImageView.centerYAnchor.constraint(equalTo: tableViewMenuCell.contentView.centerYAnchor, constant: 0).isActive = true
+            
+            homeLabel.translatesAutoresizingMaskIntoConstraints = false
+            homeLabel.leadingAnchor.constraint(equalTo: homeImageView.trailingAnchor, constant: 16).isActive = true
+            
+            homeLabel.centerYAnchor.constraint(equalTo: homeImageView.centerYAnchor, constant: 0).isActive = true
+            
+            homeLabel.text = "CASA"
             
             
             
