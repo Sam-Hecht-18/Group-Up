@@ -10,7 +10,6 @@
 		A023B7802401D5B400A2F5ED /* EventManagerSlideUpViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A023B77F2401D5B400A2F5ED /* EventManagerSlideUpViewController.swift */; };
 		A06DD5EB23FC5D4C000DFF7C /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A06DD5EA23FC5D4C000DFF7C /* AppDelegate.swift */; };
 		A06DD5ED23FC5D4C000DFF7C /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A06DD5EC23FC5D4C000DFF7C /* SceneDelegate.swift */; };
-		A06DD5EF23FC5D4C000DFF7C /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A06DD5EE23FC5D4C000DFF7C /* ViewController.swift */; };
 		A06DD5F423FC5D4F000DFF7C /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A06DD5F323FC5D4F000DFF7C /* Assets.xcassets */; };
 		A06DD5F723FC5D4F000DFF7C /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A06DD5F523FC5D4F000DFF7C /* LaunchScreen.storyboard */; };
 		A06DD60223FC5D50000DFF7C /* GroupUpTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A06DD60123FC5D50000DFF7C /* GroupUpTests.swift */; };
@@ -47,7 +46,6 @@
 		A06DD5E723FC5D4C000DFF7C /* GroupUp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = GroupUp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A06DD5EA23FC5D4C000DFF7C /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		A06DD5EC23FC5D4C000DFF7C /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
-		A06DD5EE23FC5D4C000DFF7C /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		A06DD5F323FC5D4F000DFF7C /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		A06DD5F623FC5D4F000DFF7C /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		A06DD5F823FC5D4F000DFF7C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -116,20 +114,19 @@
 			isa = PBXGroup;
 			children = (
 				A06DD5EA23FC5D4C000DFF7C /* AppDelegate.swift */,
-				A2AFBE19240447D70090F639 /* NavigationController.swift */,
-				A2AFBE23240449160090F639 /* LogInViewController.swift */,
 				A06DD5EC23FC5D4C000DFF7C /* SceneDelegate.swift */,
-				A06DD5EE23FC5D4C000DFF7C /* ViewController.swift */,
-				A07E1B5923FDC56D005E999B /* MapViewController.swift */,
-				A2AFBE1D240448400090F639 /* SignUpViewController.swift */,
-				A023B77F2401D5B400A2F5ED /* EventManagerSlideUpViewController.swift */,
-				A086D33F240446B800E3A640 /* SidebarMenuViewController.swift */,
-				F51B811F24044ACA0082A3C9 /* StartUpScreenViewController.swift */,
-				A85DBB79240EB3D4004E60DA /* SidebarStoryboard.storyboard */,
-				A086D341240446DD00E3A640 /* SidebarSlideInTransition.swift */,
+				A06DD5F823FC5D4F000DFF7C /* Info.plist */,
 				A06DD5F323FC5D4F000DFF7C /* Assets.xcassets */,
 				A06DD5F523FC5D4F000DFF7C /* LaunchScreen.storyboard */,
-				A06DD5F823FC5D4F000DFF7C /* Info.plist */,
+				A85DBB79240EB3D4004E60DA /* SidebarStoryboard.storyboard */,
+				A086D33F240446B800E3A640 /* SidebarMenuViewController.swift */,
+				A086D341240446DD00E3A640 /* SidebarSlideInTransition.swift */,
+				A07E1B5923FDC56D005E999B /* MapViewController.swift */,
+				A023B77F2401D5B400A2F5ED /* EventManagerSlideUpViewController.swift */,
+				A2AFBE19240447D70090F639 /* NavigationController.swift */,
+				A2AFBE23240449160090F639 /* LogInViewController.swift */,
+				A2AFBE1D240448400090F639 /* SignUpViewController.swift */,
+				F51B811F24044ACA0082A3C9 /* StartUpScreenViewController.swift */,
 			);
 			path = GroupUp;
 			sourceTree = "<group>";
@@ -288,7 +285,6 @@
 				A2AFBE24240449160090F639 /* LogInViewController.swift in Sources */,
 				A023B7802401D5B400A2F5ED /* EventManagerSlideUpViewController.swift in Sources */,
 				A2AFBE1E240448400090F639 /* SignUpViewController.swift in Sources */,
-				A06DD5EF23FC5D4C000DFF7C /* ViewController.swift in Sources */,
 				A086D342240446DD00E3A640 /* SidebarSlideInTransition.swift in Sources */,
 				A06DD5EB23FC5D4C000DFF7C /* AppDelegate.swift in Sources */,
 				A06DD5ED23FC5D4C000DFF7C /* SceneDelegate.swift in Sources */,
