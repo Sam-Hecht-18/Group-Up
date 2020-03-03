@@ -24,6 +24,7 @@ class EventManagerSlideUpViewController: UIViewController, UIGestureRecognizerDe
         super.viewDidLoad()
         setUpPanGesture()
         setUpTimeAndDistanceLabel()
+        overrideUserInterfaceStyle = .dark
         
     }
     
@@ -164,7 +165,10 @@ class EventManagerSlideUpViewController: UIViewController, UIGestureRecognizerDe
     
     
     func prepareBackgroundView(){
-        view.backgroundColor = .white
+        view.backgroundColor = .systemGray5
+        
+        
+        overrideUserInterfaceStyle = .dark
         setUpBarline()
         
         //        let blurEffect = UIBlurEffect.init(style: .prominent)

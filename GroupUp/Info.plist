@@ -24,6 +24,8 @@
 	<string>We need your location to find events near you</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string>We need your location to find events near you</string>
+	<key>NSMainNibFile</key>
+	<string>SidebarStoryboard</string>
 	<key>UIApplicationSceneManifest</key>
 	<dict>
 		<key>UIApplicationSupportsMultipleScenes</key>
@@ -37,6 +39,8 @@
 					<string>Default Configuration</string>
 					<key>UISceneDelegateClassName</key>
 					<string>$(PRODUCT_MODULE_NAME).SceneDelegate</string>
+					<key>UISceneStoryboardFile</key>
+					<string>SidebarStoryboard</string>
 				</dict>
 			</array>
 		</dict>

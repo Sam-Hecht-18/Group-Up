@@ -19,8 +19,33 @@ class customPin: NSObject, MKAnnotation{
         self.coordinate = location
     }
 }
+extension MapViewController : UIViewControllerTransitioningDelegate{
+    func animationController(forPresented presented: UIViewController, presenting: UIViewController, source: UIViewController) -> UIViewControllerAnimatedTransitioning? {
+        transition.isPresenting = true
+        return transition
+    }
+    func animationController(forDismissed dismissed: UIViewController) -> UIViewControllerAnimatedTransitioning? {
+        transition.isPresenting = false
+        return transition
+    }
+}
 
 class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewDelegate {
+    
+    
+    @IBAction func SidebarButtonTapped(_ sender: UIBarButtonItem) {
+   print("it's about to die")
+   // let sidebarMenuViewController = SidebarMenuViewController()
+        guard let sidebarMenuViewController = storyboard?.instantiateViewController(withIdentifier: "SidebarMenuViewController") else {return}
+        sidebarMenuViewController.modalPresentationStyle = .overCurrentContext
+        sidebarMenuViewController.transitioningDelegate = self
+        present(sidebarMenuViewController, animated: true)
+    }
+    
+    
+    let transition = SlideInTransition()
+    
+       
     
     var timeAndDistance = String()
     let map = MKMapView()
@@ -36,7 +61,7 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
         //Add as a subivew
         //Set up properties
         //Set up constraints
-        //overrideUserInterfaceStyle = .dark
+        overrideUserInterfaceStyle = .dark
         //map.overrideUserInterfaceStyle = .dark
         view.addSubview(map)
         setUpMapView()
@@ -123,8 +148,8 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
     
     func mapView(_ mapView: MKMapView, didSelect view: MKAnnotationView) {
         //Checks to make sure you're not clicking on your own location
-       
-         if view.annotation?.coordinate.latitude != mapView.userLocation.coordinate.latitude && view.annotation?.coordinate.longitude != mapView.userLocation.coordinate.longitude{
+        
+        if view.annotation?.coordinate.latitude != mapView.userLocation.coordinate.latitude && view.annotation?.coordinate.longitude != mapView.userLocation.coordinate.longitude{
             
             //eventManagerSlideUpView.popUpViewToMiddle()
             
@@ -218,7 +243,7 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
         self.addChild(eventManagerSlideUpView)
         view.addSubview(eventManagerSlideUpView.view)
         eventManagerSlideUpView.didMove(toParent: self)
-
+        
         
         // 3- Adjust event manager frame and initial position.
         let height = view.frame.height

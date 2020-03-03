@@ -21,6 +21,7 @@
 		A2AFBE1A240447D70090F639 /* NavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2AFBE19240447D70090F639 /* NavigationController.swift */; };
 		A2AFBE1E240448400090F639 /* SignUpViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2AFBE1D240448400090F639 /* SignUpViewController.swift */; };
 		A2AFBE24240449160090F639 /* LogInViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2AFBE23240449160090F639 /* LogInViewController.swift */; };
+		A85DBB7A240EB3D4004E60DA /* SidebarStoryboard.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A85DBB79240EB3D4004E60DA /* SidebarStoryboard.storyboard */; };
 		F51B812024044ACA0082A3C9 /* StartUpScreenViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F51B811F24044ACA0082A3C9 /* StartUpScreenViewController.swift */; };
 /* End PBXBuildFile section */
 
@@ -62,6 +63,7 @@
 		A2AFBE19240447D70090F639 /* NavigationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationController.swift; sourceTree = "<group>"; };
 		A2AFBE1D240448400090F639 /* SignUpViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpViewController.swift; sourceTree = "<group>"; };
 		A2AFBE23240449160090F639 /* LogInViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogInViewController.swift; sourceTree = "<group>"; };
+		A85DBB79240EB3D4004E60DA /* SidebarStoryboard.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = SidebarStoryboard.storyboard; sourceTree = "<group>"; };
 		F51B811F24044ACA0082A3C9 /* StartUpScreenViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StartUpScreenViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -123,6 +125,7 @@
 				A023B77F2401D5B400A2F5ED /* EventManagerSlideUpViewController.swift */,
 				A086D33F240446B800E3A640 /* SidebarMenuViewController.swift */,
 				F51B811F24044ACA0082A3C9 /* StartUpScreenViewController.swift */,
+				A85DBB79240EB3D4004E60DA /* SidebarStoryboard.storyboard */,
 				A086D341240446DD00E3A640 /* SidebarSlideInTransition.swift */,
 				A06DD5F323FC5D4F000DFF7C /* Assets.xcassets */,
 				A06DD5F523FC5D4F000DFF7C /* LaunchScreen.storyboard */,
@@ -253,6 +256,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A85DBB7A240EB3D4004E60DA /* SidebarStoryboard.storyboard in Resources */,
 				A06DD5F723FC5D4F000DFF7C /* LaunchScreen.storyboard in Resources */,
 				A06DD5F423FC5D4F000DFF7C /* Assets.xcassets in Resources */,
 			);

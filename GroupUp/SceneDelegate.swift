@@ -23,12 +23,12 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 //        window1.windows[0].rootViewController = MapViewController()
 //        window1.windows[0].makeKeyAndVisible()
 //
-        window = UIWindow(frame: windowScene.coordinateSpace.bounds)
-        window?.windowScene = windowScene
-        let nc = UINavigationController(rootViewController: MapViewController())
-        window?.rootViewController = nc
-        window?.makeKeyAndVisible()
-        
+//        window = UIWindow(frame: windowScene.coordinateSpace.bounds)
+//        window?.windowScene = windowScene
+//        let nc = UINavigationController(rootViewController: MapViewController())
+//        window?.rootViewController = nc
+//        window?.makeKeyAndVisible()
+
         
     }
 
