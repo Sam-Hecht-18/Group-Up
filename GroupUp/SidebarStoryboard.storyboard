@@ -7,7 +7,7 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
-        <!--Home-->
+        <!--Map View Controller-->
         <scene sceneID="lpA-kr-uqR">
             <objects>
                 <viewController id="JpQ-ge-uvn" customClass="MapViewController" customModule="GroupUp" customModuleProvider="target" sceneMemberID="viewController">
@@ -17,7 +17,7 @@
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <viewLayoutGuide key="safeArea" id="yFu-NH-Y0T"/>
                     </view>
-                    <navigationItem key="navigationItem" title="Home" id="fDn-tV-faB">
+                    <navigationItem key="navigationItem" id="fDn-tV-faB">
                         <barButtonItem key="leftBarButtonItem" title="Menu" image="Menu" id="OMb-wg-Cuv">
                             <connections>
                                 <action selector="SidebarButtonTapped:" destination="JpQ-ge-uvn" id="VoA-GX-yjA"/>
