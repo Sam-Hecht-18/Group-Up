@@ -9,13 +9,14 @@
 import UIKit
 import FirebaseAuth
 import FirebaseStorage
+import FirebaseDatabase
 class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     var imagePicker : UIImagePickerController?
     
     
     @IBOutlet weak var profilePic: UIButton!
     @IBAction func changeProfilePic(_ sender: UIButton) {
-        print ("mate")
+        self.present(imagePicker!, animated: true, completion: nil)
     }
     
     
@@ -40,7 +41,7 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
     }
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
         if let pickedImage = info[UIImagePickerController.InfoKey.editedImage] as? UIImage{
-            //profilePic.image = pickedImage
+            profilePic.imageView?.image = pickedImage
             uploadProfilePicture(pickedImage) {url in}
         }
         imagePicker?.dismiss(animated: true, completion: nil)
@@ -48,8 +49,8 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
     func uploadProfilePicture(_ image: UIImage, _ completion: @escaping((_ url:URL?) -> ())){
         guard let uid = Auth.auth().currentUser?.uid else {return}
         let storage = Storage.storage().reference().child("user /\(uid)")
-        //guard let image = imageView?.image, let imageData = image.jpegData(compressionQuality: 0.75) else {return}
-        //storage.putData(imageData, metadata: StorageMetadata()) { (metaData, error) in }
+        guard let image = profilePic.imageView?.image, let imageData = image.jpegData(compressionQuality: 0.75) else {return}
+        storage.putData(imageData, metadata: StorageMetadata()) { (metaData, error) in }
         
     }
 }
