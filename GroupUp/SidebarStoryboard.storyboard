@@ -140,9 +140,107 @@
                     <view key="view" contentMode="scaleToFill" id="3Jg-2w-OIV">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ibT-pR-F54">
+                                <rect key="frame" x="132" y="80" width="150" height="150"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="150" id="gTK-eW-SS0"/>
+                                    <constraint firstAttribute="height" constant="150" id="h8v-3T-MWS"/>
+                                </constraints>
+                                <state key="normal" title="Button" image="user"/>
+                                <connections>
+                                    <action selector="changeProfilePic:" destination="0OW-9D-nOg" eventType="touchUpInside" id="8O3-xO-bC7"/>
+                                </connections>
+                            </button>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Matt " textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ipj-Y6-44u">
+                                <rect key="frame" x="67" y="255" width="280" height="31"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="280" id="eGw-sc-PJx"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" name="HelveticaNeue-Bold" family="Helvetica Neue" pointSize="26"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="aZf-DQ-IqP">
+                                <rect key="frame" x="107" y="361" width="200" height="50"/>
+                                <color key="backgroundColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="50" id="6EA-HR-43z"/>
+                                    <constraint firstAttribute="width" constant="200" id="qXP-ze-rWg"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="17"/>
+                                <state key="normal" title="Upcoming Events">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                </state>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                                        <integer key="value" value="20"/>
+                                    </userDefinedRuntimeAttribute>
+                                </userDefinedRuntimeAttributes>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="55s-Hg-46l">
+                                <rect key="frame" x="107" y="486" width="200" height="50"/>
+                                <color key="backgroundColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="200" id="20V-tS-MDO"/>
+                                    <constraint firstAttribute="height" constant="50" id="tw1-Vz-Mev"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="17"/>
+                                <state key="normal" title="My Friends">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                </state>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                                        <integer key="value" value="20"/>
+                                    </userDefinedRuntimeAttribute>
+                                </userDefinedRuntimeAttributes>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="pDb-qa-KKx">
+                                <rect key="frame" x="107" y="618" width="200" height="50"/>
+                                <color key="backgroundColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="200" id="7mO-Sk-qAR"/>
+                                    <constraint firstAttribute="height" constant="50" id="NC9-Cc-HnR"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="17"/>
+                                <state key="normal" title="Settings">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                </state>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                                        <integer key="value" value="20"/>
+                                    </userDefinedRuntimeAttribute>
+                                </userDefinedRuntimeAttributes>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="7gf-Aj-ys0">
+                                <rect key="frame" x="334" y="69" width="40" height="40"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="40" id="16o-u1-UOt"/>
+                                    <constraint firstAttribute="width" constant="40" id="uQk-p0-YWg"/>
+                                </constraints>
+                                <state key="normal" title="Button" image="PikPng.com_profile-icon-png_2863438"/>
+                            </button>
+                        </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <constraints>
+                            <constraint firstItem="aZf-DQ-IqP" firstAttribute="centerX" secondItem="3Jg-2w-OIV" secondAttribute="centerX" id="5XV-IA-kmF"/>
+                            <constraint firstItem="ibT-pR-F54" firstAttribute="top" secondItem="3Jg-2w-OIV" secondAttribute="top" constant="80" id="8kR-bG-eJj"/>
+                            <constraint firstItem="7gf-Aj-ys0" firstAttribute="top" secondItem="Pee-TM-0oa" secondAttribute="top" constant="25" id="9E1-8u-mRl"/>
+                            <constraint firstItem="ipj-Y6-44u" firstAttribute="centerX" secondItem="3Jg-2w-OIV" secondAttribute="centerX" id="9Yv-hG-M7p"/>
+                            <constraint firstItem="Pee-TM-0oa" firstAttribute="trailing" secondItem="7gf-Aj-ys0" secondAttribute="trailing" constant="40" id="Bh0-W5-8T8"/>
+                            <constraint firstItem="55s-Hg-46l" firstAttribute="centerX" secondItem="3Jg-2w-OIV" secondAttribute="centerX" id="JVo-ka-eYa"/>
+                            <constraint firstItem="ibT-pR-F54" firstAttribute="centerX" secondItem="3Jg-2w-OIV" secondAttribute="centerX" id="LQN-yC-Kfv"/>
+                            <constraint firstItem="55s-Hg-46l" firstAttribute="top" secondItem="aZf-DQ-IqP" secondAttribute="bottom" constant="75" id="MAJ-t6-yKB"/>
+                            <constraint firstItem="pDb-qa-KKx" firstAttribute="top" secondItem="55s-Hg-46l" secondAttribute="bottom" constant="82" id="Vck-z9-6jA"/>
+                            <constraint firstItem="aZf-DQ-IqP" firstAttribute="top" secondItem="ipj-Y6-44u" secondAttribute="bottom" constant="75" id="dVh-hx-IVH"/>
+                            <constraint firstItem="pDb-qa-KKx" firstAttribute="centerX" secondItem="3Jg-2w-OIV" secondAttribute="centerX" id="gzR-XW-GY1"/>
+                            <constraint firstItem="ipj-Y6-44u" firstAttribute="top" secondItem="ibT-pR-F54" secondAttribute="bottom" constant="25" id="zjQ-xO-ZOD"/>
+                        </constraints>
                         <viewLayoutGuide key="safeArea" id="Pee-TM-0oa"/>
                     </view>
+                    <connections>
+                        <outlet property="profilePic" destination="ibT-pR-F54" id="gg8-hH-6sf"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="xxc-lj-VoT" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
@@ -364,7 +462,9 @@
     </scenes>
     <resources>
         <image name="Menu" width="24" height="24"/>
+        <image name="PikPng.com_profile-icon-png_2863438" width="960" height="980"/>
         <image name="Profile" width="256" height="256"/>
         <image name="map" width="256" height="256"/>
+        <image name="user" width="160" height="160"/>
     </resources>
 </document>
