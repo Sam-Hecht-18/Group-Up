@@ -34,8 +34,8 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
     
     
     @IBAction func SidebarButtonTapped(_ sender: UIBarButtonItem) {
-   print("it's about to die")
-   // let sidebarMenuViewController = SidebarMenuViewController()
+  
+   
         guard let sidebarMenuViewController = storyboard?.instantiateViewController(withIdentifier: "SidebarMenuViewController") as? SidebarMenuViewController else {return}
         sidebarMenuViewController.didTapMenuType = {menuType in
             self.transitiontoNewVC(menuType)
