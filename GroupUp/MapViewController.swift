@@ -35,7 +35,7 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
     
     @IBAction func SidebarButtonTapped(_ sender: UIBarButtonItem) {
   
-   
+   // let sidebarMenuViewController = SidebarMenuViewController()
         guard let sidebarMenuViewController = storyboard?.instantiateViewController(withIdentifier: "SidebarMenuViewController") as? SidebarMenuViewController else {return}
         sidebarMenuViewController.didTapMenuType = {menuType in
             self.transitiontoNewVC(menuType)
@@ -49,11 +49,8 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
         
         switch menuType{
             case .profile:
-                weak var pvc = self.presentingViewController
                 guard let profileViewController = storyboard?.instantiateViewController(withIdentifier: "ProfileViewController") else {return}
-                self.dismiss(animated: true, completion: {
-                pvc?.present(profileViewController, animated: true)
-            })
+                present(profileViewController, animated: true)
             default:
                 break
         }
