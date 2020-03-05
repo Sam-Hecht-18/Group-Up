@@ -238,6 +238,7 @@
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="Pee-TM-0oa"/>
                     </view>
+                    <navigationItem key="navigationItem" id="nEv-fv-5Wc"/>
                     <connections>
                         <outlet property="profilePic" destination="ibT-pR-F54" id="gg8-hH-6sf"/>
                     </connections>
@@ -424,7 +425,7 @@
         <!--Sign Up View Controller-->
         <scene sceneID="0Xb-cD-j4i">
             <objects>
-                <viewController id="Vqz-Rn-zTn" customClass="SignUpViewController" sceneMemberID="viewController">
+                <viewController id="Vqz-Rn-zTn" customClass="SignUpViewController" customModule="GroupUp" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="u9h-b7-zCc">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="842"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -545,6 +546,6 @@
         <image name="user" width="160" height="160"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="HXg-c8-8gr"/>
+        <segue reference="PHT-dG-oPw"/>
     </inferredMetricsTieBreakers>
 </document>
