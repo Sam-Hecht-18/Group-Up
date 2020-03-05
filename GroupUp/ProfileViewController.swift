@@ -55,7 +55,7 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
         
     }
       @IBAction func SidebarButtonTapped(_ sender: UIBarButtonItem) {
-    
+        self.navigationController?.navigationBar.isHidden = true;
      // let sidebarMenuViewController = SidebarMenuViewController()
           guard let sidebarMenuViewController = storyboard?.instantiateViewController(withIdentifier: "SidebarMenuViewController") as? SidebarMenuViewController else {return}
           sidebarMenuViewController.didTapMenuType = {menuType in
@@ -71,7 +71,7 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
           switch menuType{
           case .map:
             navigationController?.popToRootViewController(animated: true)
-            
+            self.navigationController?.navigationBar.isHidden = true;
           default:
             break
           }
