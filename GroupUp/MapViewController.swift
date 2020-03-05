@@ -65,7 +65,9 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
     
     let transition = SlideInTransition()
     
-       
+    override func viewDidAppear(_ animated: Bool) {
+        self.navigationController?.navigationBar.isHidden = false;
+    }
     
     var timeAndDistance = String()
     let map = MKMapView()
