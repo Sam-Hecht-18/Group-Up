@@ -21,7 +21,7 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
     
     
     override func viewDidLoad() {
-    
+        navigationController?.setNavigationBarHidden(true, animated: true)
 
         imagePicker = UIImagePickerController()
         imagePicker?.allowsEditing = true
@@ -70,8 +70,8 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
           
           switch menuType{
           case .map:
-            guard let mappyViewController = storyboard?.instantiateViewController(withIdentifier: "MapViewController") else {return}
-            present(mappyViewController, animated: true)
+            navigationController?.popToRootViewController(animated: true)
+            
           default:
             break
           }

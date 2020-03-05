@@ -50,7 +50,13 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
         switch menuType{
             case .profile:
                 guard let profileViewController = storyboard?.instantiateViewController(withIdentifier: "ProfileViewController") else {return}
-                present(profileViewController, animated: true)
+                //dismiss(animated: true) {
+                
+                navigationController?.pushViewController(profileViewController, animated: true)
+                
+//                    navigationItem.present(profileViewController, animated: true)
+                //}
+                //present(profileViewController, animated: true)
             default:
                 break
         }
