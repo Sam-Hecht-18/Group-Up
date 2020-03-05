@@ -71,7 +71,12 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
           switch menuType{
           case .map:
             guard let mappyViewController = storyboard?.instantiateViewController(withIdentifier: "MapViewController") else {return}
-            present(mappyViewController, animated: true)
+           weak var pvc = self.presentingViewController
+
+            self.dismiss(animated: true, completion: {
+                
+                pvc?.present(mappyViewController, animated: true, completion: nil)
+            })
           default:
             break
           }
