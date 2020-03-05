@@ -21,7 +21,8 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
     
     
     override func viewDidLoad() {
-        print("yessirrr")
+    
+
         imagePicker = UIImagePickerController()
         imagePicker?.allowsEditing = true
         imagePicker?.sourceType = .photoLibrary
@@ -41,7 +42,7 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
     }
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
         if let pickedImage = info[UIImagePickerController.InfoKey.editedImage] as? UIImage{
-            profilePic.imageView?.image = pickedImage
+            profilePic.setImage(pickedImage, for: .normal)
             uploadProfilePicture(pickedImage) {url in}
         }
         imagePicker?.dismiss(animated: true, completion: nil)
@@ -52,6 +53,41 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
         guard let image = profilePic.imageView?.image, let imageData = image.jpegData(compressionQuality: 0.75) else {return}
         storage.putData(imageData, metadata: StorageMetadata()) { (metaData, error) in }
         
+    }
+      @IBAction func SidebarButtonTapped(_ sender: UIBarButtonItem) {
+    
+     // let sidebarMenuViewController = SidebarMenuViewController()
+          guard let sidebarMenuViewController = storyboard?.instantiateViewController(withIdentifier: "SidebarMenuViewController") as? SidebarMenuViewController else {return}
+          sidebarMenuViewController.didTapMenuType = {menuType in
+              self.transitiontoNewVC(menuType)
+          }
+          sidebarMenuViewController.modalPresentationStyle = .overCurrentContext
+          sidebarMenuViewController.transitioningDelegate = self
+          present(sidebarMenuViewController, animated: true)
+      }
+      func transitiontoNewVC(_ menuType: MenuType){
+
+          
+          switch menuType{
+          case .map:
+            guard let mappyViewController = storyboard?.instantiateViewController(withIdentifier: "MapViewController") else {return}
+            present(mappyViewController, animated: true)
+          default:
+            break
+          }
+      }
+      
+      
+      let transition = SlideInTransition()
+}
+extension ProfileViewController : UIViewControllerTransitioningDelegate{
+    func animationController(forPresented presented: UIViewController, presenting: UIViewController, source: UIViewController) -> UIViewControllerAnimatedTransitioning? {
+        transition.isPresenting = true
+        return transition
+    }
+    func animationController(forDismissed dismissed: UIViewController) -> UIViewControllerAnimatedTransitioning? {
+        transition.isPresenting = false
+        return transition
     }
 }
 
