@@ -8,7 +8,12 @@
 
 import UIKit
 
-class StartUpScreenViewController: UIViewController {
+class StartUpScreenViewController: UIViewController,UINavigationControllerDelegate {
+    
+    
+    
+    
+    
     
 //    let logInButton = UIButton()
 //    let signUpButton = UIButton()
