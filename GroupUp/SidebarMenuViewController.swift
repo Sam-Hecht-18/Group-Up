@@ -16,7 +16,7 @@ class SidebarMenuViewController: UITableViewController {
     
         override func viewDidLoad() {
             super.viewDidLoad()
-            overrideUserInterfaceStyle = .dark
+            //overrideUserInterfaceStyle = .dark
 
         }
         override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {

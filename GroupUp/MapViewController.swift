@@ -8,7 +8,7 @@
 
 import UIKit
 import MapKit
-
+import FirebaseAuth
 class customPin: NSObject, MKAnnotation{
     var coordinate: CLLocationCoordinate2D
     var title: String?
@@ -73,13 +73,13 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.navigationController?.navigationBar.setBackgroundImage(UIImage(), for: .default) //UIImage.init(named: "transparent.png")
+         self.navigationController?.navigationBar.setBackgroundImage(UIImage(), for: .default) //UIImage.init(named: "transparent.png")
         self.navigationController?.navigationBar.shadowImage = UIImage()
         self.navigationController?.navigationBar.isTranslucent = true
         self.navigationController?.view.backgroundColor = .clear        //Add as a subivew
         //Set up properties
         //Set up constraints
-        overrideUserInterfaceStyle = .dark
+        //overrideUserInterfaceStyle = .dark
         //map.overrideUserInterfaceStyle = .dark
         view.addSubview(map)
         setUpMapView()
@@ -89,7 +89,10 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
         //40.0102° N, 75.2797° W
         let location = CLLocationCoordinate2D(latitude: 40.0423, longitude: -75.3167)
         map.addAnnotation(customPin(pinTitle: "Harriton", pinSubtitle: "", location: location))
-        
+        if Auth.auth().currentUser == nil{
+           guard let startUpViewController = storyboard?.instantiateViewController(withIdentifier: "StartUpScreenViewController") else {return}
+            navigationController?.pushViewController(startUpViewController, animated: true)
+        }
         
         
     }
