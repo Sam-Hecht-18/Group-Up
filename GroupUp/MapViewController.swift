@@ -265,8 +265,6 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
         self.addChild(eventManagerSlideUpView)
         view.addSubview(eventManagerSlideUpView.view)
         eventManagerSlideUpView.didMove(toParent: self)
-        
-        
         // 3- Adjust event manager frame and initial position.
         let height = view.frame.height
         let width  = view.frame.width
