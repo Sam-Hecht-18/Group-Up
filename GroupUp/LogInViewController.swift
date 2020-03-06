@@ -19,7 +19,6 @@ class LogInViewController: UIViewController, UITextFieldDelegate {
         
         guard let email = usernameTextField.text else {return}
                guard let password = passwordTextField.text else {return}
-
                
                Auth.auth().signIn(withEmail: email, password: password){(user, error) in
                    if error == nil && user != nil{
