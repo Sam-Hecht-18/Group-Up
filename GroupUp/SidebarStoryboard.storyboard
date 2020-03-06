@@ -10,7 +10,6 @@
         <!--Map View Controller-->
         <scene sceneID="lpA-kr-uqR">
             <objects>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="C7g-CA-xrt" sceneMemberID="firstResponder"/>
                 <viewController storyboardIdentifier="MapViewController" id="JpQ-ge-uvn" customClass="MapViewController" customModule="GroupUp" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="gHl-Vo-kOt">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
@@ -18,7 +17,7 @@
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <viewLayoutGuide key="safeArea" id="yFu-NH-Y0T"/>
                     </view>
-                    <navigationItem key="navigationItem" id="fDn-tV-faB">
+                    <navigationItem key="navigationItem" largeTitleDisplayMode="never" id="fDn-tV-faB">
                         <barButtonItem key="leftBarButtonItem" title="Menu" image="Menu" id="OMb-wg-Cuv">
                             <connections>
                                 <action selector="SidebarButtonTapped:" destination="JpQ-ge-uvn" id="VoA-GX-yjA"/>
@@ -26,6 +25,7 @@
                         </barButtonItem>
                     </navigationItem>
                 </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="C7g-CA-xrt" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="941" y="115"/>
         </scene>
@@ -249,8 +249,7 @@
         <!--Navigation Controller-->
         <scene sceneID="8tq-xz-r68">
             <objects>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="SE0-CB-Q3d" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
-                <navigationController automaticallyAdjustsScrollViewInsets="NO" hidesBarsOnTap="YES" id="Eid-KR-DKv" sceneMemberID="viewController">
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="Eid-KR-DKv" sceneMemberID="viewController">
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" largeTitles="YES" id="bEl-Bc-rqf">
                         <rect key="frame" x="0.0" y="44" width="414" height="96"/>
@@ -261,6 +260,7 @@
                         <segue destination="JpQ-ge-uvn" kind="relationship" relationship="rootViewController" id="627-p0-52f"/>
                     </connections>
                 </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="SE0-CB-Q3d" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="26" y="115"/>
         </scene>
