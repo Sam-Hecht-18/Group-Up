@@ -21,8 +21,9 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
     
     
     override func viewDidLoad() {
-    
-
+        navigationController?.hidesBarsOnTap = false
+        
+        
         imagePicker = UIImagePickerController()
         imagePicker?.allowsEditing = true
         imagePicker?.sourceType = .photoLibrary
@@ -55,7 +56,7 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
         
     }
       @IBAction func SidebarButtonTapped(_ sender: UIBarButtonItem) {
-    
+        
      // let sidebarMenuViewController = SidebarMenuViewController()
           guard let sidebarMenuViewController = storyboard?.instantiateViewController(withIdentifier: "SidebarMenuViewController") as? SidebarMenuViewController else {return}
           sidebarMenuViewController.didTapMenuType = {menuType in
@@ -70,8 +71,7 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
           
           switch menuType{
           case .map:
-            guard let mappyViewController = storyboard?.instantiateViewController(withIdentifier: "MapViewController") else {return}
-            present(mappyViewController, animated: true)
+            navigationController?.popToRootViewController(animated: true)
           default:
             break
           }

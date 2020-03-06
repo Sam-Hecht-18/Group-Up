@@ -50,7 +50,7 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
         switch menuType{
             case .profile:
                 guard let profileViewController = storyboard?.instantiateViewController(withIdentifier: "ProfileViewController") else {return}
-                present(profileViewController, animated: true)
+                navigationController?.pushViewController(profileViewController, animated: true)
             default:
                 break
         }
@@ -59,7 +59,8 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
     
     let transition = SlideInTransition()
     
-       
+    override func viewDidAppear(_ animated: Bool) {
+    }
     
     var timeAndDistance = String()
     let map = MKMapView()
@@ -72,7 +73,10 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        //Add as a subivew
+        self.navigationController?.navigationBar.setBackgroundImage(UIImage(), for: .default) //UIImage.init(named: "transparent.png")
+        self.navigationController?.navigationBar.shadowImage = UIImage()
+        self.navigationController?.navigationBar.isTranslucent = true
+        self.navigationController?.view.backgroundColor = .clear        //Add as a subivew
         //Set up properties
         //Set up constraints
         overrideUserInterfaceStyle = .dark
@@ -85,6 +89,7 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
         //40.0102° N, 75.2797° W
         let location = CLLocationCoordinate2D(latitude: 40.0423, longitude: -75.3167)
         map.addAnnotation(customPin(pinTitle: "Harriton", pinSubtitle: "", location: location))
+        
         
         
     }
@@ -256,9 +261,8 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
         // 2- Add eventManagerSlideUpView as a child view
         self.addChild(eventManagerSlideUpView)
         view.addSubview(eventManagerSlideUpView.view)
+        view.bringSubviewToFront(eventManagerSlideUpView.view)
         eventManagerSlideUpView.didMove(toParent: self)
-        
-        
         // 3- Adjust event manager frame and initial position.
         let height = view.frame.height
         let width  = view.frame.width
