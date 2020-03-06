@@ -264,10 +264,10 @@
             </objects>
             <point key="canvasLocation" x="26" y="115"/>
         </scene>
-        <!--View Controller-->
+        <!--Start Up Screen View Controller-->
         <scene sceneID="gUY-kx-dA1">
             <objects>
-                <viewController id="Ayd-o9-YZD" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="StartUpScreenViewController" id="Ayd-o9-YZD" customClass="StartUpScreenViewController" customModule="GroupUp" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="ccr-kX-dx3">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="842"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -324,7 +324,7 @@
         <!--Log In View Controller-->
         <scene sceneID="C3o-9F-ALm">
             <objects>
-                <viewController id="HD4-yK-dGv" customClass="LogInViewController" customModule="GroupUp" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="LogInViewController" id="HD4-yK-dGv" customClass="LogInViewController" customModule="GroupUp" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="a33-Wa-rgK">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="842"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -424,7 +424,7 @@
         <!--Sign Up View Controller-->
         <scene sceneID="0Xb-cD-j4i">
             <objects>
-                <viewController id="Vqz-Rn-zTn" customClass="SignUpViewController" customModule="GroupUp" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="SignUpViewController" id="Vqz-Rn-zTn" customClass="SignUpViewController" customModule="GroupUp" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="u9h-b7-zCc">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="842"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -544,6 +544,7 @@
         <image name="user" width="160" height="160"/>
     </resources>
     <inferredMetricsTieBreakers>
+        <segue reference="MXT-2G-aeQ"/>
         <segue reference="PHT-dG-oPw"/>
     </inferredMetricsTieBreakers>
 </document>
