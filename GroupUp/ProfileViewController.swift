@@ -21,7 +21,9 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
     
     
     override func viewDidLoad() {
-
+        navigationController?.hidesBarsOnTap = false
+        
+        
         imagePicker = UIImagePickerController()
         imagePicker?.allowsEditing = true
         imagePicker?.sourceType = .photoLibrary
