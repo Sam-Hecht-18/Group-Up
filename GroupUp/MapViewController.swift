@@ -50,13 +50,7 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
         switch menuType{
             case .profile:
                 guard let profileViewController = storyboard?.instantiateViewController(withIdentifier: "ProfileViewController") else {return}
-                //dismiss(animated: true) {
-                
                 navigationController?.pushViewController(profileViewController, animated: true)
-                
-//                    navigationItem.present(profileViewController, animated: true)
-                //}
-                //present(profileViewController, animated: true)
             default:
                 break
         }
@@ -92,6 +86,7 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
         //40.0102° N, 75.2797° W
         let location = CLLocationCoordinate2D(latitude: 40.0423, longitude: -75.3167)
         map.addAnnotation(customPin(pinTitle: "Harriton", pinSubtitle: "", location: location))
+        
         
         
     }
@@ -263,6 +258,7 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
         // 2- Add eventManagerSlideUpView as a child view
         self.addChild(eventManagerSlideUpView)
         view.addSubview(eventManagerSlideUpView.view)
+        view.bringSubviewToFront(eventManagerSlideUpView.view)
         eventManagerSlideUpView.didMove(toParent: self)
         // 3- Adjust event manager frame and initial position.
         let height = view.frame.height
