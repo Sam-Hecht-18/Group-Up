@@ -93,6 +93,9 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
            guard let startUpViewController = storyboard?.instantiateViewController(withIdentifier: "StartUpScreenViewController") else {return}
             navigationController?.pushViewController(startUpViewController, animated: true)
         }
+        else{
+            print("Hahaha")
+        }
         
         
     }

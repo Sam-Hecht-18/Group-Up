@@ -16,11 +16,22 @@ class StartUpScreenViewController: UIViewController,UINavigationControllerDelega
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        navigationController?.navigationBar.isHidden = true
         // Do any additional setup after loading the view.
     }
+    @IBAction func LogIn(_ sender: UIButton) {
+        print("hello")
+        guard let logInViewController = storyboard?.instantiateViewController(withIdentifier: "LogInViewController") else {return}
+        print("and we here dawg")
+         navigationController?.pushViewController(logInViewController, animated: true)
+        print("And we even here dawg")
+    }
     
-
+    @IBAction func SignUp(_ sender: UIButton) {
+        guard let signUpViewController = storyboard?.instantiateViewController(withIdentifier: "SignUpViewController") else {return}
+        navigationController?.pushViewController(signUpViewController, animated: true)
+    }
+    
     /*
     // MARK: - Navigation
 

@@ -30,7 +30,8 @@ class SignUpViewController: UIViewController, UITextFieldDelegate{
                 changeRequest?.commitChanges(completion: {(error) in print("couldnt change name")
                     
                 })
-                 self.dismiss(animated: true, completion: nil)
+                self.navigationController?.popToRootViewController(animated: true)
+                 //self.dismiss(animated: true, completion: nil)
             }
             else{
                 print(error.debugDescription)

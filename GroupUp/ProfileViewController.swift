@@ -10,6 +10,7 @@ import UIKit
 import FirebaseAuth
 import FirebaseStorage
 import FirebaseDatabase
+var userImage: UIImage?
 class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     var imagePicker : UIImagePickerController?
     
@@ -18,7 +19,6 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
     @IBAction func changeProfilePic(_ sender: UIButton) {
         self.present(imagePicker!, animated: true, completion: nil)
     }
-    
     
     override func viewDidLoad() {
         navigationController?.hidesBarsOnTap = false
@@ -34,10 +34,29 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
         profilePic.layer.borderColor = UIColor.black.cgColor
         profilePic.layer.cornerRadius = profilePic.frame.height/2
         profilePic.clipsToBounds = true
+        
         super.viewDidLoad()
         
-        // Do any additional setup after loading the view.
     }
+    override func viewWillAppear(_ animated: Bool) {
+        if let userImageUnwrapped = userImage{
+            self.profilePic.setImage(userImageUnwrapped, for: .normal)
+        }
+        else{
+            print("this happens everytime")
+            guard let uid = Auth.auth().currentUser?.uid else {return}
+            Storage.storage().reference().child("user /\(uid)").getData(maxSize: 1000000) { (data, error) in
+                guard let unwrappedData = data else {return}
+                userImage = UIImage(data: unwrappedData)
+                if error != nil {
+                    print("You have no pic lmao")
+                }
+                self.profilePic.setImage(userImage, for: .normal)
+            }
+            // Do any additional setup after loading the view.
+        }
+    }
+    
     func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
         imagePicker?.dismiss(animated: true, completion: nil)
     }
@@ -55,30 +74,30 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
         storage.putData(imageData, metadata: StorageMetadata()) { (metaData, error) in }
         
     }
-      @IBAction func SidebarButtonTapped(_ sender: UIBarButtonItem) {
+    @IBAction func SidebarButtonTapped(_ sender: UIBarButtonItem) {
         
-     // let sidebarMenuViewController = SidebarMenuViewController()
-          guard let sidebarMenuViewController = storyboard?.instantiateViewController(withIdentifier: "SidebarMenuViewController") as? SidebarMenuViewController else {return}
-          sidebarMenuViewController.didTapMenuType = {menuType in
-              self.transitiontoNewVC(menuType)
-          }
-          sidebarMenuViewController.modalPresentationStyle = .overCurrentContext
-          sidebarMenuViewController.transitioningDelegate = self
-          present(sidebarMenuViewController, animated: true)
-      }
-      func transitiontoNewVC(_ menuType: MenuType){
-
-          
-          switch menuType{
-          case .map:
+        // let sidebarMenuViewController = SidebarMenuViewController()
+        guard let sidebarMenuViewController = storyboard?.instantiateViewController(withIdentifier: "SidebarMenuViewController") as? SidebarMenuViewController else {return}
+        sidebarMenuViewController.didTapMenuType = {menuType in
+            self.transitiontoNewVC(menuType)
+        }
+        sidebarMenuViewController.modalPresentationStyle = .overCurrentContext
+        sidebarMenuViewController.transitioningDelegate = self
+        present(sidebarMenuViewController, animated: true)
+    }
+    func transitiontoNewVC(_ menuType: MenuType){
+        
+        
+        switch menuType{
+        case .map:
             navigationController?.popToRootViewController(animated: true)
-          default:
+        default:
             break
-          }
-      }
-      
-      
-      let transition = SlideInTransition()
+        }
+    }
+    
+    
+    let transition = SlideInTransition()
 }
 extension ProfileViewController : UIViewControllerTransitioningDelegate{
     func animationController(forPresented presented: UIViewController, presenting: UIViewController, source: UIViewController) -> UIViewControllerAnimatedTransitioning? {
