@@ -12,6 +12,7 @@ import FirebaseStorage
 import FirebaseDatabase
 var userImage: UIImage?
 class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+    @IBOutlet weak var username: UILabel!
     var imagePicker : UIImagePickerController?
     
     
@@ -23,7 +24,7 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
     override func viewDidLoad() {
         navigationController?.hidesBarsOnTap = false
         
-        
+        username.text = Auth.auth().currentUser?.displayName
         imagePicker = UIImagePickerController()
         imagePicker?.allowsEditing = true
         imagePicker?.sourceType = .photoLibrary
@@ -44,15 +45,9 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
         }
         else{
             print("this happens everytime")
-            guard let uid = Auth.auth().currentUser?.uid else {return}
-            Storage.storage().reference().child("user /\(uid)").getData(maxSize: 1000000) { (data, error) in
-                guard let unwrappedData = data else {return}
-                userImage = UIImage(data: unwrappedData)
-                if error != nil {
-                    print("You have no pic lmao")
-                }
-                self.profilePic.setImage(userImage, for: .normal)
-            }
+            getProfilePic()
+            self.profilePic.setImage(userImage, for: .normal)
+            
             // Do any additional setup after loading the view.
         }
     }

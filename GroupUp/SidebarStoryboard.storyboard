@@ -147,7 +147,7 @@
                                     <constraint firstAttribute="width" constant="150" id="gTK-eW-SS0"/>
                                     <constraint firstAttribute="height" constant="150" id="h8v-3T-MWS"/>
                                 </constraints>
-                                <state key="normal" title="Button"/>
+                                <state key="normal" title="Button" image="user"/>
                                 <connections>
                                     <action selector="changeProfilePic:" destination="0OW-9D-nOg" eventType="touchUpInside" id="8O3-xO-bC7"/>
                                 </connections>
@@ -240,6 +240,7 @@
                     <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
                     <connections>
                         <outlet property="profilePic" destination="ibT-pR-F54" id="gg8-hH-6sf"/>
+                        <outlet property="username" destination="ipj-Y6-44u" id="NvZ-0D-4Gv"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="xxc-lj-VoT" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -535,5 +536,6 @@
         <image name="Menu" width="24" height="24"/>
         <image name="Profile" width="256" height="256"/>
         <image name="map" width="256" height="256"/>
+        <image name="user" width="160" height="160"/>
     </resources>
 </document>

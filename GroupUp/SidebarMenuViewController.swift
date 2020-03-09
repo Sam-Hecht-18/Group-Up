@@ -66,7 +66,7 @@ class SidebarMenuViewController: UITableViewController, UIGestureRecognizerDeleg
     override func viewDidLoad() {
         super.viewDidLoad()
         setUpPanGesture()
-        
+        setUpBarline()
         
         //overrideUserInterfaceStyle = .dark
         

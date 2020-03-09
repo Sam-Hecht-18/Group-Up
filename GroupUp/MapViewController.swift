@@ -5,10 +5,21 @@
 //  Created by Samuel Hecht (student LM) on 2/19/20.
 //  Copyright © 2020 Samuel Hecht (student LM). All rights reserved.
 //
+func getProfilePic(){
+    guard let uid = Auth.auth().currentUser?.uid else {return}
+    Storage.storage().reference().child("user /\(uid)").getData(maxSize: 1000000) { (data, error) in
+        guard let unwrappedData = data else {return}
+        userImage = UIImage(data: unwrappedData)
+        if error != nil {
+            print("You have no pic lmao")
+        }
+    }
+}
 
 import UIKit
 import MapKit
 import FirebaseAuth
+import FirebaseStorage
 class customPin: NSObject, MKAnnotation{
     var coordinate: CLLocationCoordinate2D
     var title: String?
@@ -48,6 +59,7 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
         eventManagerSlideUpView.popUpViewToBottom()
         present(sidebarMenuViewController, animated: true)
     }
+    
     func transitiontoNewVC(_ menuType: MenuType){
 
         
@@ -63,8 +75,6 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
     
     let transition = SlideInTransition()
     
-    override func viewDidAppear(_ animated: Bool) {
-    }
     
     var timeAndDistance = String()
     let map = MKMapView()
@@ -91,6 +101,14 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
         addEventManagerSlideUpViewController()
         
         //40.0102° N, 75.2797° W
+//        do{
+//            try Auth.auth().signOut()
+//        }
+//        catch{
+//          print("shoot")
+//        }
+        
+        
         let location = CLLocationCoordinate2D(latitude: 40.0423, longitude: -75.3167)
         map.addAnnotation(customPin(pinTitle: "Harriton", pinSubtitle: "", location: location))
         if Auth.auth().currentUser == nil{
@@ -99,6 +117,7 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
         }
         else{
             print("Hahaha")
+            getProfilePic()
         }
         
         

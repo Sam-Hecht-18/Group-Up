@@ -23,7 +23,10 @@ class LogInViewController: UIViewController, UITextFieldDelegate {
                Auth.auth().signIn(withEmail: email, password: password){(user, error) in
                    if error == nil && user != nil{
                        //self.dismiss(animated: false, completion: nil)
+                    
                     self.navigationController?.popToRootViewController(animated: true)
+                    print("uhh I hope so")
+                    getProfilePic()
                    }
                    else{
                        print(error!.localizedDescription)
