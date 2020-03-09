@@ -42,6 +42,10 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
         }
         sidebarMenuViewController.modalPresentationStyle = .overCurrentContext
         sidebarMenuViewController.transitioningDelegate = self
+        //Yo idk if you fellas want this but at least while the
+        //Event manager is empty it looks bad with both up cuz the
+        //Map gets blocked so...
+        eventManagerSlideUpView.popUpViewToBottom()
         present(sidebarMenuViewController, animated: true)
     }
     func transitiontoNewVC(_ menuType: MenuType){

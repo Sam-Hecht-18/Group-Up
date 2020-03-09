@@ -59,7 +59,11 @@ class EventManagerSlideUpViewController: UIViewController, UIGestureRecognizerDe
         }
     }
     
-    
+    func popUpViewToBottom(){
+        UIView.animate(withDuration: 0.3, delay: 0.0, options: [.allowUserInteraction], animations: {
+            self.view.frame = CGRect(x: 0, y: self.collapsedView, width: self.view.frame.width, height: self.view.frame.height)
+        })
+    }
     func popUpViewToMiddle(){
         UIView.animate(withDuration: 0.5, delay: 0.0, options: [.allowUserInteraction], animations: {
             self.view.frame = CGRect(x: 0, y: self.partialView, width: self.view.frame.width, height: self.view.frame.height)
