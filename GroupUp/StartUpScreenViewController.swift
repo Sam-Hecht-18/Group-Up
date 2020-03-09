@@ -19,6 +19,11 @@ class StartUpScreenViewController: UIViewController,UINavigationControllerDelega
         navigationController?.navigationBar.isHidden = true
         // Do any additional setup after loading the view.
     }
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        navigationController?.navigationBar.isHidden = true
+
+    }
     @IBAction func LogIn(_ sender: UIButton) {
         print("hello")
         guard let logInViewController = storyboard?.instantiateViewController(withIdentifier: "LogInViewController") else {return}

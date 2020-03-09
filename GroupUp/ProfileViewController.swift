@@ -63,6 +63,7 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
         if let pickedImage = info[UIImagePickerController.InfoKey.editedImage] as? UIImage{
             profilePic.setImage(pickedImage, for: .normal)
+            userImage = profilePic.imageView?.image
             uploadProfilePicture(pickedImage) {url in}
         }
         imagePicker?.dismiss(animated: true, completion: nil)

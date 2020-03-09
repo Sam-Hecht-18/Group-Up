@@ -44,13 +44,28 @@ class SignUpViewController: UIViewController, UITextFieldDelegate{
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        navigationController?.navigationBar.isHidden = false
+
         usernameTextField.delegate = self
         emailAddressTextField.delegate = self
         passwordTextField.delegate = self
         usernameTextField.becomeFirstResponder()
 
         // Do any additional setup after loading the view.
+    }
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        if usernameTextField.isFirstResponder{
+            usernameTextField.resignFirstResponder()
+            emailAddressTextField.becomeFirstResponder()
+        }
+        else if emailAddressTextField.isFirstResponder{
+            emailAddressTextField.resignFirstResponder()
+            passwordTextField.becomeFirstResponder()
+        }
+        else{
+            passwordTextField.resignFirstResponder()
+        }
+        return true
     }
     
 }

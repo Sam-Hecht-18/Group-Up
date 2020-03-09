@@ -30,11 +30,24 @@ class LogInViewController: UIViewController, UITextFieldDelegate {
                    }
                }
     }
-    
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        if usernameTextField.isFirstResponder {
+            usernameTextField.resignFirstResponder()
+            passwordTextField.becomeFirstResponder()
+        }
+        else{
+            passwordTextField.resignFirstResponder()
+        }
+        return true
+    }
     @IBOutlet weak var logInButton: UIButton!
     
     override func viewDidLoad() {
            super.viewDidLoad()
+            
+        navigationController?.navigationBar.isHidden = false
+        
+       
            usernameTextField.delegate = self
            passwordTextField.delegate = self
            usernameTextField.becomeFirstResponder()
