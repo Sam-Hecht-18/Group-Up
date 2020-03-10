@@ -10,6 +10,7 @@ import UIKit
 enum MenuType: Int{
     case map
     case profile
+    case logOut
 }
 class SidebarMenuViewController: UITableViewController, UIGestureRecognizerDelegate {
     

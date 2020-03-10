@@ -87,6 +87,15 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
         switch menuType{
         case .map:
             navigationController?.popToRootViewController(animated: true)
+        case .logOut:
+            do{
+                try Auth.auth().signOut()
+            }
+            catch{
+                      print("shoot")
+            }
+             guard let startUpViewController = storyboard?.instantiateViewController(withIdentifier: "StartUpScreenViewController") else {return}
+             navigationController?.pushViewController(startUpViewController, animated: true)
         default:
             break
         }

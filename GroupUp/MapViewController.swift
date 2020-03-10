@@ -67,6 +67,15 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
             case .profile:
                 guard let profileViewController = storyboard?.instantiateViewController(withIdentifier: "ProfileViewController") else {return}
                 navigationController?.pushViewController(profileViewController, animated: true)
+            case .logOut:
+                do{
+                    try Auth.auth().signOut()
+                }
+                catch{
+                          print("shoot")
+                }
+                guard let startUpViewController = storyboard?.instantiateViewController(withIdentifier: "StartUpScreenViewController") else {return}
+                navigationController?.pushViewController(startUpViewController, animated: true)
             default:
                 break
         }
@@ -93,7 +102,7 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
         self.navigationController?.view.backgroundColor = .clear        //Add as a subivew
         //Set up properties
         //Set up constraints
-        //overrideUserInterfaceStyle = .dark
+        overrideUserInterfaceStyle = .dark
         //map.overrideUserInterfaceStyle = .dark
         view.addSubview(map)
         setUpMapView()
