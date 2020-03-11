@@ -79,7 +79,7 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
     
     func uploadProfilePicture(_ image: UIImage, _ completion: @escaping((_ url:URL?) -> ())){
         guard let uid = authRef.currentUser?.uid else {return}
-        let userStorage = storageRef.child("user /\(uid)")
+        let userStorage = storageRef.child("Profile Pic /\(uid)")
         guard let image = profilePic.imageView?.image, let imageData = image.jpegData(compressionQuality: 0.75) else {return}
         userStorage.putData(imageData, metadata: StorageMetadata()) { (metaData, error) in }
         
