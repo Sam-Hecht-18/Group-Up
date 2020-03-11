@@ -43,6 +43,10 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
         profilePic.layer.borderColor = UIColor.black.cgColor
         profilePic.layer.cornerRadius = profilePic.frame.height/2
         profilePic.clipsToBounds = true
+        if profilePic.imageView?.image == UIImage(){
+            print("Yeee")
+            profilePic.setImage(UIImage(named: "ProfilePic"), for: .normal)
+        }
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -52,7 +56,9 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
         else{
             print("this happens everytime")
             getProfilePic()
-            self.profilePic.setImage(userImage, for: .normal)
+            if let userImageUnwrapped = userImage{
+                self.profilePic.setImage(userImageUnwrapped, for: .normal)
+            }
             
             // Do any additional setup after loading the view.
         }
