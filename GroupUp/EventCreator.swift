@@ -6,7 +6,6 @@
 //  Copyright © 2020 Samuel Hecht (student LM). All rights reserved.
 //
 
-import Foundation
 import UIKit
 
 class EventCreator: UIViewController{
@@ -19,11 +18,11 @@ class EventCreator: UIViewController{
     //add way to track how many people have already signed up
     
     
-
+    
     override func viewDidLoad() {
         view.backgroundColor = UIColor.black
-
-    
+        
+        
         label.textColor = UIColor.white
         label.text = "New Event"
         label.frame = CGRect(x: 30, y: 30, width: 250, height: 30)

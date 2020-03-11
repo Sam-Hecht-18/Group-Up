@@ -7,7 +7,6 @@
 //
 
 import UIKit
-import FirebaseAuth
 
 class SignUpViewController: UIViewController, UITextFieldDelegate{
     
@@ -21,16 +20,17 @@ class SignUpViewController: UIViewController, UITextFieldDelegate{
         guard let email = emailAddressTextField.text else {return}
         guard let password = passwordTextField.text else {return}
         guard let name = usernameTextField.text else {return}
-
-        Auth.auth().createUser(withEmail: email, password: password){ (user, error) in
+        
+        authRef.createUser(withEmail: email, password: password){ (user, error) in
             if let _ = user{
                 print("user created")
-                let changeRequest = Auth.auth().currentUser?.createProfileChangeRequest()
+                let changeRequest = authRef.currentUser?.createProfileChangeRequest()
                 changeRequest?.displayName = name
                 changeRequest?.commitChanges(completion: {(error) in print("couldnt change name")
                     
                 })
-                 self.dismiss(animated: true, completion: nil)
+                self.navigationController?.popToRootViewController(animated: true)
+                //self.dismiss(animated: true, completion: nil)
             }
             else{
                 print(error.debugDescription)
@@ -43,13 +43,39 @@ class SignUpViewController: UIViewController, UITextFieldDelegate{
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        navigationController?.navigationBar.isHidden = false
+        setUpTextFields()
+        signUpButton.isEnabled = false
         
+        // Do any additional setup after loading the view.
+    }
+    
+    func setUpTextFields(){
         usernameTextField.delegate = self
         emailAddressTextField.delegate = self
         passwordTextField.delegate = self
+        
+        emailAddressTextField.autocorrectionType = .no
+        passwordTextField.autocorrectionType = .no
+        usernameTextField.autocorrectionType = .no
+        
         usernameTextField.becomeFirstResponder()
-
-        // Do any additional setup after loading the view.
+    }
+    
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        if usernameTextField.isFirstResponder{
+            usernameTextField.resignFirstResponder()
+            emailAddressTextField.becomeFirstResponder()
+        }
+        else if emailAddressTextField.isFirstResponder{
+            emailAddressTextField.resignFirstResponder()
+            passwordTextField.becomeFirstResponder()
+        }
+        else{
+            passwordTextField.resignFirstResponder()
+            signUpButton.isEnabled = true
+        }
+        return true
     }
     
 }

@@ -6,9 +6,11 @@
 //  Copyright © 2020 Samuel Hecht (student LM). All rights reserved.
 //
 
+
+
 import UIKit
 import MapKit
-import FirebaseAuth
+
 class customPin: NSObject, MKAnnotation{
     var coordinate: CLLocationCoordinate2D
     var title: String?
@@ -19,48 +21,11 @@ class customPin: NSObject, MKAnnotation{
         self.coordinate = location
     }
 }
-extension MapViewController : UIViewControllerTransitioningDelegate{
-    func animationController(forPresented presented: UIViewController, presenting: UIViewController, source: UIViewController) -> UIViewControllerAnimatedTransitioning? {
-        transition.isPresenting = true
-        return transition
-    }
-    func animationController(forDismissed dismissed: UIViewController) -> UIViewControllerAnimatedTransitioning? {
-        transition.isPresenting = false
-        return transition
-    }
-}
 
 class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewDelegate {
     
     
-    @IBAction func SidebarButtonTapped(_ sender: UIBarButtonItem) {
-  
-   // let sidebarMenuViewController = SidebarMenuViewController()
-        guard let sidebarMenuViewController = storyboard?.instantiateViewController(withIdentifier: "SidebarMenuViewController") as? SidebarMenuViewController else {return}
-        sidebarMenuViewController.didTapMenuType = {menuType in
-            self.transitiontoNewVC(menuType)
-        }
-        sidebarMenuViewController.modalPresentationStyle = .overCurrentContext
-        sidebarMenuViewController.transitioningDelegate = self
-        present(sidebarMenuViewController, animated: true)
-    }
-    func transitiontoNewVC(_ menuType: MenuType){
-
-        
-        switch menuType{
-            case .profile:
-                guard let profileViewController = storyboard?.instantiateViewController(withIdentifier: "ProfileViewController") else {return}
-                navigationController?.pushViewController(profileViewController, animated: true)
-            default:
-                break
-        }
-    }
     
-    
-    let transition = SlideInTransition()
-    
-    override func viewDidAppear(_ animated: Bool) {
-    }
     
     var timeAndDistance = String()
     let map = MKMapView()
@@ -73,35 +38,48 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
     
     override func viewDidLoad() {
         super.viewDidLoad()
-         self.navigationController?.navigationBar.setBackgroundImage(UIImage(), for: .default) //UIImage.init(named: "transparent.png")
-        self.navigationController?.navigationBar.shadowImage = UIImage()
-        self.navigationController?.navigationBar.isTranslucent = true
-        self.navigationController?.view.backgroundColor = .clear        //Add as a subivew
-        //Set up properties
-        //Set up constraints
+        
+        
         //overrideUserInterfaceStyle = .dark
-        //map.overrideUserInterfaceStyle = .dark
         view.addSubview(map)
         setUpMapView()
         checkLocationServices()
         addEventManagerSlideUpViewController()
+        checkLogIn()
+        setUpNavigationControllerBackground()
         
-        //40.0102° N, 75.2797° W
+        
+        //Temporary pin for testing purposes
         let location = CLLocationCoordinate2D(latitude: 40.0423, longitude: -75.3167)
         map.addAnnotation(customPin(pinTitle: "Harriton", pinSubtitle: "", location: location))
-        if Auth.auth().currentUser == nil{
-           guard let startUpViewController = storyboard?.instantiateViewController(withIdentifier: "StartUpScreenViewController") else {return}
-            navigationController?.pushViewController(startUpViewController, animated: true)
-        }
+        
         
         
     }
+    
+    func setUpNavigationControllerBackground(){
+        navigationController?.navigationBar.setBackgroundImage(UIImage(), for: .default)
+        navigationController?.navigationBar.shadowImage = UIImage()
+        navigationController?.navigationBar.isTranslucent = true
+        navigationController?.view.backgroundColor = .clear
+    }
+    
+    func checkLogIn(){
+        if authRef.currentUser == nil{
+            transitiontoNewVC(.logOut, currentViewController: self)
+        }
+        else{
+            getProfilePic()
+        }
+    }
+    
     func checkLocationServices(){
         if CLLocationManager.locationServicesEnabled(){
             checkLocationAuthorization()
             setUpLocationManager()
         }
     }
+    
     func checkLocationAuthorization(){
         
         switch CLLocationManager.authorizationStatus(){
@@ -124,7 +102,6 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
             break
         }
         
-        
     }
     func setUpLocationManager(){
         
@@ -136,6 +113,7 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
         locationManager.distanceFilter = 20
         
     }
+    
     func setUpMapView(){
         
         map.showsUserLocation = true
@@ -238,6 +216,7 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
             map.removeOverlays(map.overlays)
         }
     }
+    
     func resetMapViewBounds(withNew route : MKRoute){
         let x = route.polyline.boundingMapRect.minX - route.polyline.boundingMapRect.width/8.0
         let y = route.polyline.boundingMapRect.minY - route.polyline.boundingMapRect.height/8.0
@@ -271,4 +250,9 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
         let width  = view.frame.width
         eventManagerSlideUpView.view.frame = CGRect(x: 0, y: self.view.frame.maxY, width: width, height: height)
     }
+    
+    @IBAction func SidebarButtonTapped(_ sender: UIBarButtonItem) {
+        slideOutSidebar(self)
+    }
+    
 }

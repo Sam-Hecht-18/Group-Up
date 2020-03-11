@@ -7,7 +7,6 @@
 //
 
 import UIKit
-import FirebaseAuth
 
 class LogInViewController: UIViewController, UITextFieldDelegate {
     
@@ -18,26 +17,47 @@ class LogInViewController: UIViewController, UITextFieldDelegate {
     @IBAction func loginButton(_ sender: UIButton) {
         
         guard let email = usernameTextField.text else {return}
-               guard let password = passwordTextField.text else {return}
-               
-               Auth.auth().signIn(withEmail: email, password: password){(user, error) in
-                   if error == nil && user != nil{
-                       self.dismiss(animated: false, completion: nil)
-                   }
-                   else{
-                       print(error!.localizedDescription)
-                   }
-               }
+        guard let password = passwordTextField.text else {return}
+        
+        authRef.signIn(withEmail: email, password: password){(user, error) in
+            if error == nil && user != nil{
+                
+                self.navigationController?.popToRootViewController(animated: true)
+                print("uhh I hope so")
+                getProfilePic()
+            }
+            else{
+                print(error!.localizedDescription)
+            }
+        }
     }
-    
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        if usernameTextField.isFirstResponder {
+            usernameTextField.resignFirstResponder()
+            passwordTextField.becomeFirstResponder()
+        }
+        else{
+            passwordTextField.resignFirstResponder()
+            logInButton.isEnabled = true
+        }
+        return true
+    }
     @IBOutlet weak var logInButton: UIButton!
     
     override func viewDidLoad() {
-           super.viewDidLoad()
-           usernameTextField.delegate = self
-           passwordTextField.delegate = self
-           usernameTextField.becomeFirstResponder()
-       }
+        super.viewDidLoad()
+        
+        navigationController?.navigationBar.isHidden = false
+        setUpTextFields()
+        logInButton.isEnabled = false
+    }
+    func setUpTextFields(){
+        usernameTextField.autocorrectionType = .no
+        passwordTextField.autocorrectionType = .no
+        usernameTextField.delegate = self
+        passwordTextField.delegate = self
+        usernameTextField.becomeFirstResponder()
+    }
     
     
     
