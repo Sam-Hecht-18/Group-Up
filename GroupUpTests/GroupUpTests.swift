@@ -7,6 +7,7 @@
 //
 
 import XCTest
+
 @testable import GroupUp
 
 class GroupUpTests: XCTestCase {
