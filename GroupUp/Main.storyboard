@@ -63,12 +63,13 @@
                                                 </label>
                                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="E3L-NH-DdV">
                                                     <rect key="frame" x="16" y="116" width="398" height="2"/>
-                                                    <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
+                                                    <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="2" id="9wq-OT-krH"/>
                                                     </constraints>
                                                 </view>
                                             </subviews>
+                                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                             <constraints>
                                                 <constraint firstItem="8Md-QL-wnZ" firstAttribute="leading" secondItem="ab7-ze-QfB" secondAttribute="leading" constant="16" id="2ZK-Dp-sX1"/>
                                                 <constraint firstAttribute="bottom" secondItem="E3L-NH-DdV" secondAttribute="bottom" id="A8p-hm-WQ8"/>
@@ -79,6 +80,7 @@
                                                 <constraint firstItem="JEb-fN-AHn" firstAttribute="leading" secondItem="8Md-QL-wnZ" secondAttribute="trailing" constant="16" id="qs5-jy-Fdf"/>
                                             </constraints>
                                         </tableViewCellContentView>
+                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" rowHeight="118" id="T9d-S4-qN9">
                                         <rect key="frame" x="0.0" y="136" width="414" height="118"/>
@@ -102,12 +104,13 @@
                                                 </label>
                                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="06m-ea-1if">
                                                     <rect key="frame" x="16" y="116" width="398" height="2"/>
-                                                    <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
+                                                    <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="2" id="9Cw-Xi-iBa"/>
                                                     </constraints>
                                                 </view>
                                             </subviews>
+                                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                             <constraints>
                                                 <constraint firstItem="eib-og-hMR" firstAttribute="centerY" secondItem="zMi-me-SXj" secondAttribute="centerY" id="5nT-Ye-Ls7"/>
                                                 <constraint firstAttribute="bottom" secondItem="06m-ea-1if" secondAttribute="bottom" id="Wte-Fg-I93"/>
@@ -118,6 +121,7 @@
                                                 <constraint firstItem="vkA-0e-pSF" firstAttribute="centerY" secondItem="eib-og-hMR" secondAttribute="centerY" id="yRf-XZ-XN0"/>
                                             </constraints>
                                         </tableViewCellContentView>
+                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" rowHeight="118" id="MSb-fS-a9Z">
                                         <rect key="frame" x="0.0" y="254" width="414" height="118"/>
@@ -141,12 +145,13 @@
                                                 </label>
                                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="FrY-RJ-gAg">
                                                     <rect key="frame" x="16" y="116" width="398" height="2"/>
-                                                    <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
+                                                    <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="2" id="dMF-HD-Cj1"/>
                                                     </constraints>
                                                 </view>
                                             </subviews>
+                                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                             <constraints>
                                                 <constraint firstAttribute="bottom" secondItem="FrY-RJ-gAg" secondAttribute="bottom" id="3L1-P2-FqR"/>
                                                 <constraint firstItem="vdt-yF-SOJ" firstAttribute="leading" secondItem="2nE-bN-TvY" secondAttribute="leading" constant="16" id="HRk-12-LBu"/>
@@ -157,6 +162,7 @@
                                                 <constraint firstItem="vdt-yF-SOJ" firstAttribute="centerY" secondItem="2nE-bN-TvY" secondAttribute="centerY" id="xyZ-3i-89J"/>
                                             </constraints>
                                         </tableViewCellContentView>
+                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                     </tableViewCell>
                                 </cells>
                             </tableViewSection>
