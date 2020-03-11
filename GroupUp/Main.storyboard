@@ -186,7 +186,7 @@
                                     <constraint firstAttribute="width" constant="150" id="gTK-eW-SS0"/>
                                     <constraint firstAttribute="height" constant="150" id="h8v-3T-MWS"/>
                                 </constraints>
-                                <state key="normal" title="Button" image="user"/>
+                                <state key="normal" title="Choose Picture" image="user"/>
                                 <connections>
                                     <action selector="changeProfilePic:" destination="0OW-9D-nOg" eventType="touchUpInside" id="8O3-xO-bC7"/>
                                 </connections>

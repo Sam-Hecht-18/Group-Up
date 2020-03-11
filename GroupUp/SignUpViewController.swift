@@ -7,7 +7,7 @@
 //
 
 import UIKit
-
+import FirebaseAuth
 class SignUpViewController: UIViewController, UITextFieldDelegate{
     
     @IBOutlet weak var usernameTextField: UITextField!
@@ -21,10 +21,10 @@ class SignUpViewController: UIViewController, UITextFieldDelegate{
         guard let password = passwordTextField.text else {return}
         guard let name = usernameTextField.text else {return}
         
-        authRef.createUser(withEmail: email, password: password){ (user, error) in
+        Auth.auth().createUser(withEmail: email, password: password){ (user, error) in
             if let _ = user{
                 print("user created")
-                let changeRequest = authRef.currentUser?.createProfileChangeRequest()
+                let changeRequest = Auth.auth().currentUser?.createProfileChangeRequest()
                 changeRequest?.displayName = name
                 changeRequest?.commitChanges(completion: {(error) in print("couldnt change name")
                     

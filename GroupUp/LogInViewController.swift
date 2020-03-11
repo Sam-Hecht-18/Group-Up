@@ -7,7 +7,7 @@
 //
 
 import UIKit
-
+import FirebaseAuth
 class LogInViewController: UIViewController, UITextFieldDelegate {
     
     @IBOutlet weak var usernameTextField: UITextField!
@@ -19,7 +19,7 @@ class LogInViewController: UIViewController, UITextFieldDelegate {
         guard let email = usernameTextField.text else {return}
         guard let password = passwordTextField.text else {return}
         
-        authRef.signIn(withEmail: email, password: password){(user, error) in
+        Auth.auth().signIn(withEmail: email, password: password){(user, error) in
             if error == nil && user != nil{
                 
                 self.navigationController?.popToRootViewController(animated: true)

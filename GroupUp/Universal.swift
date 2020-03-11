@@ -25,6 +25,9 @@ func getProfilePic(){
         if error != nil {
             print("You have no pic lmao")
         }
+        else{
+            print("I mean you're here...")
+        }
     }
 }
 
@@ -49,6 +52,7 @@ func transitiontoNewVC(_ menuType: MenuType, currentViewController: UIViewContro
         catch{
             print("shoot")
         }
+        userImage = nil
         guard let startUpViewController = currentViewController.storyboard?.instantiateViewController(withIdentifier: "StartUpScreenViewController") else {return}
         currentViewController.navigationController?.pushViewController(startUpViewController, animated: true)
     //Why is default never executed?
