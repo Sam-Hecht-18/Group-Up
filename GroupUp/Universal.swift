@@ -19,7 +19,7 @@ var userImage: UIImage?
 
 func getProfilePic(){
     guard let uid = authRef.currentUser?.uid else {return}
-    storageRef.child("user /\(uid)").getData(maxSize: 1024*1024) { (data, error) in
+    storageRef.child("Profile Pic /\(uid)").getData(maxSize: 1024*1024) { (data, error) in
         guard let unwrappedData = data else {return}
         userImage = UIImage(data: unwrappedData)
         if error != nil {
