@@ -29,6 +29,7 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
     
     var timeAndDistance = String()
     let map = MKMapView()
+    let eventCreator = UIButton()
     let locationManager = CLLocationManager()
     let eventManagerSlideUpView = EventManagerSlideUpViewController()
     
@@ -54,7 +55,8 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
         map.addAnnotation(customPin(pinTitle: "Harriton", pinSubtitle: "", location: location))
         
         
-        
+        eventCreator.addTarget(self, action: #selector(buttonClicked(_:)), for: .touchUpInside)
+
     }
     
     func setUpNavigationControllerBackground(){
@@ -255,4 +257,10 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
         slideOutSidebar(self)
     }
     
+    @objc func buttonClicked(_ : UIButton){
+        let eventViewController: EventCreator = EventCreator()
+        self.present(eventViewController, animated: true, completion: nil)
+    }
+    
+           
 }
