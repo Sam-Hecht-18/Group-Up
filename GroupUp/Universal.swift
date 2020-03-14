@@ -52,6 +52,9 @@ func transitiontoNewVC(_ menuType: MenuType, currentViewController: UIViewContro
         catch{
             print("shoot")
         }
+        if let mapViewController = currentViewController.navigationController?.viewControllers[0] as? MapViewController{
+            mapViewController.map.removeAnnotations(mapViewController.map.annotations)
+        }
         userImage = nil
         guard let startUpViewController = currentViewController.storyboard?.instantiateViewController(withIdentifier: "StartUpScreenViewController") else {return}
         currentViewController.navigationController?.pushViewController(startUpViewController, animated: true)

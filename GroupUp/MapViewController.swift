@@ -51,11 +51,18 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
         
         
         //Temporary pin for testing purposes
-        let location = CLLocationCoordinate2D(latitude: 40.0423, longitude: -75.3167)
-        map.addAnnotation(customPin(pinTitle: "Harriton", pinSubtitle: "", location: location))
-        
-        
+        //let location = CLLocationCoordinate2D(latitude: 40.0423, longitude: -75.3167)
+        //map.addAnnotation(customPin(pinTitle: "Harriton", pinSubtitle: "", location: location))
+        view.addSubview(eventCreator)
+        eventCreator.translatesAutoresizingMaskIntoConstraints = false
+        eventCreator.centerXAnchor.constraint(equalTo: view.centerXAnchor, constant: 100).isActive = true
+        eventCreator.centerYAnchor.constraint(equalTo: view.centerYAnchor, constant: -100).isActive = true
+        eventCreator.widthAnchor.constraint(equalToConstant: 40).isActive = true
+        eventCreator.heightAnchor.constraint(equalToConstant: 20).isActive = true
         eventCreator.addTarget(self, action: #selector(buttonClicked(_:)), for: .touchUpInside)
+        eventCreator.titleLabel?.text = "Create Event"
+        eventCreator.backgroundColor = .purple
+        
 
     }
     
@@ -258,8 +265,9 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
     }
     
     @objc func buttonClicked(_ : UIButton){
-        let eventViewController: EventCreator = EventCreator()
-        self.present(eventViewController, animated: true, completion: nil)
+        let eventViewController = EventCreator()
+        navigationController?.pushViewController(eventViewController, animated: true)
+        //self.present(eventViewController, animated: true, completion: nil)
     }
     
            
