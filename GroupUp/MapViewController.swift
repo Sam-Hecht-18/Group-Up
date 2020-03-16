@@ -10,6 +10,7 @@
 
 import UIKit
 import MapKit
+import FirebaseAuth
 
 class customPin: NSObject, MKAnnotation{
     var coordinate: CLLocationCoordinate2D
@@ -74,7 +75,7 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
     }
     
     func checkLogIn(){
-        if authRef.currentUser == nil{
+        if Auth.auth().currentUser == nil{
             transitiontoNewVC(.logOut, currentViewController: self)
         }
         else{

@@ -8,9 +8,11 @@
 
 import UIKit
 import FirebaseStorage
+import FirebaseDatabase
+import FirebaseAuth
 import MapKit
 class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
-   
+    
     
     @IBOutlet weak var username: UILabel!
     var imagePicker : UIImagePickerController?
@@ -49,74 +51,113 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
                                 let longitude = Double(characters[1]) ?? 0
                                 mapViewContoller.map.addAnnotation(customPin(pinTitle: "Here is \(i)", pinSubtitle: "YOU DID IT", location: CLLocationCoordinate2D(latitude: latitude, longitude: longitude)))
                                 print("You are the one")
-                                }
-                               
-                                
                             }
+                            
+                            
                         }
                     }
-                    
                 }
+                
             }
-//            locationStorage.getData(maxSize: 1024*1024) { (data, error) in
-//                if error != nil{
-//                    print("Uh damn uh... ham uh...")
-//                    print(error)
-//                }
-//                else{
-//                    guard let data = data else {return}
-//                    let newLocationString = String(data: data, encoding: .utf8)
-//                    if let theLocation = newLocationString{
-//                        let characters = theLocation.split(separator: ",", maxSplits: 2, omittingEmptySubsequences: true)
-//
-//                        let latitude = Double(characters[0].dropFirst()) ?? 0
-//                        let longitude = Double(characters[1].dropLast()) ?? 0
-//                        mapViewContoller.map.addAnnotation(customPin(pinTitle: "OMG", pinSubtitle: "YOU DID IT", location: CLLocationCoordinate2D(latitude: latitude, longitude: longitude)))
-//                    }
-//
-//
-//                }
-//            }
-//        }
+        }
+        //            locationStorage.getData(maxSize: 1024*1024) { (data, error) in
+        //                if error != nil{
+        //                    print("Uh damn uh... ham uh...")
+        //                    print(error)
+        //                }
+        //                else{
+        //                    guard let data = data else {return}
+        //                    let newLocationString = String(data: data, encoding: .utf8)
+        //                    if let theLocation = newLocationString{
+        //                        let characters = theLocation.split(separator: ",", maxSplits: 2, omittingEmptySubsequences: true)
+        //
+        //                        let latitude = Double(characters[0].dropFirst()) ?? 0
+        //                        let longitude = Double(characters[1].dropLast()) ?? 0
+        //                        mapViewContoller.map.addAnnotation(customPin(pinTitle: "OMG", pinSubtitle: "YOU DID IT", location: CLLocationCoordinate2D(latitude: latitude, longitude: longitude)))
+        //                    }
+        //
+        //
+        //                }
+        //            }
+        //        }
     }
     @IBAction func firebaseTestPush(_ sender: UIButton) {
-        //if let mapViewContoller = navigationController?.viewControllers[0] as? MapViewController{
-            let location = CLLocationCoordinate2D(latitude: 40.0423, longitude: -75.3167)
-            let locationString = "\(location.latitude),\(location.longitude)"
-            let locationStorage = storageRef.child("Events /0 /Location")
-            print("Location string is: \(locationString)")
-            print("Bye")
-            guard let encodedString = locationString.data(using: String.Encoding.utf8)?.base64EncodedString() else {return}
-            print("HELLO! and this is encoded String: \(encodedString)")
-            guard let locationData = Data(base64Encoded: encodedString) else {return}
-            print("Um")
-            locationStorage.putData(locationData, metadata: StorageMetadata()) { (metadata, error) in }
-            
-            
-//            mapViewContoller.map.addAnnotation(customPin(pinTitle: "No way", pinSubtitle: "you did it", location: location))
+//        var userIDs : [String] = []
+//        guard let uid = Auth.auth().currentUser?.uid else {return}
+//        guard let name = Auth.auth().currentUser?.displayName else {return}
+//        userIDs.append(uid)
+//        userIDs.append("ccJmxapzhgefmNmykXUj9mQOHXr1")
+//        //databaseRef.child("users").setValue(userIDs)
+//        //databaseRef.child("users/\(uid)/username").setValue(name)
+//        databaseRef.child("users/ccJmxapzhgefmNmykXUj9mQOHXr1/username").setValue("Hechtor18")
+        //databaseRef.child("users").observe(.value) { (snapshot) in
+        //    <#code#>
         //}
+//        var users : [String] = []
+//        
+//        users.append(Auth.auth().currentUser!.uid)
+//
+//        let childUpdates = ["users/" : users]
+//        databaseRef.updateChildValues(childUpdates)
+        //        databaseRef.child("users")
+        //        databaseRef.child("users").child(authRef.currentUser?.uid ?? "").setValue(["username" : authRef.currentUser?.displayName])
+        //        var diction : [String : String] = ["username" : authRef.currentUser?.displayName ?? ""]
+        //        diction["created events"] = "Yeet"
+        //        databaseRef.child("users").child(authRef.currentUser?.uid ?? "").setValue(diction)
+        //
+        //        let _ = databaseRef.child("users").child(authRef.currentUser?.uid ?? "").observe(DataEventType.value) { (snapshot) in
+        //
+        //        }
+        
+        
+        //            let location = CLLocationCoordinate2D(latitude: 40.0423, longitude: -75.3167)
+        //            let locationString = "\(location.latitude),\(location.longitude)"
+        //            let locationStorage = storageRef.child("Events /0 /Location")
+        //            print("Location string is: \(locationString)")
+        //            print("Bye")
+        //            guard let encodedString = locationString.data(using: String.Encoding.utf8)?.base64EncodedString() else {return}
+        //            print("HELLO! and this is encoded String: \(encodedString)")
+        //            guard let locationData = Data(base64Encoded: encodedString) else {return}
+        //            print("Um")
+        //            locationStorage.putData(locationData, metadata: StorageMetadata()) { (metadata, error) in }
+        
         
     }
-            //if let mapViewContoller = navigationController?.viewControllers[0] as? MapViewController{
     @IBAction func FirebaseTestPush2(_ sender: UIButton) {
-        let location = CLLocationCoordinate2D(latitude: 40.0102, longitude: -75.2797)
-        let locationString = "\(location.latitude),\(location.longitude)"
-        let locationStorage = storageRef.child("Events /1 /Location")
-        print("Location string is: \(locationString)")
-        print("Bye")
-        guard let encodedString = locationString.data(using: String.Encoding.utf8)?.base64EncodedString() else {return}
-        print("HELLO! and this is encoded String: \(encodedString)")
-        guard let locationData = Data(base64Encoded: encodedString) else {return}
-        print("Um")
-        locationStorage.putData(locationData, metadata: StorageMetadata()) { (metadata, error) in }
+        // var diction : [String : String] = ["username" : authRef.currentUser?.displayName ?? ""]
+        //diction["created events"] = "Yeet"
+        let arr = ["Yeet" , "Anotha 1"]
+        databaseRef.child("users").child(Auth.auth().currentUser?.uid ?? "").child("created events").setValue(arr)
+        //        let _ = databaseRef.child("users").child(authRef.currentUser?.uid ?? "").observe(DataEventType.value) { (snapshot) in
+        //            let values = snapshot.value as? NSDictionary
+        //            if let valuesUnwrapped = values{
+        //                let value1 = valuesUnwrapped["username"] as! String
+        //                let value2 = valuesUnwrapped["created events"] as! String
+        //                print(value1)
+        //                print(value2)
+        //            }
+        //        }
+        
+        
+        
+        //        let location = CLLocationCoordinate2D(latitude: 40.0102, longitude: -75.2797)
+        //        let locationString = "\(location.latitude),\(location.longitude)"
+        //        let locationStorage = storageRef.child("Events /1 /Location")
+        //        print("Location string is: \(locationString)")
+        //        print("Bye")
+        //        guard let encodedString = locationString.data(using: String.Encoding.utf8)?.base64EncodedString() else {return}
+        //        print("HELLO! and this is encoded String: \(encodedString)")
+        //        guard let locationData = Data(base64Encoded: encodedString) else {return}
+        //        print("Um")
+        //        locationStorage.putData(locationData, metadata: StorageMetadata()) { (metadata, error) in }
     }
     
-                
-                
+    
+    
     //            mapViewContoller.map.addAnnotation(customPin(pinTitle: "No way", pinSubtitle: "you did it", location: location))
-            //}
-            
-        
+    //}
+    
+    
     
     @IBOutlet weak var profilePic: UIButton!
     
@@ -127,7 +168,7 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
     override func viewDidLoad() {
         navigationController?.hidesBarsOnTap = false
         overrideUserInterfaceStyle = .dark
-        username.text = authRef.currentUser?.displayName
+        username.text = Auth.auth().currentUser?.displayName
         setUpProfilePic()
         setUpImagePicker()
         
@@ -183,7 +224,7 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
     }
     
     func uploadProfilePicture(_ image: UIImage, _ completion: @escaping((_ url:URL?) -> ())){
-        guard let uid = authRef.currentUser?.uid else {return}
+        guard let uid = Auth.auth().currentUser?.uid else {return}
         let userStorage = storageRef.child("Profile Pic /\(uid)")
         guard let image = profilePic.imageView?.image, let imageData = image.jpegData(compressionQuality: 0.75) else {return}
         userStorage.putData(imageData, metadata: StorageMetadata()) { (metaData, error) in }
