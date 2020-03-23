@@ -11,7 +11,7 @@ import UIKit
 //
 var databaseRef = Database.database().reference()
 var storageRef = Storage.storage().reference()
-
+var events: [Event] = []
 
 
 //var currentUser : User = {

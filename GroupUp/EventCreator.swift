@@ -7,7 +7,8 @@
 //
 
 import UIKit
-
+import FirebaseAuth
+import MapKit
 class EventCreator: UIViewController{
     let label = UILabel()
     let eventName = UILabel()
@@ -15,7 +16,7 @@ class EventCreator: UIViewController{
     let eventDate = UILabel()
     let eventDescription = UILabel()
     
-    let createEvent = UIButton()
+    let createEventButton = UIButton()
     
     let eventNameField = UITextField(frame: CGRect(x: 20, y: 160, width: 300, height: 25))
     let eventLocationField = UITextField(frame: CGRect(x: 20, y: 360, width: 300, height: 25))
@@ -53,16 +54,20 @@ class EventCreator: UIViewController{
         
         self.view.addSubview(label)
         
-        createEvent.frame = CGRect(x: 150, y: 750, width: 120, height: 50)
-        createEvent.setTitle("Create Event", for: .normal)
-        createEvent.backgroundColor = .blue
-        createEvent.layer.cornerRadius = 8.0
-        createEvent.clipsToBounds = true
-        
+        createEventButton.frame = CGRect(x: 150, y: 750, width: 120, height: 50)
+        createEventButton.setTitle("Create Event", for: .normal)
+        createEventButton.backgroundColor = .blue
+        createEventButton.layer.cornerRadius = 8.0
+        createEventButton.clipsToBounds = true
+        createEventButton.addTarget(self, action: #selector(createEvent), for: .touchUpInside)
         
         eventNameField.backgroundColor = .white
         eventLocationField.backgroundColor = .white
         eventDescriptionField.backgroundColor = .white
+        
+        eventNameField.textColor = .black
+        eventLocationField.textColor = .black
+        eventDescriptionField.textColor = .black
 
         
         eventDateField.frame = CGRect(x: 50, y: 440, width: 300, height: 200)
@@ -70,7 +75,7 @@ class EventCreator: UIViewController{
         self.view.addSubview(eventDateField)
         self.view.addSubview(eventLocationField)
         self.view.addSubview(eventNameField)
-        self.view.addSubview(createEvent)
+        self.view.addSubview(createEventButton)
         self.view.addSubview(eventName)
         self.view.addSubview(eventLocation)
         self.view.addSubview(eventDate)
@@ -78,11 +83,20 @@ class EventCreator: UIViewController{
         self.view.addSubview(eventDescriptionField)
         
     }
-    
-     @objc func buttonClicked(_ : UIButton){
-           let eventViewController = EventCreator()
-           navigationController?.pushViewController(eventViewController, animated: true)
-           //self.present(eventViewController, animated: true, completion: nil)
-       }
+    @objc func createEvent(){
+        guard let name = eventNameField.text else {return}
+        guard let owner = Auth.auth().currentUser else {return}
+        //Fix location
+        guard let location = eventLocationField.text else {return}
+        let time = eventDateField.date
+        let event = Event(name: name, owner: owner, location: CLLocationCoordinate2D(), time: time)
+        events.append(event)
+        
+    }
+//     @objc func buttonClicked(_ : UIButton){
+//           let eventViewController = EventCreator()
+//           navigationController?.pushViewController(eventViewController, animated: true)
+//           //self.present(eventViewController, animated: true, completion: nil)
+//    }
     
 }
