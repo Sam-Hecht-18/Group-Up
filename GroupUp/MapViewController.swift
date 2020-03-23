@@ -10,6 +10,7 @@
 
 import UIKit
 import MapKit
+import FirebaseAuth
 
 class customPin: NSObject, MKAnnotation{
     var coordinate: CLLocationCoordinate2D
@@ -29,6 +30,7 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
     
     var timeAndDistance = String()
     let map = MKMapView()
+    let eventCreator = UIButton()
     let locationManager = CLLocationManager()
     let eventManagerSlideUpView = EventManagerSlideUpViewController()
     
@@ -50,11 +52,19 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
         
         
         //Temporary pin for testing purposes
-        let location = CLLocationCoordinate2D(latitude: 40.0423, longitude: -75.3167)
-        map.addAnnotation(customPin(pinTitle: "Harriton", pinSubtitle: "", location: location))
+        //let location = CLLocationCoordinate2D(latitude: 40.0423, longitude: -75.3167)
+        //map.addAnnotation(customPin(pinTitle: "Harriton", pinSubtitle: "", location: location))
+        view.addSubview(eventCreator)
+        eventCreator.translatesAutoresizingMaskIntoConstraints = false
+        eventCreator.centerXAnchor.constraint(equalTo: view.centerXAnchor, constant: 100).isActive = true
+        eventCreator.centerYAnchor.constraint(equalTo: view.centerYAnchor, constant: -100).isActive = true
+        eventCreator.widthAnchor.constraint(equalToConstant: 40).isActive = true
+        eventCreator.heightAnchor.constraint(equalToConstant: 20).isActive = true
+        eventCreator.addTarget(self, action: #selector(buttonClicked(_:)), for: .touchUpInside)
+        eventCreator.titleLabel?.text = "Create Event"
+        eventCreator.backgroundColor = .purple
         
-        
-        
+
     }
     
     func setUpNavigationControllerBackground(){
@@ -65,7 +75,7 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
     }
     
     func checkLogIn(){
-        if authRef.currentUser == nil{
+        if Auth.auth().currentUser == nil{
             transitiontoNewVC(.logOut, currentViewController: self)
         }
         else{
@@ -255,4 +265,11 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
         slideOutSidebar(self)
     }
     
+    @objc func buttonClicked(_ : UIButton){
+        let eventViewController = EventCreator()
+        navigationController?.pushViewController(eventViewController, animated: true)
+        //self.present(eventViewController, animated: true, completion: nil)
+    }
+    
+           
 }

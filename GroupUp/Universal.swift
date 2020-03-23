@@ -11,15 +11,25 @@ import UIKit
 //
 var databaseRef = Database.database().reference()
 var storageRef = Storage.storage().reference()
-var authRef = Auth.auth()
+
+
+
+//var currentUser : User = {
+//    if let user = authRef.currentUser{
+//        return user
+//    }
+//    else{
+//        return User()
+//    }
+//}
 
 let transition = SlideInTransition()
 let universe = Universal()
 var userImage: UIImage?
 
 func getProfilePic(){
-    guard let uid = authRef.currentUser?.uid else {return}
-    storageRef.child("user /\(uid)").getData(maxSize: 1024*1024) { (data, error) in
+    guard let uid = Auth.auth().currentUser?.uid else {return}
+    storageRef.child("Profile Pic /\(uid)").getData(maxSize: 1024*1024) { (data, error) in
         guard let unwrappedData = data else {return}
         userImage = UIImage(data: unwrappedData)
         if error != nil {
@@ -47,10 +57,13 @@ func transitiontoNewVC(_ menuType: MenuType, currentViewController: UIViewContro
         currentViewController.navigationController?.pushViewController(profileViewController, animated: true)
     case .logOut:
         do{
-            try authRef.signOut()
+            try Auth.auth().signOut()
         }
         catch{
             print("shoot")
+        }
+        if let mapViewController = currentViewController.navigationController?.viewControllers[0] as? MapViewController{
+            mapViewController.map.removeAnnotations(mapViewController.map.annotations)
         }
         userImage = nil
         guard let startUpViewController = currentViewController.storyboard?.instantiateViewController(withIdentifier: "StartUpScreenViewController") else {return}

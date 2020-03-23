@@ -8,6 +8,7 @@
 
 import UIKit
 import FirebaseAuth
+import FirebaseDatabase
 class SignUpViewController: UIViewController, UITextFieldDelegate{
     
     @IBOutlet weak var usernameTextField: UITextField!
@@ -29,8 +30,10 @@ class SignUpViewController: UIViewController, UITextFieldDelegate{
                 changeRequest?.commitChanges(completion: {(error) in print("couldnt change name")
                     
                 })
+                guard let uid = Auth.auth().currentUser?.uid else {return}
+                let newUser = ["username" : name]
+                databaseRef.child("users/\(uid)").updateChildValues(newUser)
                 self.navigationController?.popToRootViewController(animated: true)
-                //self.dismiss(animated: true, completion: nil)
             }
             else{
                 print(error.debugDescription)
