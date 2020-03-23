@@ -91,7 +91,7 @@ class EventCreator: UIViewController{
         let time = eventDateField.date
         let event = Event(name: name, owner: owner, location: CLLocationCoordinate2D(), time: time)
         events.append(event)
-        
+        navigationController?.popToRootViewController(animated: true)
     }
 //     @objc func buttonClicked(_ : UIButton){
 //           let eventViewController = EventCreator()
