@@ -49,7 +49,7 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
                                 let characters = location.split(separator: ",", maxSplits: 2, omittingEmptySubsequences: true)
                                 let latitude = Double(characters[0]) ?? 0
                                 let longitude = Double(characters[1]) ?? 0
-                                mapViewContoller.map.addAnnotation(customPin(pinTitle: "Here is \(i)", pinSubtitle: "YOU DID IT", location: CLLocationCoordinate2D(latitude: latitude, longitude: longitude)))
+                                map.addAnnotation(customPin(pinTitle: "Here is \(i)", pinSubtitle: "YOU DID IT", location: CLLocationCoordinate2D(latitude: latitude, longitude: longitude)))
                                 print("You are the one")
                             }
                             

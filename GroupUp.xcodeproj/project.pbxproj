@@ -53,6 +53,7 @@
 		8CF807EC91191F9BEAF867AE /* libPods-GroupUp.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-GroupUp.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		A023B77F2401D5B400A2F5ED /* EventManagerSlideUpViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventManagerSlideUpViewController.swift; sourceTree = "<group>"; };
 		A05D5A1624296D7100BD5A46 /* Event.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Event.swift; sourceTree = "<group>"; };
+		A05D5A19242AA84300BD5A46 /* GroupUp.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = GroupUp.entitlements; sourceTree = "<group>"; };
 		A06DD5E723FC5D4C000DFF7C /* GroupUp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = GroupUp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A06DD5EA23FC5D4C000DFF7C /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		A06DD5EC23FC5D4C000DFF7C /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -149,6 +150,7 @@
 		A06DD5E923FC5D4C000DFF7C /* GroupUp */ = {
 			isa = PBXGroup;
 			children = (
+				A05D5A19242AA84300BD5A46 /* GroupUp.entitlements */,
 				A0A3754E24186B68006A227B /* Universal.swift */,
 				A06DD5EA23FC5D4C000DFF7C /* AppDelegate.swift */,
 				F51B81252412D8200082A3C9 /* NotificationViewController.swift */,
@@ -529,6 +531,7 @@
 			baseConfigurationReference = E7C79C16E538BC64438B52B1 /* Pods-GroupUp.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = GroupUp/GroupUp.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 8QF6ZVL946;
 				INFOPLIST_FILE = GroupUp/Info.plist;
@@ -548,6 +551,7 @@
 			baseConfigurationReference = 0D60D0EE9370CE0A3FFCD53A /* Pods-GroupUp.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = GroupUp/GroupUp.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 8QF6ZVL946;
 				INFOPLIST_FILE = GroupUp/Info.plist;

@@ -9,7 +9,7 @@
 import UIKit
 import FirebaseAuth
 import MapKit
-class EventCreator: UIViewController{
+class EventCreator: UIViewController, UITextFieldDelegate{
     let label = UILabel()
     let eventName = UILabel()
     let eventLocation = UILabel()
@@ -23,6 +23,12 @@ class EventCreator: UIViewController{
     let eventDescriptionField = UITextField(frame: CGRect(x: 20, y: 260, width: 300, height: 25))
     let eventDateField =  UIDatePicker()
     
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        textField.resignFirstResponder()
+        return true
+    }
+    
+    
     override func viewDidLoad() {
         view.backgroundColor = UIColor.black
         
@@ -31,6 +37,10 @@ class EventCreator: UIViewController{
         eventDate.text = "Event Date"
         eventDescription.text = "Event Description"
         label.text = "New Event"
+        
+        eventNameField.delegate = self
+        eventLocationField.delegate = self
+        eventDescriptionField.delegate = self
         
         label.textColor = UIColor.white
         
@@ -89,14 +99,17 @@ class EventCreator: UIViewController{
         //Fix location
         guard let location = eventLocationField.text else {return}
         let time = eventDateField.date
-        let event = Event(name: name, owner: owner, location: CLLocationCoordinate2D(), time: time)
-        events.append(event)
+        //"latitude" : "40.0102", "longitude" : "-75.2797"
+        //"latitude" : "40.0423", "longitude" : "-75.3167"
+        //let event = Event(title: name, owner: owner.uid, coordinate: CLLocationCoordinate2D(latitude: 40.0423, longitude: -75.3167), time: time)
+        var eventDictionary = ["owner" : owner.uid, "joined" : [owner.uid], "time" : "\(time.timeIntervalSinceReferenceDate)",
+            "title" : name, "latitude" : "40.0102", "longitude" : "-75.2797"] as [String : Any]
+        
+        databaseRef.child("events/").updateChildValues(["\(events.count)":eventDictionary])
+
+        eventDictionary["owner"] = nil
+        databaseRef.child("users/\(owner.uid)").updateChildValues(["created" : ["\(events.count)" : eventDictionary]])
+       // databaseRef.child("users/\(owner)/created").updateChildValues([eventDictionary])
         navigationController?.popToRootViewController(animated: true)
     }
-//     @objc func buttonClicked(_ : UIButton){
-//           let eventViewController = EventCreator()
-//           navigationController?.pushViewController(eventViewController, animated: true)
-//           //self.present(eventViewController, animated: true, completion: nil)
-//    }
-    
 }

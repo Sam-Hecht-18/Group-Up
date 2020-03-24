@@ -29,7 +29,6 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
     
     
     var timeAndDistance = String()
-    let map = MKMapView()
     let eventCreator = UIButton()
     let locationManager = CLLocationManager()
     let eventManagerSlideUpView = EventManagerSlideUpViewController()
@@ -41,7 +40,7 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        
+        setUpObserver()
         //overrideUserInterfaceStyle = .dark
         view.addSubview(map)
         setUpMapView()
@@ -199,7 +198,7 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
                 
                 self.eventManagerSlideUpView.updateTimeAndDistanceLabel(self.timeAndDistance)
                 self.timeAndDistance = String()
-                self.map.addOverlay(route.polyline)
+                map.addOverlay(route.polyline)
                 self.resetMapViewBounds(withNew: route)
                 
             }
@@ -225,6 +224,7 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
         if !map.overlays.isEmpty{
             map.removeOverlays(map.overlays)
         }
+        eventManagerSlideUpView.updateTimeAndDistanceLabel("")
     }
     
     func resetMapViewBounds(withNew route : MKRoute){
@@ -235,7 +235,7 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
         
         let visibleBounds = MKMapRect(x:x,y:y,width:width,height:height)
         //self.map.setVisibleMapRect(route.polyline.boundingMapRect, animated: true)
-        self.map.setVisibleMapRect(visibleBounds, animated: true)
+        map.setVisibleMapRect(visibleBounds, animated: true)
     }
     
     func resetMapView(withNew directions: MKDirections){

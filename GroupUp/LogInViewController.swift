@@ -28,6 +28,7 @@ class LogInViewController: UIViewController, UITextFieldDelegate {
             }
             else{
                 print(error!.localizedDescription)
+                
             }
         }
     }

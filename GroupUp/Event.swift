@@ -9,34 +9,43 @@
 import Foundation
 import MapKit
 import FirebaseAuth
-class Event{
-    private var name : String
-    private var owner : User
-    private var joined : [User]
-    private var location : CLLocationCoordinate2D
-    private var time : Date
+class Event: NSObject, MKAnnotation{
+
     
-    init(name: String, owner: User, location: CLLocationCoordinate2D, time: Date){
-        self.name = name
+    var coordinate: CLLocationCoordinate2D
+    var title : String?
+    var owner : String
+    var joined : [String]
+    var time : Date
+    
+    init(title: String, owner: String, coordinate: CLLocationCoordinate2D, time: Date){
+        self.title = title
         self.owner = owner
-        self.location = location
+        self.coordinate = coordinate
         self.time = time
         self.joined = []
     }
-    
-    func getName() -> String{
-        return name
+    init(title: String, owner: String, coordinate: CLLocationCoordinate2D, time: Date, joined: [String]){
+        self.title = title
+        self.owner = owner
+        self.coordinate = coordinate
+        self.time = time
+        self.joined = joined
     }
-    func getOwner() -> User{
+    
+    func getTitle() -> String?{
+        return title
+    }
+    func getOwner() -> String{
         return owner
     }
-    func getLocation() -> CLLocationCoordinate2D{
-        return location
+    func getCoordinate() -> CLLocationCoordinate2D{
+        return coordinate
     }
     func getTime() -> Date{
         return time
     }
-    func getJoined() -> [User]{
+    func getJoined() -> [String]{
         return joined
     }
 }
