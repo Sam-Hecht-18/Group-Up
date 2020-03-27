@@ -16,7 +16,7 @@ var events: [Event] = []
 let map = MKMapView()
 let transition = SlideInTransition()
 let universe = Universal()
-var userImage: UIImage?
+var userImage: UIImage = UIImage(named: "ProfilePic")!
 
 
 
@@ -24,60 +24,81 @@ var userImage: UIImage?
 
 
 
-func updateEvents(){
-    map.addAnnotation(events[events.count-1])
-}
 
-func setUpObserver(){
-    let observer1 = databaseRef.child("events").observe(.value) { (allEvents) in
-        print("you're in here")
-        print(allEvents.childrenCount)
-        events.removeAll()
-        map.removeAnnotations(map.annotations)
-        for event in allEvents.children{
-            guard let event = event as? DataSnapshot else {return}
-            guard let eventInformation = event.value as? NSDictionary else {return}
 
-            print("1")
-            guard let ownerString = eventInformation["owner"] as? String else {return}
-            print("2")
-            guard let joinedArray = eventInformation["joined"] as? [String] else {return}
-            print("3")
-            guard let timeString = eventInformation["time"] as? String else {return}
-            print("4")
-            guard let name = eventInformation["title"] as? String else {return}
-            print("5")
-            guard let latitudeString = eventInformation["latitude"] as? String else {return}
-            print("6")
-            guard let longitudeString = eventInformation["longitude"] as? String else {return}
-            print("7")
-            guard let latitudeDouble = Double(latitudeString) else {return}
-            guard let longitudeDouble = Double(longitudeString) else {return}
-            let location = CLLocationCoordinate2D(latitude: latitudeDouble, longitude: longitudeDouble)
-            
-            guard let timeInterval = Double(timeString) else {return}
-            let time = Date(timeIntervalSinceReferenceDate: timeInterval)
-            print(name)
-            let myEvent = Event(title: name, owner: ownerString, coordinate: location, time: time, joined: joinedArray)
-            events.append(myEvent)
-            updateEvents()
-            print("theres no way in hell")
-            
-        }
+func setUpObservers(){
+    databaseRef.child("events").observe(.childAdded) { (eventAdded) in
+        
+        events.append(getSnapshotAsEvent(snapshot: eventAdded))
+        map.addAnnotation(events[events.count-1])
     }
+    databaseRef.child("events").observe(.childRemoved) { (eventRemoved) in
+
+        guard let index = Int(eventRemoved.key) else {return}
+        map.removeAnnotation(events.remove(at: index))
+    }
+    databaseRef.child("events").observe(.childChanged) { (eventChanged) in
+        
+        guard let index = Int(eventChanged.key) else {return}
+        map.removeAnnotation(events[index])
+        events[index] = getSnapshotAsEvent(snapshot: eventChanged)
+        map.addAnnotation(events[index])
+        print("Something changed...........")
+    }
+    
+    
+    
+    
 
 }
+func getSnapshotAsEvent(snapshot : DataSnapshot) -> Event{
+        guard let eventInformation = snapshot.value as? NSDictionary else {return Event()}
+        print("1")
+        guard let ownerString = eventInformation["owner"] as? String else {return Event()}
+        print("2")
+        guard let joinedArray = eventInformation["joined"] as? [String] else {return Event()}
+        print("3")
+        guard let timeString = eventInformation["time"] as? String else {return Event()}
+        print("4")
+        guard let name = eventInformation["title"] as? String else {return Event()}
+        print("5")
+        guard let latitudeString = eventInformation["latitude"] as? String else {return Event()}
+        print("6")
+        guard let longitudeString = eventInformation["longitude"] as? String else {return Event()}
+        print("7")
+        guard let latitudeDouble = Double(latitudeString) else {return Event()}
+        guard let longitudeDouble = Double(longitudeString) else {return Event()}
+        let location = CLLocationCoordinate2D(latitude: latitudeDouble, longitude: longitudeDouble)
+        
+        guard let timeInterval = Double(timeString) else {return Event()}
+        let time = Date(timeIntervalSinceReferenceDate: timeInterval)
+        print(name)
+        return Event(title: name, owner: ownerString, coordinate: location, time: time, joined: joinedArray)
+    
+}
 
-func getProfilePic(){
+func getProfilePicURL(_ completion: @escaping((_ url:String?) -> ())){
     guard let uid = Auth.auth().currentUser?.uid else {return}
-    storageRef.child("Profile Pic /\(uid)").getData(maxSize: 1024*1024) { (data, error) in
-        guard let unwrappedData = data else {return}
-        userImage = UIImage(data: unwrappedData)
-        if error != nil {
-            print("You have no pic lmao")
-        }
-        else{
-            print("I mean you're here...")
+    databaseRef.child("users/\(uid)/imageURL").observeSingleEvent(of: .value, with: { (snapshot) in
+        guard let url = snapshot.value as? NSString else {return}
+        completion(url as String)
+    }, withCancel: { (error) in
+        print(error.localizedDescription)
+    })
+
+
+}
+func downloadPicture(){
+    getProfilePicURL { (url) in
+        guard let url = url else {return}
+        let ref = Storage.storage().reference(forURL: url)
+        ref.getData(maxSize: 1024*1024) { (data, error) in
+            if error == nil && data != nil{
+                userImage = UIImage(data: data!)!
+            }
+            else{
+                print(error?.localizedDescription)
+            }
         }
     }
 }
@@ -104,8 +125,10 @@ func transitiontoNewVC(_ menuType: MenuType, currentViewController: UIViewContro
             print("shoot")
         }
         map.removeOverlays(map.overlays)
-        map.deselectAnnotation(map.selectedAnnotations[0], animated: true)
-        userImage = nil
+        if !map.selectedAnnotations.isEmpty{
+            map.deselectAnnotation(map.selectedAnnotations[0], animated: true)
+        }
+        userImage = UIImage(named: "ProfilePic")!
         guard let startUpViewController = currentViewController.storyboard?.instantiateViewController(withIdentifier: "StartUpScreenViewController") else {return}
         currentViewController.navigationController?.pushViewController(startUpViewController, animated: true)
     //Why is default never executed?

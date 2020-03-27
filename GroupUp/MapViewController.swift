@@ -40,7 +40,7 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        setUpObserver()
+        setUpObservers()
         //overrideUserInterfaceStyle = .dark
         view.addSubview(map)
         setUpMapView()
@@ -78,7 +78,7 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
             transitiontoNewVC(.logOut, currentViewController: self)
         }
         else{
-            getProfilePic()
+            downloadPicture()
         }
     }
     
