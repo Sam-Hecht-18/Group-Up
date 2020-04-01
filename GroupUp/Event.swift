@@ -17,22 +17,26 @@ class Event: NSObject, MKAnnotation{
     var owner : String
     var joined : [String]
     var time : Date
+    var subtitle: String?
+    
     override convenience init(){
-        self.init(title: String(), owner: String(), coordinate: CLLocationCoordinate2D(), time: Date(), joined: [])
+        self.init(title: String(), owner: String(), coordinate: CLLocationCoordinate2D(), time: Date(), description: String(), joined: [])
     }
-    init(title: String, owner: String, coordinate: CLLocationCoordinate2D, time: Date){
+    init(title: String, owner: String, coordinate: CLLocationCoordinate2D, time: Date, description: String){
         self.title = title
         self.owner = owner
         self.coordinate = coordinate
         self.time = time
         self.joined = []
+        self.subtitle = description
     }
-    init(title: String, owner: String, coordinate: CLLocationCoordinate2D, time: Date, joined: [String]){
+    init(title: String, owner: String, coordinate: CLLocationCoordinate2D, time: Date, description: String, joined: [String]){
         self.title = title
         self.owner = owner
         self.coordinate = coordinate
         self.time = time
         self.joined = joined
+        self.subtitle = description
     }
     
     func getTitle() -> String?{
@@ -50,6 +54,10 @@ class Event: NSObject, MKAnnotation{
     func getJoined() -> [String]{
         return joined
     }
+    func getSubtitle() -> String?{
+        return subtitle
+    }
+    
     override func isEqual(_ object: Any?) -> Bool {
         guard let event = object as? Event else {return false}
         if self.coordinate.longitude == event.coordinate.longitude &&
@@ -57,7 +65,8 @@ class Event: NSObject, MKAnnotation{
         self.title == event.title &&
         self.owner == event.owner &&
         self.time == event.time &&
-        self.joined == event.joined{
+        self.joined == event.joined &&
+        self.subtitle == event.subtitle{
             return true
         }
         return false
