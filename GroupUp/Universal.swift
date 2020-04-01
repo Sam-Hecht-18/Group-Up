@@ -64,17 +64,18 @@ func getSnapshotAsEvent(snapshot : DataSnapshot) -> Event{
         print("5")
         guard let latitudeString = eventInformation["latitude"] as? String else {return Event()}
         print("6")
-        guard let longitudeString = eventInformation["longitude"] as? String else {return Event()}
+        guard let description = eventInformation["description"] as? String else {return Event()}
         print("7")
         guard let latitudeDouble = Double(latitudeString) else {return Event()}
+        guard let longitudeString = eventInformation["longitude"] as? String else {return Event()}
         guard let longitudeDouble = Double(longitudeString) else {return Event()}
         let location = CLLocationCoordinate2D(latitude: latitudeDouble, longitude: longitudeDouble)
         
         guard let timeInterval = Double(timeString) else {return Event()}
         let time = Date(timeIntervalSinceReferenceDate: timeInterval)
         print(name)
-        return Event(title: name, owner: ownerString, coordinate: location, time: time, joined: joinedArray)
-    
+    return Event(title: name, owner: ownerString, coordinate: location, time: time, description : description, joined: joinedArray)
+       
 }
 
 func getProfilePicURL(_ completion: @escaping((_ url:String?) -> ())){
