@@ -17,8 +17,8 @@ let map = MKMapView()
 let transition = SlideInTransition()
 let universe = Universal()
 var userImage: UIImage = UIImage(named: "ProfilePic")!
-
-
+let locationManager = CLLocationManager()
+var location = CLLocationCoordinate2D()
 
 
 

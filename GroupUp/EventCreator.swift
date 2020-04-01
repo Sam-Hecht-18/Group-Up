@@ -9,16 +9,17 @@
 import UIKit
 import FirebaseAuth
 import MapKit
-class EventCreator: UIViewController, UITextFieldDelegate{
+class EventCreator: UIViewController, UITextFieldDelegate, UIPickerViewDelegate{
     let label = UILabel()
     let eventName = UILabel()
     let eventLocation = UILabel()
     let eventDate = UILabel()
     let eventDescription = UILabel()
     let eventType = UILabel()
-    var types = [String]()
+    var types = ["basketball", "soccer", "lacrosse", "badmitten"]
+    let setLocationButton = UIButton()
     
-    let eventTypeField = UIPickerView()
+    //let eventTypeField = UIPickerView()
     
     let createEventButton = UIButton()
     
@@ -32,7 +33,6 @@ class EventCreator: UIViewController, UITextFieldDelegate{
         return true
     }
     
-    
     override func viewDidLoad() {
         view.backgroundColor = UIColor.black
         
@@ -42,6 +42,21 @@ class EventCreator: UIViewController, UITextFieldDelegate{
         eventDescription.text = "Event Description"
         label.text = "New Event"
         eventType.text =  "Event Type"
+        
+        setLocationButton.setTitle("Set Location", for: .normal)
+        setLocationButton.setTitleColor(.systemPink, for: .normal)
+        setLocationButton.backgroundColor = .darkGray
+        setLocationButton.addTarget(self, action: #selector(setLocation), for: .touchUpInside)
+        //setLocationButton.backgroundColor = .systemPink
+        setLocationButton.translatesAutoresizingMaskIntoConstraints = false
+        self.view.addSubview(setLocationButton)
+
+       
+        setLocationButton.centerXAnchor.constraint(equalTo: view.centerXAnchor, constant: 160).isActive = true
+        setLocationButton.centerYAnchor.constraint(equalTo: view.centerYAnchor, constant: -300).isActive = true
+        setLocationButton.widthAnchor.constraint(equalToConstant: 50).isActive = true
+        setLocationButton.heightAnchor.constraint(equalToConstant: 50).isActive = true
+            
         
         eventNameField.delegate = self
         eventLocationField.delegate = self
@@ -82,7 +97,8 @@ class EventCreator: UIViewController, UITextFieldDelegate{
         eventNameField.backgroundColor = .white
         eventLocationField.backgroundColor = .white
         eventDescriptionField.backgroundColor = .white
-        eventTypeField.backgroundColor = .white
+        //eventTypeField.delegate = self
+        //eventTypeField.backgroundColor = .white
         
         eventNameField.textColor = .black
         eventLocationField.textColor = .black
@@ -101,12 +117,11 @@ class EventCreator: UIViewController, UITextFieldDelegate{
         self.view.addSubview(eventDescription)
         self.view.addSubview(eventDescriptionField)
         self.view.addSubview(eventType)
-        self.view.addSubview(eventTypeField)
+        //self.view.addSubview(eventTypeField)
+        self.view.addSubview(setLocationButton)
         
-        types.append("Sports")
-        types.append("Homework")
-        types.append("Clubs")
-        types.append("Activities")
+        
+
         
     }
     func numberOfComponents(in pickerView: UIPickerView) -> Int {
@@ -115,29 +130,33 @@ class EventCreator: UIViewController, UITextFieldDelegate{
     
     func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
           return types.count
-       }
+    }
        
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
            let defaults = UserDefaults.standard
            defaults.set(row, forKey: "row")
     }
        
-       func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
+    func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
            return "\(types[row])"
     }
     
+    @objc func setLocation(){
+        let setLocationVC = EventLocationCreatorViewController()
+        navigationController?.pushViewController(setLocationVC, animated: true)
+        
+    }
     @objc func createEvent(){
         guard let name = eventNameField.text else {return}
         guard let owner = Auth.auth().currentUser else {return}
         guard let description = eventDescriptionField.text else {return}
         //Fix location
-        guard let location = eventLocationField.text else {return}
         let time = eventDateField.date
         //"latitude" : "40.0102", "longitude" : "-75.2797"
         //"latitude" : "40.0423", "longitude" : "-75.3167"
         //let event = Event(title: name, owner: owner.uid, coordinate: CLLocationCoordinate2D(latitude: 40.0423, longitude: -75.3167), time: time)
         var eventDictionary = ["owner" : owner.uid, "joined" : [owner.uid], "time" : "\(time.timeIntervalSinceReferenceDate)",
-            "title" : name, "latitude" : "40.0102", "longitude" : "-75.2797" , "description" : description] as [String : Any]
+            "title" : name, "latitude" : "\(location.latitude)", "longitude" : "\(location.longitude)" , "description" : description] as [String : Any]
         
         databaseRef.child("events/").updateChildValues(["\(events.count)":eventDictionary])
 
