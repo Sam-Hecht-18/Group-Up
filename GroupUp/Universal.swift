@@ -116,8 +116,13 @@ func transitiontoNewVC(_ menuType: MenuType, currentViewController: UIViewContro
     case .map:
         currentViewController.navigationController?.popToRootViewController(animated: true)
     case .profile:
-        guard let profileViewController = currentViewController.storyboard?.instantiateViewController(withIdentifier: "ProfileViewController") else {return}
-        currentViewController.navigationController?.pushViewController(profileViewController, animated: true)
+        if let _ = currentViewController as? ProfileViewController{
+            
+        }
+        else{
+            guard let profileViewController = currentViewController.storyboard?.instantiateViewController(withIdentifier: "ProfileViewController") else {return}
+            currentViewController.navigationController?.pushViewController(profileViewController, animated: true)
+        }
     case .logOut:
         do{
             try Auth.auth().signOut()
@@ -133,7 +138,6 @@ func transitiontoNewVC(_ menuType: MenuType, currentViewController: UIViewContro
         guard let startUpViewController = currentViewController.storyboard?.instantiateViewController(withIdentifier: "StartUpScreenViewController") else {return}
         currentViewController.navigationController?.pushViewController(startUpViewController, animated: true)
     //Why is default never executed?
-    default:
         break
     }
 }
