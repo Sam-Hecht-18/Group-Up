@@ -112,6 +112,18 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
         }
         
     }
+    func mapViewDidChangeVisibleRegion(_ mapView: MKMapView) {
+        let width = map.region.span.longitudeDelta
+        let height = map.region.span.latitudeDelta
+        let startLong = map.region.center.longitude - width/2
+        let startLat = map.region.center.latitude + height/2
+        print(width)
+        print(height)
+        print(startLat)
+        print(startLong)
+
+        
+    }
     func setUpLocationManager(){
         
         locationManager.delegate = self
