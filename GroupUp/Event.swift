@@ -22,6 +22,9 @@ class Event: NSObject, MKAnnotation{
     override convenience init(){
         self.init(title: String(), owner: String(), coordinate: CLLocationCoordinate2D(), time: Date(), description: String(), joined: [])
     }
+    convenience init(coordinate: CLLocationCoordinate2D){
+        self.init(title: String(), owner: String(), coordinate: coordinate, time: Date(), description: String(), joined: [])
+    }
     init(title: String, owner: String, coordinate: CLLocationCoordinate2D, time: Date, description: String){
         self.title = title
         self.owner = owner

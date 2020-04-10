@@ -1,24 +1,27 @@
-//
-//  EventLocationCreatorViewController.swift
-//  GroupUp
-//
-//  Created by Samuel Hecht (student LM) on 4/1/20.
-//  Copyright © 2020 Samuel Hecht (student LM). All rights reserved.
-//
 
 import UIKit
 import MapKit
 
-class EventLocationCreatorViewController: UIViewController, MKMapViewDelegate {
+class EventLocationCreatorViewController: UIViewController, MKMapViewDelegate, UITextFieldDelegate {
     let mapView = MKMapView()
+    var name = NSAttributedString(string: "")
     
     
     override func viewDidLoad() {
         super.viewDidLoad()
         mapView.delegate = self
-        mapView.showsUserLocation = true
         view.addSubview(mapView)
-        mapView.showsUserLocation = true
+//        view.addSubview(addressTextField)
+//
+//        addressTextField.backgroundColor = .white
+//        addressTextField.translatesAutoresizingMaskIntoConstraints = false
+//        addressTextField.centerXAnchor.constraint(equalTo: view.centerXAnchor, constant: 0).isActive = true
+//        addressTextField.centerYAnchor.constraint(equalTo: view.centerYAnchor, constant: 0).isActive = true
+//        addressTextField.widthAnchor.constraint(equalToConstant: 300).isActive = true
+//        addressTextField.heightAnchor.constraint(equalToConstant: 30).isActive = true
+        
+        
+        //mapView.showsUserLocation = true
         let region = MKCoordinateRegion(center: locationManager.location?.coordinate ?? CLLocationCoordinate2D(), span: MKCoordinateSpan(latitudeDelta: 0.025, longitudeDelta: 0.025))
         mapView.setRegion(region, animated: true)
         
@@ -29,39 +32,95 @@ class EventLocationCreatorViewController: UIViewController, MKMapViewDelegate {
         mapView.centerYAnchor.constraint(equalTo: view.centerYAnchor, constant: 50).isActive = true
         mapView.widthAnchor.constraint(equalToConstant: view.frame.width).isActive = true
         mapView.heightAnchor.constraint(equalToConstant: view.frame.height - 100).isActive = true
-        let confirmButton = UIBarButtonItem(title: "Confirm Location", style: .done, target: self, action: #selector(confirm))
         
+        let confirmButton = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(confirm))
+        let addressTextField = UITextField()
+        navigationItem.titleView = addressTextField
         navigationItem.rightBarButtonItem = confirmButton
-        //confirmButton.setTitle("Confirm", for: .normal)
-        //        view.addSubview(confirmButton)
-        //        confirmButton.translatesAutoresizingMaskIntoConstraints = false
-        //        confirmButton.centerXAnchor.constraint(equalTo: view.centerXAnchor, constant: 160).isActive = true
-        //        confirmButton.centerYAnchor.constraint(equalTo: view.centerYAnchor, constant: -340).isActive = true
-        //        confirmButton.widthAnchor.constraint(equalToConstant: 70).isActive = true
-        //        confirmButton.heightAnchor.constraint(equalToConstant: 50).isActive = true
-        //        confirmButton.addTarget(self, action: #selector(confirm), for: .touchUpInside)
+        
+        
+        addressTextField.delegate = self
+        addressTextField.backgroundColor = .white
+        addressTextField.widthAnchor.constraint(equalToConstant: 295).isActive = true
+        addressTextField.heightAnchor.constraint(equalToConstant: 30).isActive = true
+        addressTextField.textColor = .black
+        addressTextField.text = nil
+        addressTextField.attributedPlaceholder = NSAttributedString(string: "Enter Address or Tap Location on Map", attributes: [NSAttributedString.Key.foregroundColor : UIColor.systemGray2])
+        addressTextField.returnKeyType = .go
+        addressTextField.autocorrectionType = .no
+        //addressTextField.placeholder = "Enter Address or Click on Map"
+        addressTextField.translatesAutoresizingMaskIntoConstraints = false
+        
+        
         
         navigationItem.rightBarButtonItem?.isEnabled = false
         let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(mapWasTapped(gestureRecognizer:)))
         mapView.addGestureRecognizer(tapGestureRecognizer)
         print("never again")
-        // Do any additional setup after loading the view.
+    }
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        textField.resignFirstResponder()
+        mapView.removeAnnotations(mapView.annotations)
+        let geocoder = CLGeocoder()
+        guard let address = textField.text else {return false}
+        geocoder.geocodeAddressString(address) { (placemarks, error) in
+            if error == nil {
+            guard let placemarks = placemarks, let placemark = placemarks.first, let location = placemark.location, let name = placemark.name else {return}
+            self.name = NSAttributedString(string: name)
+            self.addAnnotation(location.coordinate)
+            let region = MKCoordinateRegion(center: location.coordinate, span: MKCoordinateSpan(latitudeDelta: 0.025, longitudeDelta: 0.025))
+            self.mapView.setRegion(region, animated: true)
+            }
+            else{
+                textField.text = ""
+                textField.attributedPlaceholder = NSAttributedString(string: "Invalid Address, Please Try Again", attributes: [NSAttributedString.Key.foregroundColor : UIColor.red])
+                self.navigationItem.rightBarButtonItem?.isEnabled = false
+            }
+        }
+        return true
+    }
+    func addAnnotation(_ location : CLLocationCoordinate2D){
+        let event = Event(coordinate: location)
+        mapView.addAnnotation(event)
+        navigationItem.rightBarButtonItem?.isEnabled = true
+
     }
     @objc func confirm(){
-        print("cmon man")
-        print("EHRA")
+       guard let VCs = navigationController?.viewControllers else {return}
+        guard let eventCreator = VCs[VCs.count-2] as? EventCreator else {return}
+        let imageAttachment = NSTextAttachment()
+        imageAttachment.image = UIImage(named: "map")
+        let imageOffsetY: CGFloat = -5.0
+        imageAttachment.bounds = CGRect(x: 0, y: imageOffsetY, width: 25, height: 25)
+        let attachmentString = NSAttributedString(attachment: imageAttachment)
+        let completeName = NSMutableAttributedString(string: "")
+        completeName.append(attachmentString)
+        let location = NSAttributedString(string: " Location: ", attributes: [NSAttributedString.Key.font : UIFont.boldSystemFont(ofSize: 20)])
+        completeName.append(location)
+        completeName.append(name)
+        eventCreator.locationString = completeName
+        eventCreator.reloadData = true
         navigationController?.popViewController(animated: true)
     }
     @objc func mapWasTapped(gestureRecognizer: UIGestureRecognizer){
         mapView.removeAnnotations(mapView.annotations)
         let touchPoint = gestureRecognizer.location(in: mapView)
         location = mapView.convert(touchPoint, toCoordinateFrom: mapView)
-        let myEvent = Event()
-        myEvent.coordinate = location
-        mapView.addAnnotation(myEvent)
+        let coordinate = CLLocation(latitude: location.latitude, longitude: location.longitude)
+        let geocoder = CLGeocoder()
+        geocoder.reverseGeocodeLocation(coordinate) { (placemarks, error) in
+            if error == nil {
+            guard let placemarks = placemarks, let placemark = placemarks.first, let name = placemark.name else {return}
+                self.name = NSAttributedString(string: name)
+            
+            }
+            else{
+                print("Bruh how")
+            }
+        }
+        addAnnotation(location)
         navigationItem.rightBarButtonItem?.isEnabled = true
-        print("ya huh")
-        print("UFNSKID")
+       
     }
     
     

@@ -19,7 +19,7 @@ let universe = Universal()
 var userImage: UIImage = UIImage(named: "ProfilePic")!
 let locationManager = CLLocationManager()
 var location = CLLocationCoordinate2D()
-
+let eventLocationCreator = EventLocationCreatorViewController()
 
 
 
