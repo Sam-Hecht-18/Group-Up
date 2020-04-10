@@ -11,17 +11,32 @@ import FirebaseAuth
 import MapKit
 
 class EventCreator: UITableViewController, UITextFieldDelegate, UIPickerViewDelegate, UIPickerViewDataSource{
-    let cellID = "cell"
     var locationString = NSAttributedString(string: "Set Location")
     var reloadData = false
     var openDatePicker = false
     var openActivityPicker = false
+    var openPermissionControl = false
     let dateFormatter = DateFormatter()
     let nameTextField = UITextField(frame: CGRect(x: 20, y: 0, width: 410, height: 50))
     let descriptionTextField = UITextField(frame: CGRect(x: 20, y: 0, width: 410, height: 50))
+    let permissionPossibilities = ["Friends", "Classmates", "Anyone"]
+    let permissionControl: UISegmentedControl = {
+        let segmentedControl = UISegmentedControl(items: ["Friends", "Classmates", "Anyone"])
+        segmentedControl.frame = CGRect(x: 1, y: 0, width: 410, height: 50)
+        segmentedControl.selectedSegmentIndex = 0
+        segmentedControl.addTarget(self, action: #selector(permissionsChanged(_:)), for: .valueChanged)
+        return segmentedControl
+    }()
+    
+    
+    @objc func permissionsChanged(_ segmentedControl: UISegmentedControl){
+        tableViewArray[4][0] = NSAttributedString(string: "Visible to: \(permissionPossibilities[segmentedControl.selectedSegmentIndex])", attributes: [NSAttributedString.Key.foregroundColor : UIColor.systemBlue])
+        tableView.reloadRows(at: [IndexPath(row: 0, section: 4)], with: .automatic)
+    }
+    
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         
-        return (openDatePicker && section == 2) || (openActivityPicker && section == 3) ? 2 : tableViewArray[section].count
+        return (openDatePicker && section == 2) || (openActivityPicker && section == 3) || (openPermissionControl && section == 4) ? 2 : tableViewArray[section].count
     }
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
@@ -45,12 +60,24 @@ class EventCreator: UITableViewController, UITextFieldDelegate, UIPickerViewDele
         }
         else if indexPath.section == 3 && indexPath.row == 0{
             let activityPickerIndexPath = IndexPath(row: indexPath.row + 1, section: indexPath.section)
+            pickerView(activityField, didSelectRow: 0, inComponent: 0)
             openActivityPicker = !openActivityPicker
             if openActivityPicker{
                 tableView.insertRows(at: [activityPickerIndexPath], with: .automatic)
             }
             else{
                 tableView.deleteRows(at: [activityPickerIndexPath], with: .automatic)
+            }
+        }
+        else if indexPath.section == 4 && indexPath.row == 0{
+            let permissionControlIndexPath = IndexPath(row: indexPath.row + 1, section: indexPath.section)
+            permissionsChanged(permissionControl)
+            openPermissionControl = !openPermissionControl
+            if openPermissionControl{
+                tableView.insertRows(at: [permissionControlIndexPath], with: .automatic)
+            }
+            else{
+                tableView.deleteRows(at: [permissionControlIndexPath], with: .automatic)
             }
         }
         if let deselectRow = tableView.indexPathForSelectedRow{
@@ -101,6 +128,11 @@ class EventCreator: UITableViewController, UITextFieldDelegate, UIPickerViewDele
             
             return cell
         }
+        else if indexPath.section == 4 && indexPath.row == 1{
+            cell.backgroundColor = .systemGray5
+            cell.addSubview(permissionControl)
+            return cell
+        }
         if(indexPath.section == 2 && indexPath.row == 1){
             print("We in it")
         }
@@ -146,7 +178,7 @@ class EventCreator: UITableViewController, UITextFieldDelegate, UIPickerViewDele
     let eventDate = UILabel()
     let eventDescription = UILabel()
     let eventType = UILabel()
-    var types = ["basketball", "soccer", "lacrosse", "badmitten"]
+    var types = ["Basketball", "Soccer", "Lacrosse", "Badminton"]
     let setLocationButton = UIButton()
     
     var tableViewArray = [
@@ -190,6 +222,7 @@ class EventCreator: UITableViewController, UITextFieldDelegate, UIPickerViewDele
         descriptionTextField.delegate = self
     }
     override func viewDidLoad() {
+        tableView = UITableView(frame: tableView.frame, style: .grouped)
         view.backgroundColor = UIColor.black
         eventDateField.frame = CGRect(x: 0, y: 0, width: 380, height: 180)
         eventDateField.minuteInterval = 5
@@ -197,7 +230,7 @@ class EventCreator: UITableViewController, UITextFieldDelegate, UIPickerViewDele
         activityField.delegate = self
         activityField.dataSource = self
         activityField.frame = CGRect(x: 0, y: 0, width: 380, height: 180)
-        tableView.register(UITableViewCell.self, forCellReuseIdentifier: cellID)
+        
         //tableView.isScrollEnabled = false
         tableView.separatorColor = .systemGray5
         dateFormatter.timeZone = .current
@@ -206,6 +239,8 @@ class EventCreator: UITableViewController, UITextFieldDelegate, UIPickerViewDele
         dateFormatter.pmSymbol = "PM"
         
         setUpTextFields()
+        
+        
 //        eventName.text = "Event Name"
 //        eventLocation.text = "Event Location"
 //        eventDate.text = "Event Date"
@@ -304,27 +339,18 @@ class EventCreator: UITableViewController, UITextFieldDelegate, UIPickerViewDele
     }
        
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
-           let defaults = UserDefaults.standard
-           defaults.set(row, forKey: "row")
+        tableViewArray[3][0] = NSAttributedString(string: types[row], attributes: [NSAttributedString.Key.foregroundColor : UIColor.systemBlue])
+        tableView.reloadRows(at: [IndexPath(row: 0, section: 3)], with: .automatic)
     }
-       
+    
     func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
+        //If you want to change the colors or add a picutre instead do the attributed title for row method
            return "\(types[row])"
     }
     
     
-    @objc func setLocation(){
-        if let indexPath = tableView.indexPathForSelectedRow{
-            print("Index path is: \(indexPath)")
-        }
-        else{
-            print("What the hell")
-        }
-        //tableView.deselectRow(at: , animated: true)
-        let setLocationVC = EventLocationCreatorViewController()
-        navigationController?.pushViewController(setLocationVC, animated: true)
-        
-    }
+    
+    
     @objc func createEvent(){
         guard let name = eventNameField.text else {return}
         guard let owner = Auth.auth().currentUser else {return}
