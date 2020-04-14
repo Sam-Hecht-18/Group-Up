@@ -29,11 +29,11 @@ class EventLocationCreatorViewController: UIViewController, MKMapViewDelegate, U
         
         addressTextField.delegate = self
         addressTextField.backgroundColor = .white
-        addressTextField.widthAnchor.constraint(equalToConstant: 295).isActive = true
+        addressTextField.widthAnchor.constraint(equalToConstant: 255).isActive = true
         addressTextField.heightAnchor.constraint(equalToConstant: 30).isActive = true
         addressTextField.textColor = .black
         addressTextField.text = nil
-        addressTextField.attributedPlaceholder = NSAttributedString(string: "Enter Address or Tap Location on Map", attributes: [NSAttributedString.Key.foregroundColor : UIColor.systemGray2])
+        addressTextField.attributedPlaceholder = NSAttributedString(string: "Enter or Tap Location on Map", attributes: [NSAttributedString.Key.foregroundColor : UIColor.systemGray2])
         addressTextField.returnKeyType = .go
         addressTextField.autocorrectionType = .no
         addressTextField.translatesAutoresizingMaskIntoConstraints = false

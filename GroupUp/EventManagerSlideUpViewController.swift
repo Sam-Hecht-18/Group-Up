@@ -110,6 +110,7 @@ class EventManagerSlideUpViewController: UIViewController, UIGestureRecognizerDe
         event.joined.append(uid)
         databaseRef.child("events/\(event.autoIDName)").updateChildValues(["joined": event.joined])
         databaseRef.child("users/\(event.owner)/created/\(event.autoIDName)").updateChildValues(["joined": event.joined])
+        //databaseRef.child("users/\(uid)/joined").updateChildValues(["joined": ])
         updateEventSelected(event)
     }
     
