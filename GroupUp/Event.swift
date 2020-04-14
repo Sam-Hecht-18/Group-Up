@@ -18,28 +18,36 @@ class Event: NSObject, MKAnnotation{
     var joined : [String]
     var time : Date
     var subtitle: String?
+    var activity: String
+    var autoIDName: String
     
     override convenience init(){
-        self.init(title: String(), owner: String(), coordinate: CLLocationCoordinate2D(), time: Date(), description: String(), joined: [])
+        self.init(title: String(), owner: String(), coordinate: CLLocationCoordinate2D(), time: Date(), description: String(), joined: [], activity: String(), autoIDName: String())
     }
     convenience init(coordinate: CLLocationCoordinate2D){
-        self.init(title: String(), owner: String(), coordinate: coordinate, time: Date(), description: String(), joined: [])
+        self.init(title: String(), owner: String(), coordinate: coordinate, time: Date(), description: String(), joined: [], activity: String(), autoIDName: String())
     }
-    init(title: String, owner: String, coordinate: CLLocationCoordinate2D, time: Date, description: String){
-        self.title = title
-        self.owner = owner
-        self.coordinate = coordinate
-        self.time = time
-        self.joined = []
-        self.subtitle = description
+    convenience init(title: String, coordinate: CLLocationCoordinate2D){
+        self.init(title: title, owner: String(), coordinate: coordinate, time: Date(), description: String(), joined: [], activity: String(), autoIDName: String())
     }
-    init(title: String, owner: String, coordinate: CLLocationCoordinate2D, time: Date, description: String, joined: [String]){
+//    init(title: String, owner: String, coordinate: CLLocationCoordinate2D, time: Date, description: String, activity: String){
+//        self.title = title
+//        self.owner = owner
+//        self.coordinate = coordinate
+//        self.time = time
+//        self.joined = []
+//        self.subtitle = description
+//        self.activity = activity
+//    }
+    init(title: String, owner: String, coordinate: CLLocationCoordinate2D, time: Date, description: String, joined: [String], activity: String, autoIDName: String){
         self.title = title
         self.owner = owner
         self.coordinate = coordinate
         self.time = time
         self.joined = joined
         self.subtitle = description
+        self.activity = activity
+        self.autoIDName = autoIDName
     }
     
     func getTitle() -> String?{

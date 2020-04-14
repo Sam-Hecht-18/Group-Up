@@ -210,6 +210,8 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
                 self.getDistance(withDistance: Int(route.distance))
                 
                 self.eventManagerSlideUpView.updateTimeAndDistanceLabel(self.timeAndDistance)
+                guard let event = view.annotation as? Event else {return}
+                self.eventManagerSlideUpView.updateEventSelected(event)
                 self.timeAndDistance = String()
                 map.addOverlay(route.polyline)
                 self.resetMapViewBounds(withNew: route)
@@ -229,7 +231,11 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
     }
     
     func getDistance(withDistance distance : Int){
-        let goodDistance = Int(Double(distance) / 1609.34)
+        var goodDistance = Double(distance) / 1609.34
+        print(goodDistance)
+        goodDistance *= 10
+        goodDistance.round(.toNearestOrAwayFromZero)
+        goodDistance /= 10
         timeAndDistance.append("(\(goodDistance) mi)")
     }
     

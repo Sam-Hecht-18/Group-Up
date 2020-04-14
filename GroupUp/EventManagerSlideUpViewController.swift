@@ -7,11 +7,13 @@
 //
 
 import UIKit
-
+import FirebaseAuth
 class EventManagerSlideUpViewController: UIViewController, UIGestureRecognizerDelegate {
-    
+    var event: Event?
     let timeAndDistanceLabel = UILabel()
     let fullView : CGFloat = 88
+    let joinButton = UIButton(type: .system)
+
     
     var partialView : CGFloat {
         return UIScreen.main.bounds.height-300
@@ -24,10 +26,20 @@ class EventManagerSlideUpViewController: UIViewController, UIGestureRecognizerDe
         super.viewDidLoad()
         setUpPanGesture()
         setUpTimeAndDistanceLabel()
-        //overrideUserInterfaceStyle = .dark
+        setUpJoinButton()
         
     }
-    
+    func setUpJoinButton(){
+        joinButton.setTitle("Join Event", for: .normal)
+        joinButton.addTarget(self, action: #selector(joinEvent), for: .touchUpInside)
+        
+        view.addSubview(joinButton)
+        joinButton.translatesAutoresizingMaskIntoConstraints = false
+        joinButton.centerYAnchor.constraint(equalTo: view.centerYAnchor, constant: 0).isActive = true
+        joinButton.centerXAnchor.constraint(equalTo: view.centerXAnchor, constant: 0).isActive = true
+        joinButton.widthAnchor.constraint(equalToConstant: 200).isActive = true
+        joinButton.heightAnchor.constraint(equalToConstant: 100).isActive = true
+    }
     func setUpPanGesture(){
         let gesture = UIPanGestureRecognizer(target: self, action: #selector(EventManagerSlideUpViewController.panGesture))
         view.addGestureRecognizer(gesture)
@@ -74,11 +86,31 @@ class EventManagerSlideUpViewController: UIViewController, UIGestureRecognizerDe
     func updateTimeAndDistanceLabel(_ text : String){
         timeAndDistanceLabel.text = text
     }
-    
-    
+    func updateEventSelected(_ event: Event){
+        self.event = event
+        guard let uid = Auth.auth().currentUser?.uid else {return}
+        if event.joined.contains(uid){
+            joinButton.setTitle("You've Joined this Event", for: .normal)
+            joinButton.isEnabled = false
+        }
+        else{
+            joinButton.setTitle("Join Event", for: .normal)
+            joinButton.isEnabled = true
+        }
+    }
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         prepareBackgroundView()
+    }
+    
+    @objc func joinEvent(){
+        print("something's got a hold on me")
+        guard let event = event else {return}
+        guard let uid = Auth.auth().currentUser?.uid else {return}
+        event.joined.append(uid)
+        databaseRef.child("events/\(event.autoIDName)").updateChildValues(["joined": event.joined])
+        databaseRef.child("users/\(event.owner)/created/\(event.autoIDName)").updateChildValues(["joined": event.joined])
+        updateEventSelected(event)
     }
     
     

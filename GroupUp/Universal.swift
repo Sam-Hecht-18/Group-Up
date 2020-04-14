@@ -10,7 +10,10 @@ import MapKit
 //  Created by Samuel Hecht (student LM) on 3/10/20.
 //  Copyright © 2020 Samuel Hecht (student LM). All rights reserved.
 //
-var databaseRef = Database.database().reference()
+var databaseRef: DatabaseReference = {
+    Database.database().isPersistenceEnabled = true
+    return Database.database().reference()
+}()
 var storageRef = Storage.storage().reference()
 var events: [Event] = []
 let map = MKMapView()
@@ -19,7 +22,7 @@ let universe = Universal()
 var userImage: UIImage = UIImage(named: "ProfilePic")!
 let locationManager = CLLocationManager()
 var location = CLLocationCoordinate2D()
-let eventLocationCreator = EventLocationCreatorViewController()
+var eventLocationCreator = EventLocationCreatorViewController()
 
 
 
@@ -33,49 +36,43 @@ func setUpObservers(){
         map.addAnnotation(events[events.count-1])
     }
     databaseRef.child("events").observe(.childRemoved) { (eventRemoved) in
-
-        guard let index = Int(eventRemoved.key) else {return}
-        map.removeAnnotation(events.remove(at: index))
+        let removedEvent = getSnapshotAsEvent(snapshot: eventRemoved)
+        for i in 0..<events.count{
+            if removedEvent.isEqual(events[i]){
+                map.removeAnnotation(events.remove(at: i))
+                break
+            }
+        }
     }
+    //For if we get to the point where people can edit the events they created
     databaseRef.child("events").observe(.childChanged) { (eventChanged) in
         
-        guard let index = Int(eventChanged.key) else {return}
-        map.removeAnnotation(events[index])
-        events[index] = getSnapshotAsEvent(snapshot: eventChanged)
-        map.addAnnotation(events[index])
-        print("Something changed...........")
+        
     }
     
     
     
-    
-
 }
 func getSnapshotAsEvent(snapshot : DataSnapshot) -> Event{
-        guard let eventInformation = snapshot.value as? NSDictionary else {return Event()}
-        print("1")
-        guard let ownerString = eventInformation["owner"] as? String else {return Event()}
-        print("2")
-        guard let joinedArray = eventInformation["joined"] as? [String] else {return Event()}
-        print("3")
-        guard let timeString = eventInformation["time"] as? String else {return Event()}
-        print("4")
-        guard let name = eventInformation["title"] as? String else {return Event()}
-        print("5")
-        guard let latitudeString = eventInformation["latitude"] as? String else {return Event()}
-        print("6")
-        guard let description = eventInformation["description"] as? String else {return Event()}
-        print("7")
-        guard let latitudeDouble = Double(latitudeString) else {return Event()}
-        guard let longitudeString = eventInformation["longitude"] as? String else {return Event()}
-        guard let longitudeDouble = Double(longitudeString) else {return Event()}
-        let location = CLLocationCoordinate2D(latitude: latitudeDouble, longitude: longitudeDouble)
-        
-        guard let timeInterval = Double(timeString) else {return Event()}
-        let time = Date(timeIntervalSinceReferenceDate: timeInterval)
-        print(name)
-    return Event(title: name, owner: ownerString, coordinate: location, time: time, description : description, joined: joinedArray)
-       
+    guard let eventInformation = snapshot.value as? NSDictionary else {return Event()}
+    guard let ownerString = eventInformation["owner"] as? String else {return Event()}
+    guard let joinedArray = eventInformation["joined"] as? [String] else {return Event()}
+    guard let timeString = eventInformation["time"] as? String else {return Event()}
+    guard let name = eventInformation["title"] as? String else {return Event()}
+    guard let latitudeString = eventInformation["latitude"] as? String else {return Event()}
+    guard let description = eventInformation["description"] as? String else {return Event()}
+    guard let activity = eventInformation["activity"] as? String else {return Event()}
+    guard let latitudeDouble = Double(latitudeString) else {return Event()}
+    guard let longitudeString = eventInformation["longitude"] as? String else {return Event()}
+    guard let longitudeDouble = Double(longitudeString) else {return Event()}
+    let location = CLLocationCoordinate2D(latitude: latitudeDouble, longitude: longitudeDouble)
+    let autoIDName = snapshot.key
+    guard let timeInterval = Double(timeString) else {return Event()}
+    
+    let time = Date(timeIntervalSinceReferenceDate: timeInterval)
+    print(name)
+    return Event(title: name, owner: ownerString, coordinate: location, time: time, description : description, joined: joinedArray, activity: activity, autoIDName: autoIDName)
+    
 }
 
 func getProfilePicURL(_ completion: @escaping((_ url:String?) -> ())){
@@ -86,8 +83,8 @@ func getProfilePicURL(_ completion: @escaping((_ url:String?) -> ())){
     }, withCancel: { (error) in
         print(error.localizedDescription)
     })
-
-
+    
+    
 }
 func downloadPicture(){
     getProfilePicURL { (url) in
@@ -137,7 +134,7 @@ func transitiontoNewVC(_ menuType: MenuType, currentViewController: UIViewContro
         userImage = UIImage(named: "ProfilePic")!
         guard let startUpViewController = currentViewController.storyboard?.instantiateViewController(withIdentifier: "StartUpScreenViewController") else {return}
         currentViewController.navigationController?.pushViewController(startUpViewController, animated: true)
-    //Why is default never executed?
+        //Why is default never executed?
         break
     }
 }
