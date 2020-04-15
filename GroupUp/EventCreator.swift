@@ -137,7 +137,8 @@ class EventCreator: UITableViewController, UITextFieldDelegate, UIPickerViewDele
         }
         else if indexPath.section == 3 && indexPath.row == 0{
             let activityPickerIndexPath = IndexPath(row: indexPath.row + 1, section: indexPath.section)
-            pickerView(activityPickerView, didSelectRow: 0, inComponent: 0)
+            let selectedRow = activityPickerView.selectedRow(inComponent: 0)
+            pickerView(activityPickerView, didSelectRow: selectedRow, inComponent: 0)
             openActivityPicker = !openActivityPicker
             collapseExpand(boolean: openActivityPicker, indexPath: activityPickerIndexPath)
         }
@@ -314,13 +315,30 @@ class EventCreator: UITableViewController, UITextFieldDelegate, UIPickerViewDele
         let time = datePickerView.date
         let activity = types[activityPickerView.selectedRow(inComponent: 0)]
         
-        var eventDictionary = ["owner" : owner.uid, "joined" : [owner.uid], "time" : "\(time.timeIntervalSinceReferenceDate)",
-            "title" : name, "latitude" : "\(eventLocation.latitude)", "longitude" : "\(eventLocation.longitude)" , "description" : description, "activity" : activity] as [String : Any]
+        let eventDictionary = [
+            "owner" : owner.uid,
+            "joined" : [owner.uid],
+            "time" : "\(time.timeIntervalSinceReferenceDate)",
+            "title" : name,
+            "latitude" : "\(eventLocation.latitude)",
+            "longitude" : "\(eventLocation.longitude)" ,
+            "description" : description,
+            "activity" : activity
+            ] as [String : Any]
+            
         guard let identifier = databaseRef.child("events/").childByAutoId().key else {return}
         databaseRef.child("events/\(identifier)").updateChildValues(eventDictionary)
         
-        eventDictionary["owner"] = nil
-        databaseRef.child("users/\(owner.uid)/created/\(identifier)").updateChildValues(eventDictionary)
+        databaseRef.child("users/\(owner.uid)/created").observeSingleEvent(of: .value) { (snapshot) in
+            print("Ok crating is a thing without the thing")
+            guard var created = snapshot.value as? [String] else {
+                databaseRef.child("users/\(owner.uid)").updateChildValues(["created" : [identifier]])
+                return}
+            created.append(identifier)
+            databaseRef.child("users/\(owner.uid)").updateChildValues(["created" : created])
+        }
+        
+        
         
         eventLocationCreator = EventLocationCreatorViewController()
         navigationController?.popToRootViewController(animated: true)

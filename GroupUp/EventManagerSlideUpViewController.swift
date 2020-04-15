@@ -108,9 +108,19 @@ class EventManagerSlideUpViewController: UIViewController, UIGestureRecognizerDe
         guard let event = event else {return}
         guard let uid = Auth.auth().currentUser?.uid else {return}
         event.joined.append(uid)
-        databaseRef.child("events/\(event.autoIDName)").updateChildValues(["joined": event.joined])
-        databaseRef.child("users/\(event.owner)/created/\(event.autoIDName)").updateChildValues(["joined": event.joined])
-        //databaseRef.child("users/\(uid)/joined").updateChildValues(["joined": ])
+       //Updates it in the event tree
+        databaseRef.child("events/\(event.identifier)").updateChildValues(["joined": event.joined])
+        //Updates it in the owner's tree
+        databaseRef.child("users/\(uid)/joined").observeSingleEvent(of: .value) { (snapshot) in
+            print("Ok joining is a thing without the thing")
+            guard var joined = snapshot.value as? [String] else {
+                databaseRef.child("users/\(uid)").updateChildValues(["joined": [event.identifier]])
+                return}
+            joined.append(event.identifier)
+            databaseRef.child("users/\(uid)").updateChildValues(["joined": joined])
+            
+        }
+        
         updateEventSelected(event)
     }
     

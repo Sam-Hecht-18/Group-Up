@@ -202,11 +202,13 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
                 }
                 let route = response.routes[0]
                 
-                var eta: Int = Int(route.expectedTravelTime)
+                var eta: Double = route.expectedTravelTime
+                print(route.expectedTravelTime)
                 //print("The travel time is: \(eta)")
-                eta /= 60
-                
-                self.getETA(withETA: eta)
+                eta /= 60.0
+                eta.round(.toNearestOrAwayFromZero)
+                print(eta)
+                self.getETA(withETA: Int(eta))
                 self.getDistance(withDistance: Int(route.distance))
                 
                 self.eventManagerSlideUpView.updateTimeAndDistanceLabel(self.timeAndDistance)

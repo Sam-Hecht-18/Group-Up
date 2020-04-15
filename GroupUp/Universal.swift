@@ -11,11 +11,11 @@ import MapKit
 //  Copyright © 2020 Samuel Hecht (student LM). All rights reserved.
 //
 var databaseRef: DatabaseReference = {
-    Database.database().isPersistenceEnabled = true
+    //Database.database().isPersistenceEnabled = true
     return Database.database().reference()
 }()
 var storageRef = Storage.storage().reference()
-var events: [Event] = []
+var events: [String: Event] = [:]
 let map = MKMapView()
 let transition = SlideInTransition()
 let universe = Universal()
@@ -31,23 +31,22 @@ var eventLocationCreator = EventLocationCreatorViewController()
 
 func setUpObservers(){
     databaseRef.child("events").observe(.childAdded) { (eventAdded) in
-        
-        events.append(getSnapshotAsEvent(snapshot: eventAdded))
-        map.addAnnotation(events[events.count-1])
+        let event = getSnapshotAsEvent(snapshot: eventAdded)
+        events.updateValue(event, forKey: event.identifier)
+        map.addAnnotation(event)
+        print("Child Added")
     }
     databaseRef.child("events").observe(.childRemoved) { (eventRemoved) in
         let removedEvent = getSnapshotAsEvent(snapshot: eventRemoved)
-        for i in 0..<events.count{
-            if removedEvent.isEqual(events[i]){
-                map.removeAnnotation(events.remove(at: i))
-                break
-            }
-        }
+        events[removedEvent.identifier] = nil
+        print("Child Removed")
     }
     //For if we get to the point where people can edit the events they created
     databaseRef.child("events").observe(.childChanged) { (eventChanged) in
         
-        
+        let changedChild = getSnapshotAsEvent(snapshot: eventChanged)
+        events[changedChild.identifier] = changedChild
+        print("Child Changed")
     }
     
     
@@ -66,12 +65,12 @@ func getSnapshotAsEvent(snapshot : DataSnapshot) -> Event{
     guard let longitudeString = eventInformation["longitude"] as? String else {return Event()}
     guard let longitudeDouble = Double(longitudeString) else {return Event()}
     let location = CLLocationCoordinate2D(latitude: latitudeDouble, longitude: longitudeDouble)
-    let autoIDName = snapshot.key
+    let identifier = snapshot.key
     guard let timeInterval = Double(timeString) else {return Event()}
     
     let time = Date(timeIntervalSinceReferenceDate: timeInterval)
     print(name)
-    return Event(title: name, owner: ownerString, coordinate: location, time: time, description : description, joined: joinedArray, activity: activity, autoIDName: autoIDName)
+    return Event(title: name, owner: ownerString, coordinate: location, time: time, description : description, joined: joinedArray, activity: activity, identifier: identifier)
     
 }
 

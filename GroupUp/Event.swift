@@ -19,27 +19,18 @@ class Event: NSObject, MKAnnotation{
     var time : Date
     var subtitle: String?
     var activity: String
-    var autoIDName: String
+    var identifier: String
     
     override convenience init(){
-        self.init(title: String(), owner: String(), coordinate: CLLocationCoordinate2D(), time: Date(), description: String(), joined: [], activity: String(), autoIDName: String())
+        self.init(title: String(), owner: String(), coordinate: CLLocationCoordinate2D(), time: Date(), description: String(), joined: [], activity: String(), identifier: String())
     }
     convenience init(coordinate: CLLocationCoordinate2D){
-        self.init(title: String(), owner: String(), coordinate: coordinate, time: Date(), description: String(), joined: [], activity: String(), autoIDName: String())
+        self.init(title: String(), owner: String(), coordinate: coordinate, time: Date(), description: String(), joined: [], activity: String(), identifier: String())
     }
     convenience init(title: String, coordinate: CLLocationCoordinate2D){
-        self.init(title: title, owner: String(), coordinate: coordinate, time: Date(), description: String(), joined: [], activity: String(), autoIDName: String())
+        self.init(title: title, owner: String(), coordinate: coordinate, time: Date(), description: String(), joined: [], activity: String(), identifier: String())
     }
-//    init(title: String, owner: String, coordinate: CLLocationCoordinate2D, time: Date, description: String, activity: String){
-//        self.title = title
-//        self.owner = owner
-//        self.coordinate = coordinate
-//        self.time = time
-//        self.joined = []
-//        self.subtitle = description
-//        self.activity = activity
-//    }
-    init(title: String, owner: String, coordinate: CLLocationCoordinate2D, time: Date, description: String, joined: [String], activity: String, autoIDName: String){
+    init(title: String, owner: String, coordinate: CLLocationCoordinate2D, time: Date, description: String, joined: [String], activity: String, identifier: String){
         self.title = title
         self.owner = owner
         self.coordinate = coordinate
@@ -47,7 +38,7 @@ class Event: NSObject, MKAnnotation{
         self.joined = joined
         self.subtitle = description
         self.activity = activity
-        self.autoIDName = autoIDName
+        self.identifier = identifier
     }
     
     func getTitle() -> String?{
@@ -71,13 +62,7 @@ class Event: NSObject, MKAnnotation{
     
     override func isEqual(_ object: Any?) -> Bool {
         guard let event = object as? Event else {return false}
-        if self.coordinate.longitude == event.coordinate.longitude &&
-        self.coordinate.latitude == event.coordinate.latitude &&
-        self.title == event.title &&
-        self.owner == event.owner &&
-        self.time == event.time &&
-        self.joined == event.joined &&
-        self.subtitle == event.subtitle{
+        if self.identifier == event.identifier{
             return true
         }
         return false
