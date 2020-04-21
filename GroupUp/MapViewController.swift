@@ -12,16 +12,6 @@ import UIKit
 import MapKit
 import FirebaseAuth
 
-class customPin: NSObject, MKAnnotation{
-    var coordinate: CLLocationCoordinate2D
-    var title: String?
-    var subtitle: String?
-    init(pinTitle: String, pinSubtitle: String, location: CLLocationCoordinate2D){
-        self.title = pinTitle
-        self.subtitle = pinSubtitle
-        self.coordinate = location
-    }
-}
 
 class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewDelegate {
     
@@ -29,7 +19,7 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
     
     
     var timeAndDistance = String()
-    let eventCreator = UIButton()
+    let eventCreator = UIButton(type: .custom)
     let locationManager = CLLocationManager()
     let eventManagerSlideUpView = EventManagerSlideUpViewController()
     
@@ -45,25 +35,30 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
         view.addSubview(map)
         setUpMapView()
         checkLocationServices()
-        addEventManagerSlideUpViewController()
+       
         checkLogIn()
         setUpNavigationControllerBackground()
         
         
-        //Temporary pin for testing purposes
-        //let location = CLLocationCoordinate2D(latitude: 40.0423, longitude: -75.3167)
-        //map.addAnnotation(customPin(pinTitle: "Harriton", pinSubtitle: "", location: location))
-        view.addSubview(eventCreator)
-        eventCreator.translatesAutoresizingMaskIntoConstraints = false
-        eventCreator.centerXAnchor.constraint(equalTo: view.centerXAnchor, constant: 100).isActive = true
-        eventCreator.centerYAnchor.constraint(equalTo: view.centerYAnchor, constant: -100).isActive = true
-        eventCreator.widthAnchor.constraint(equalToConstant: 40).isActive = true
-        eventCreator.heightAnchor.constraint(equalToConstant: 20).isActive = true
-        eventCreator.addTarget(self, action: #selector(buttonClicked(_:)), for: .touchUpInside)
-        eventCreator.titleLabel?.text = "Create Event"
-        eventCreator.backgroundColor = .purple
         
+        eventCreator.addTarget(self, action: #selector(buttonClicked(_:)), for: .touchUpInside)
+        
+        
+        eventCreator.titleLabel?.lineBreakMode = .byWordWrapping
+        eventCreator.titleLabel?.textAlignment = .center
+        eventCreator.setAttributedTitle(NSAttributedString(string: "Create\nEvent", attributes: [NSAttributedString.Key.foregroundColor: UIColor.black]), for: .normal)
+        eventCreator.frame = CGRect(x: 0, y: 0, width: 70, height: 50)
+        eventCreator.setTitleColor(.black, for: .normal)
+       
+        eventCreator.backgroundColor = .white
+        eventCreator.setTitleColor(.black, for: .normal)
 
+//        eventCreator.clipsToBounds = true
+        eventCreator.layer.cornerRadius = 10
+        
+        let plz = UIBarButtonItem(customView: eventCreator)
+        navigationItem.rightBarButtonItem = plz
+        addEventManagerSlideUpViewController()
     }
     
     func setUpNavigationControllerBackground(){
@@ -170,7 +165,7 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
     
     func mapView(_ mapView: MKMapView, didSelect view: MKAnnotationView) {
         //Checks to make sure you're not clicking on your own location
-        
+        print("right")
         if view.annotation?.coordinate.latitude != mapView.userLocation.coordinate.latitude && view.annotation?.coordinate.longitude != mapView.userLocation.coordinate.longitude{
             
             //eventManagerSlideUpView.popUpViewToMiddle()
@@ -212,8 +207,10 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
                 self.getDistance(withDistance: Int(route.distance))
                 
                 self.eventManagerSlideUpView.updateTimeAndDistanceLabel(self.timeAndDistance)
+                
                 guard let event = view.annotation as? Event else {return}
                 self.eventManagerSlideUpView.updateEventSelected(event)
+                self.eventManagerSlideUpView.popUpViewToMiddle()
                 self.timeAndDistance = String()
                 map.addOverlay(route.polyline)
                 self.resetMapViewBounds(withNew: route)
@@ -242,10 +239,13 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
     }
     
     func mapView(_ mapView: MKMapView, didDeselect view: MKAnnotationView) {
+        print("left")
         if !map.overlays.isEmpty{
             map.removeOverlays(map.overlays)
         }
         eventManagerSlideUpView.updateTimeAndDistanceLabel("")
+        eventManagerSlideUpView.unpopulate()
+        eventManagerSlideUpView.popUpViewToBottom()
     }
     
     func resetMapViewBounds(withNew route : MKRoute){

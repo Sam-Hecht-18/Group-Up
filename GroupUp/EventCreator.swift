@@ -17,14 +17,7 @@ class EventCreator: UITableViewController, UITextFieldDelegate, UIPickerViewDele
     var openActivityPicker = false
     var openPermissionControl = false
     
-    let dateFormatter: DateFormatter = {
-        let formatter = DateFormatter()
-        formatter.timeZone = .current
-        formatter.dateFormat = "EEEE MMMM dd, yyyy    h:mm a"
-        formatter.amSymbol = "AM"
-        formatter.pmSymbol = "PM"
-        return formatter
-    }()
+    
     
     let nameTextField = UITextField(frame: CGRect(x: 20, y: 0, width: 410, height: 50))
     let descriptionTextField = UITextField(frame: CGRect(x: 20, y: 0, width: 410, height: 50))

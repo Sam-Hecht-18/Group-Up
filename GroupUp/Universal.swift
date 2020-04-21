@@ -23,7 +23,14 @@ var userImage: UIImage = UIImage(named: "ProfilePic")!
 let locationManager = CLLocationManager()
 var location = CLLocationCoordinate2D()
 var eventLocationCreator = EventLocationCreatorViewController()
-
+let dateFormatter: DateFormatter = {
+    let formatter = DateFormatter()
+    formatter.timeZone = .current
+    formatter.dateFormat = "EEEE MMMM dd, yyyy    h:mm a"
+    formatter.amSymbol = "AM"
+    formatter.pmSymbol = "PM"
+    return formatter
+}()
 
 
 
@@ -99,7 +106,23 @@ func downloadPicture(){
         }
     }
 }
-
+func downloadPicture(withUser uid : String, _ completion: @escaping((UIImage) ->())){
+    databaseRef.child("users/\(uid)/imageURL").observeSingleEvent(of: .value) { (snapshot) in
+        guard let url = snapshot.value as? String else {return}
+        let ref = Storage.storage().reference(forURL: url)
+        ref.getData(maxSize: 1024*1024) { (data, error) in
+            if error == nil && data != nil{
+                completion(UIImage(data: data!)!)
+            }
+            else{
+                print(error?.localizedDescription)
+            }
+            
+        }
+    }
+    
+    
+}
 func transitiontoNewVC(_ menuType: MenuType, currentViewController: UIViewController){
     //I have a feeling that we'll want to pop to the root before doing any other thing
     //Might have to change the animation stuff tho cuz we won't want the user seeing that
