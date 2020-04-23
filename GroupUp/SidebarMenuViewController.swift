@@ -11,6 +11,7 @@ enum MenuType: Int{
     case map
     case profile
     case logOut
+    case friendsManager
 }
 class SidebarMenuViewController: UITableViewController, UIGestureRecognizerDelegate {
     

@@ -39,7 +39,7 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
         checkLogIn()
         setUpNavigationControllerBackground()
         
-        
+        //databaseRef.child("users/\(Auth.auth().currentUser?.uid!)")
         
         eventCreator.addTarget(self, action: #selector(buttonClicked(_:)), for: .touchUpInside)
         

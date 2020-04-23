@@ -21,6 +21,7 @@
 		A086D340240446B800E3A640 /* SidebarMenuViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A086D33F240446B800E3A640 /* SidebarMenuViewController.swift */; };
 		A086D342240446DD00E3A640 /* SidebarSlideInTransition.swift in Sources */ = {isa = PBXBuildFile; fileRef = A086D341240446DD00E3A640 /* SidebarSlideInTransition.swift */; };
 		A0A3754F24186B68006A227B /* Universal.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0A3754E24186B68006A227B /* Universal.swift */; };
+		A0BF04362451433C00BF6B2D /* AddFriendsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0BF04352451433C00BF6B2D /* AddFriendsViewController.swift */; };
 		A0D59A8A24101D080025A70B /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = A0D59A8924101D080025A70B /* GoogleService-Info.plist */; };
 		A2AFBE1A240447D70090F639 /* NavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2AFBE19240447D70090F639 /* NavigationController.swift */; };
 		A2AFBE1E240448400090F639 /* SignUpViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2AFBE1D240448400090F639 /* SignUpViewController.swift */; };
@@ -72,6 +73,7 @@
 		A086D33F240446B800E3A640 /* SidebarMenuViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SidebarMenuViewController.swift; sourceTree = "<group>"; };
 		A086D341240446DD00E3A640 /* SidebarSlideInTransition.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SidebarSlideInTransition.swift; sourceTree = "<group>"; };
 		A0A3754E24186B68006A227B /* Universal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Universal.swift; sourceTree = "<group>"; };
+		A0BF04352451433C00BF6B2D /* AddFriendsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddFriendsViewController.swift; sourceTree = "<group>"; };
 		A0D59A8924101D080025A70B /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		A2AFBE19240447D70090F639 /* NavigationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationController.swift; sourceTree = "<group>"; };
 		A2AFBE1D240448400090F639 /* SignUpViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpViewController.swift; sourceTree = "<group>"; };
@@ -162,6 +164,7 @@
 				A06DD5F323FC5D4F000DFF7C /* Assets.xcassets */,
 				A06DD5F523FC5D4F000DFF7C /* LaunchScreen.storyboard */,
 				A85DBB79240EB3D4004E60DA /* Main.storyboard */,
+				A0BF04352451433C00BF6B2D /* AddFriendsViewController.swift */,
 				A086D33F240446B800E3A640 /* SidebarMenuViewController.swift */,
 				A086D341240446DD00E3A640 /* SidebarSlideInTransition.swift */,
 				A07E1B5923FDC56D005E999B /* MapViewController.swift */,
@@ -364,6 +367,7 @@
 				A086D342240446DD00E3A640 /* SidebarSlideInTransition.swift in Sources */,
 				A8197E992410293600E048A4 /* ProfileViewController.swift in Sources */,
 				A06DD5EB23FC5D4C000DFF7C /* AppDelegate.swift in Sources */,
+				A0BF04362451433C00BF6B2D /* AddFriendsViewController.swift in Sources */,
 				A2D8B27B24101A25002C6195 /* EventCreator.swift in Sources */,
 				F51B81262412D8200082A3C9 /* NotificationViewController.swift in Sources */,
 				A06DD5ED23FC5D4C000DFF7C /* SceneDelegate.swift in Sources */,

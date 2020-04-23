@@ -158,6 +158,17 @@ func transitiontoNewVC(_ menuType: MenuType, currentViewController: UIViewContro
         currentViewController.navigationController?.pushViewController(startUpViewController, animated: true)
         //Why is default never executed?
         break
+    case .friendsManager:
+        if let _ = currentViewController as? AddFriendsViewController{
+            
+        }
+        else{
+            guard let addFriendsViewController = currentViewController.storyboard?.instantiateViewController(withIdentifier: "AddFriendsViewController") else {return}
+            currentViewController.navigationController?.pushViewController(addFriendsViewController, animated: true)
+            
+        }
+        break
+        
     }
 }
 
