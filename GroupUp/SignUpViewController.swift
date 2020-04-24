@@ -33,7 +33,7 @@ class SignUpViewController: UIViewController, UITextFieldDelegate{
                 guard let uid = Auth.auth().currentUser?.uid else {return}
                 let newUser = ["username" : name]
                 databaseRef.child("users/\(uid)").updateChildValues(newUser)
-                
+                databaseRef.child("userProfiles/\(uid)").updateChildValues(newUser)
                 self.navigationController?.popToRootViewController(animated: true)
             }
             else{

@@ -14,160 +14,52 @@ class AddFriendsViewController: UIViewController, UITextFieldDelegate, UITableVi
     
     let textField = UITextField()
     let tableView = UITableView()
-    var uids = [String]()
-    var friendProfiles = [String: NSMutableAttributedString]()
-    var usernames = [String]()
-    var viableUsernames = [String]()
+    var showFriendRequests = false
     var deleted = false
+
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        print("hello")
         view.backgroundColor = .systemGray5
-        
-        updateUids()
-       
-        
-        print("Right before ausdfbiunui")
-        print("Uids count is: \(uids.count)")
-        
+        //viableUsernames = usernames
+        //usernames.sort()
+        usernames.sort { (arg1, arg2) -> Bool in
+            return arg1.lowercased() < arg2.lowercased()
+        }
+        friendRequestUsernames.sort { (arg1, arg2) -> Bool in
+            return arg1.lowercased() < arg2.lowercased()
+        }
+        viableUsernames = usernames
+        setUpTextField()
+        setUpTableView()
+        let switchTableViewButton = UIBarButtonItem(title: "Show Friend Requests", style: .plain, target: self, action: #selector(switchTableView))
+        navigationItem.rightBarButtonItem = switchTableViewButton
         // Do any additional setup after loading the view.
+    }
+    @objc func switchTableView(){
+        if showFriendRequests{
+            showFriendRequests = false
+            navigationItem.rightBarButtonItem?.title = "Show Friend Requests"
+            viableUsernames = usernames
+            tableView.reloadSections([0], with: .right)
+        }
+        else{
+            showFriendRequests = true
+            navigationItem.rightBarButtonItem?.title = "Show Friend Adder"
+            viableUsernames = friendRequestUsernames
+            tableView.reloadSections([0], with: .left)
+        }
+        print("About to reload data")
     }
     @objc func textChanged(){
         tableView.reloadData()
     }
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+        
         deleted = string.count == 0
         return true
     }
-//    func textFieldDidBeginEditing(_ textField: UITextField) {
-//        print("EDITING")
-//        deleted = textField.text?.count ?? 0 < prevText.count
-//        print("DELETED IS \(deleted)")
-//        prevText = textField.text ?? prevText
-//        tableView.reloadData()
-//    }
     
-    func createImageAndUsernameText(image: UIImage, username: NSAttributedString, usernameText: String){
-        let imageAttachment = NSTextAttachment()
-        imageAttachment.image = image
-        let imageOffsetY: CGFloat = -10.0
-        imageAttachment.bounds = CGRect(x: 0, y: imageOffsetY, width: 40, height: 40)
-        let attachmentString = NSAttributedString(attachment: imageAttachment)
-        let completeName = NSMutableAttributedString(string: "")
-        completeName.append(attachmentString)
-        completeName.append(username)
-        friendProfiles.updateValue(completeName, forKey: usernameText)
-    }
-    
-    func updateUids(){
-        
-        print("SUP DAWG")
-        print("1")
-        print("2")
-        
-        databaseRef.child("users").observeSingleEvent(of: .value) { (snapshot) in
-            print("3")
-            guard let usersUnwrapped = snapshot.value as? [String: Any] else {
-                print("4")
-                return}
-            print("there are: \(usersUnwrapped.keys.count) keys apparently" )
-            for uid in usersUnwrapped.keys{
-                self.uids.append(uid)
-                print("Cinco")
-                guard let userData = usersUnwrapped[uid] as? [String: Any] else {
-                    print("Mama mia")
-                    print(usersUnwrapped[uid])
-                    return
-                    
-                }
-                
-                print("Seis")
-                guard let usernameString = userData["username"] as? String else {
-                    print("siete")
-                    return
-                    
-                }
-                let username = NSAttributedString(string: "  \(usernameString)", attributes: [NSAttributedString.Key.font : UIFont.boldSystemFont(ofSize: 20), NSAttributedString.Key.foregroundColor : UIColor.systemPink])
-                
-                
-                guard let imageURL = userData["imageURL"] as? String else {
-                    print("Uh oh")
-                    self.createImageAndUsernameText(image: UIImage(named: "ProfilePic")!, username: username,usernameText: usernameString)
-                    continue}
-                self.usernames.append(usernameString)
-                let ref = Storage.storage().reference(forURL: imageURL)
-                ref.getData(maxSize: 1024*1024) { (data, error) in
-                    if error == nil && data != nil{
-                        self.createImageAndUsernameText(image: UIImage(data: data!)!, username: username, usernameText: usernameString)
-                        
-                        
-                        
-                        print("6")
-                        
-                        print("7")
-                        
-                    }
-                    else{
-                        print(error?.localizedDescription)
-                    }
-                }
-            }
-            print("5")
-            self.setUpTextField()
-            print("8")
-            
-            //self.populateTableView()
-            print("9")
-            
-            self.usernames.sort()
-            print("10")
-            self.viableUsernames = self.usernames
-            print("11")
-            self.setUpTableView()
-            //friends = usersUnwrapped
-            
-            
-        }
-        
-        
-    }
-    func populateTableView(){
-        print("REEEE")
-        for i in 0..<uids.count{
-            print("right before heuh")
-            let uid = uids[i]
-            print("Hidy ho everyone")
-            downloadPicture(withUser: uid) {(image) in
-                print("Non noono")
-                let imageAttachment = NSTextAttachment()
-                imageAttachment.image = image
-                let imageOffsetY: CGFloat = -10.0
-                imageAttachment.bounds = CGRect(x: 0, y: imageOffsetY, width: 40, height: 40)
-                let attachmentString = NSAttributedString(attachment: imageAttachment)
-                let completeName = NSMutableAttributedString(string: "")
-                completeName.append(attachmentString)
-                
-                databaseRef.child("users/\(uid)/username").observeSingleEvent(of: .value) { (snapshot) in
-                    guard let usernameUnwrapped = snapshot.value as? String else {return}
-                    self.usernames.append(usernameUnwrapped)
-                    let username = NSAttributedString(string: "  \(usernameUnwrapped)", attributes: [NSAttributedString.Key.font : UIFont.boldSystemFont(ofSize: 20), NSAttributedString.Key.foregroundColor : UIColor.systemPink])
-                    completeName.append(username)
-                    self.friendProfiles.updateValue(completeName, forKey: usernameUnwrapped)
-                    print("the count is \(self.friendProfiles.count)")
-                    print("the i is \(i)")
-                    print("Congratulations!")
-                    self.usernames.sort()
-                    print("10")
-                    self.viableUsernames = self.usernames
-                    print("11")
-                    self.setUpTableView()
-                    print("12")
-                    
-                }
-            }
-        }
-    }
     func setUpTextField(){
         view.addSubview(textField)
         textField.translatesAutoresizingMaskIntoConstraints = false
@@ -198,48 +90,183 @@ class AddFriendsViewController: UIViewController, UITextFieldDelegate, UITableVi
         tableView.layer.cornerRadius = 10
         tableView.delegate = self
         tableView.dataSource = self
-        tableView.register(UITableViewCell.self, forCellReuseIdentifier: "Cell")
+        tableView.register(UITableViewCell.self, forCellReuseIdentifier: "CellFriends")
+        tableView.register(UITableViewCell.self, forCellReuseIdentifier: "CellRequests")
+
         
     }
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 70
     }
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        guard let currentText = textField.text?.lowercased() else{
-            print("Hello")
-            viableUsernames = usernames
+        print("About to reload # of rows in section")
+
+        switch showFriendRequests{
+        case false:
+            guard let currentText = textField.text?.lowercased() else{
+                viableUsernames = usernames
+                return viableUsernames.count
+            }
+            if currentText.isEmpty{
+                viableUsernames = usernames
+            }
+            else if deleted{
+                for i in 0..<usernames.count{
+                    if usernames[i].lowercased().hasPrefix(currentText) && !viableUsernames.contains(usernames[i]){
+                        viableUsernames.append(usernames[i])
+                    }
+                }
+            }
+            else{
+                for i in stride(from: viableUsernames.count-1, to: -1, by: -1){
+                    if !viableUsernames[i].lowercased().hasPrefix(currentText){
+                        viableUsernames.remove(at: i)
+                    }
+                }
+            }
+            return viableUsernames.count
+            
+        case true:
+            print("Hi welcome to this part")
+
+            guard let currentText = textField.text?.lowercased() else{
+                viableUsernames = friendRequestUsernames
+                return viableUsernames.count
+            }
+            if currentText.isEmpty{
+                viableUsernames = friendRequestUsernames
+                print("And this is the one")
+            }
+            else if deleted{
+                for i in 0..<usernames.count{
+                    if friendRequestUsernames[i].lowercased().hasPrefix(currentText) && !viableUsernames.contains(friendRequestUsernames[i]){
+                        viableUsernames.append(friendRequestUsernames[i])
+                    }
+                }
+            }
+            else{
+                for i in stride(from: viableUsernames.count-1, to: -1, by: -1){
+                    if !viableUsernames[i].lowercased().hasPrefix(currentText){
+                        viableUsernames.remove(at: i)
+                    }
+                }
+            }
             return viableUsernames.count
         }
-        if currentText.isEmpty{
-            print("Goodbye")
-            viableUsernames = usernames
-        }
-        else if deleted{
-            print("Uh oh deleted")
-            for i in 0..<usernames.count{
-                if usernames[i].contains(currentText) && !viableUsernames.contains(usernames[i]){
-                    viableUsernames.append(usernames[i])
-                }
-            }
+    }
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        var cell: UITableViewCell
+        if !showFriendRequests{
+            cell = tableView.dequeueReusableCell(withIdentifier: "CellFriends") ?? UITableViewCell()
         }
         else{
-            for i in stride(from: viableUsernames.count-1, to: -1, by: -1){
-                print("Prev text is: \(currentText) and the viable username is: \(viableUsernames[i])")
-                if !viableUsernames[i].contains(currentText){
-                    viableUsernames.remove(at: i)
-                }
-            }
+            cell = tableView.dequeueReusableCell(withIdentifier: "CellRequests") ?? UITableViewCell()
         }
-        return viableUsernames.count
-       
+        if !showFriendRequests{
+            cell.backgroundColor = .systemTeal
+            cell.textLabel?.attributedText = usernameToFormattedProfile[viableUsernames[indexPath.row]]
+            
+            cell.contentView.addSubview(setUpAddButton(index: indexPath.row))
+            
+        }
+        else{
+            print("Hiya!")
+            cell.backgroundColor = .systemTeal
+            cell.textLabel?.attributedText = usernameToFormattedProfile[friendRequestUsernames[indexPath.row]]
+            
+            cell.contentView.addSubview(setUpAcceptButton(index: indexPath.row))
+            cell.contentView.addSubview(setUpDenyButton(index: indexPath.row))
+            
+        }
+        
+        return cell
+    }
+    func setUpAddButton(index: Int) -> UIButton{
+        let addButton = UIButton(type: .roundedRect)
+        addButton.backgroundColor = .green
+        addButton.layer.cornerRadius = 10
+        addButton.frame = CGRect(x: 300, y: 10, width: 100, height: 50)
+        addButton.setTitle("Add", for: .normal)
+        addButton.addTarget(self, action: #selector(addFriend(_:)), for: .touchUpInside)
+        addButton.tag = index
+        return addButton
+    }
+    func setUpAcceptButton(index: Int) -> UIButton{
+        let acceptButton = UIButton(type: .roundedRect)
+        acceptButton.backgroundColor = .green
+        acceptButton.layer.cornerRadius = 10
+        acceptButton.frame = CGRect(x: 190, y: 10, width: 100, height: 50)
+        acceptButton.setTitle("Accept", for: .normal)
+        acceptButton.addTarget(self, action: #selector(acceptRequest(_:)), for: .touchUpInside)
+        acceptButton.tag = index
+        return acceptButton
+        
+    }
+    func setUpDenyButton(index: Int) -> UIButton{
+        let denyButton = UIButton(type: .roundedRect)
+        denyButton.backgroundColor = .green
+        denyButton.layer.cornerRadius = 10
+        denyButton.frame = CGRect(x: 300, y: 10, width: 100, height: 50)
+        denyButton.setTitle("Deny", for: .normal)
+        denyButton.addTarget(self, action: #selector(denyRequest(_:)), for: .touchUpInside)
+        denyButton.tag = index
+        return denyButton
+    }
+    @objc func acceptRequest(_ acceptButton : UIButton){
+        guard let currentUID = Auth.auth().currentUser?.uid else {return}
+        let username = viableUsernames[acceptButton.tag]
+        guard let requestUID = usernameToUID[username] else {return}
+        databaseRef.child("friendRequests/\(currentUID)/\(requestUID)").removeValue()
+        
+        databaseRef.child("users/\(currentUID)/friends").observeSingleEvent(of: .value) { (snapshot) in
+            guard var friends = snapshot.value as? [String] else{
+                databaseRef.child("users/\(currentUID)").updateChildValues(["friends" : [requestUID]])
+                print("Request UID is: \(requestUID)")
+                return
+            }
+            friends.append(requestUID)
+            databaseRef.child("users/\(currentUID)").updateChildValues(["friends": friends])
+        }
+        databaseRef.child("users/\(requestUID)/friends").observeSingleEvent(of: .value) { (snapshot) in
+            guard var friends = snapshot.value as? [String] else{
+                databaseRef.child("users/\(requestUID)").updateChildValues(["friends": [currentUID]])
+                return
+            }
+            friends.append(currentUID)
+            databaseRef.child("users/\(requestUID)").updateChildValues(["friends": friends])
+        }
+        print("Yah yah yahaaaaa")
+        viableUsernames.remove(at: acceptButton.tag)
+        tableView.reloadSections([0], with: .automatic)
+    }
+    @objc func denyRequest(_ denyButton : UIButton){
+        guard let currentUID = Auth.auth().currentUser?.uid else {return}
+        let username = viableUsernames[denyButton.tag]
+        guard let requestUID = usernameToUID[username] else {return}
+        databaseRef.child("friendRequests/\(currentUID)/\(requestUID)").removeValue()
     }
     
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: "Cell") else {return UITableViewCell()}
-        
-        cell.textLabel?.attributedText = friendProfiles[viableUsernames[indexPath.row]]
-        return cell
-        
+    @objc func addFriend(_ addButton : UIButton){
+        print("Added")
+        let toUsername = usernames[addButton.tag]
+        guard let toUID = usernameToUID[toUsername] else {
+            print("To username is: \(toUsername)")
+            return
+        }
+        guard let currentUID = Auth.auth().currentUser?.uid else {
+            print("NO USEr")
+            return}
+        for key in UIDToUsername.keys{
+            print("Key is: \(key)")
+        }
+        guard let currentUserName = UIDToUsername[currentUID] else {
+            print("fuodse")
+            return}
+        print("Time to request")
+        let request = [toUID: [currentUID: currentUserName]]
+        print("Time to update")
+        databaseRef.child("friendRequests").updateChildValues(request)
+        print("Done!")
     }
 }
 /*

@@ -76,6 +76,7 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
                 guard let uid = Auth.auth().currentUser?.uid else {return}
                 guard let imageURL = url else {return}
                 databaseRef.child("users/\(uid)").updateChildValues(["imageURL" : imageURL.absoluteString])
+                databaseRef.child("userProfiles/\(uid)").updateChildValues(["imageURL" : imageURL.absoluteString])
             }
             
         }

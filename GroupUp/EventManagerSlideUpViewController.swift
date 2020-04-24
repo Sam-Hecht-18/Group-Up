@@ -183,37 +183,23 @@ class EventManagerSlideUpViewController: UIViewController, UIGestureRecognizerDe
         joinedTableView.reloadSections([0], with: .automatic)
     }
     func populateJoinedTableView(event: Event){
-
         for i in 0..<event.joined.count{
-            let uid = event.joined[i]
-            print("Hidy ho everyone")
-            downloadPicture(withUser: uid) {(image) in
-                print("Non noono")
-                let imageAttachment = NSTextAttachment()
-                imageAttachment.image = image
-                let imageOffsetY: CGFloat = -10.0
-                imageAttachment.bounds = CGRect(x: 0, y: imageOffsetY, width: 40, height: 40)
-                let attachmentString = NSAttributedString(attachment: imageAttachment)
-                let completeName = NSMutableAttributedString(string: "")
-                completeName.append(attachmentString)
-                
-                databaseRef.child("users/\(uid)/username").observeSingleEvent(of: .value) { (snapshot) in
-                    guard let usernameUnwrapped = snapshot.value as? String else {return}
-                    let username = NSAttributedString(string: "  \(usernameUnwrapped)", attributes: [NSAttributedString.Key.font : UIFont.boldSystemFont(ofSize: 20), NSAttributedString.Key.foregroundColor : UIColor.systemPink])
-                    completeName.append(username)
-                    
-                    self.eventMembers.append(completeName)
-                    print("the count is \(self.eventMembers.count)")
-                    print("the i is \(i)")
-                    self.joinedTableView.reloadSections(IndexSet([0]), with: .automatic)
-//                    self.joinedTableView.reloadRows(at: [IndexPath(row: i, section: 0)], with: .automatic)
-                    print("Congratulations!")
-                    
-                }
+            print("ITS POPULATING THE TABLE VIEW AHGHG")
+            guard let username = UIDToUsername[event.joined[i]] else {
+                print("Rippp")
+                return
             }
+            guard let formattedProfile = usernameToFormattedProfile[username] else {
+                print("Username is: \(username)")
+                print("Rippp pt 2")
+
+                return}
+            self.eventMembers.append(formattedProfile)
+            
         }
-        print("What the fugeee")
+        joinedTableView.reloadSections([0], with: .automatic)
     }
+
     
     @objc func joinEvent(){
         print("something's got a hold on me")

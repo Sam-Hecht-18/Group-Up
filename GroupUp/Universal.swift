@@ -31,12 +31,17 @@ let dateFormatter: DateFormatter = {
     formatter.pmSymbol = "PM"
     return formatter
 }()
-
-
-
-
+var usernameToUID = [String: String]()
+var usernameToFormattedProfile = [String: NSMutableAttributedString]()
+var UIDToUsername = [String: String]()
+var viableUsernames = [String]()
+var friendDict = [String : Int]()
+var friendRequests = [String]()
+var friendRequestUsernames = [String]()
+var usernames = [String]()
 
 func setUpObservers(){
+    guard let uid = Auth.auth().currentUser?.uid else {return}
     databaseRef.child("events").observe(.childAdded) { (eventAdded) in
         let event = getSnapshotAsEvent(snapshot: eventAdded)
         events.updateValue(event, forKey: event.identifier)
@@ -56,6 +61,18 @@ func setUpObservers(){
         print("Child Changed")
     }
     
+    databaseRef.child("friendRequests/\(uid)").observe(.value) { (snapshot) in
+        guard let friendRequestUID = snapshot.value as? [String:String] else {return}
+        for key in friendRequestUID.keys{
+            friendRequests.append(key)
+            guard let friendsRequestUsername = friendRequestUID[key] else {
+                print("YIKERS SCOOBS")
+                return}
+            print("The friend request username is: \(friendsRequestUsername)")
+            friendRequestUsernames.append(friendsRequestUsername)
+        }
+        
+    }
     
     
 }
@@ -80,6 +97,63 @@ func getSnapshotAsEvent(snapshot : DataSnapshot) -> Event{
     return Event(title: name, owner: ownerString, coordinate: location, time: time, description : description, joined: joinedArray, activity: activity, identifier: identifier)
     
 }
+func retrieveUsers(){
+    guard let currentUID = Auth.auth().currentUser?.uid else {return}
+    databaseRef.child("userProfiles").observeSingleEvent(of: .value, with: {(snapshot) in
+        guard let usersDict = snapshot.value as? [String: [String: String]] else {return}
+       
+        for uid in usersDict.keys{
+            guard let userData = usersDict[uid] else {return}
+            guard let usernameString = userData["username"] else {return}
+            usernameToUID.updateValue(uid, forKey: usernameString)
+            UIDToUsername.updateValue(usernameString, forKey: uid)
+            if !(uid == currentUID) || friendDict[uid] != nil{
+                
+                
+                let username = NSAttributedString(string: "  \(usernameString)", attributes: [NSAttributedString.Key.font : UIFont.boldSystemFont(ofSize: 20), NSAttributedString.Key.foregroundColor : UIColor.systemPink])
+                
+                usernames.append(usernameString)
+                guard let imageURL = userData["imageURL"] else {
+                    createImageAndUsernameText(image: UIImage(named: "ProfilePic")!, username: username,usernameText: usernameString)
+                    continue
+                }
+                let storageRef = Storage.storage().reference(forURL: imageURL)
+                storageRef.getData(maxSize: 1024*1024) { (data, error) in
+                    if error == nil && data != nil{
+                        createImageAndUsernameText(image: UIImage(data: data!)!, username: username, usernameText: usernameString)
+                        
+                    }
+                    else{
+                        print(error?.localizedDescription)
+                    }
+                }
+            }
+        }
+    }
+    )
+    
+}
+func retrieveFriends(){
+    guard let uid = Auth.auth().currentUser?.uid else {return}
+    databaseRef.child("users/\(uid)/friends").observeSingleEvent(of: .value) { (snapshot) in
+        guard let friends = snapshot.value as? [String] else {return}
+        for friend in friends{
+            friendDict.updateValue(0, forKey: friend)
+        }
+    }
+}
+func createImageAndUsernameText(image: UIImage, username: NSAttributedString, usernameText: String){
+    let imageAttachment = NSTextAttachment()
+    imageAttachment.image = image
+    let imageOffsetY: CGFloat = -10.0
+    imageAttachment.bounds = CGRect(x: 0, y: imageOffsetY, width: 40, height: 40)
+    let attachmentString = NSAttributedString(attachment: imageAttachment)
+    let completeName = NSMutableAttributedString(string: "")
+    completeName.append(attachmentString)
+    completeName.append(username)
+    usernameToFormattedProfile.updateValue(completeName, forKey: usernameText)
+}
+
 
 func getProfilePicURL(_ completion: @escaping((_ url:String?) -> ())){
     guard let uid = Auth.auth().currentUser?.uid else {return}

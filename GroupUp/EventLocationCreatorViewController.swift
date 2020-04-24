@@ -70,7 +70,7 @@ class EventLocationCreatorViewController: UIViewController, MKMapViewDelegate, U
                 self.addAnnotation(location.coordinate, name: name)
                 let region = MKCoordinateRegion(center: location.coordinate, span: MKCoordinateSpan(latitudeDelta: 0.025, longitudeDelta: 0.025))
                 self.mapView.setRegion(region, animated: true)
-                self.mapView.selectAnnotation(self.mapView.annotations[0], animated: true)
+                //self.mapView.selectAnnotation(self.mapView.annotations[0], animated: true)
             }
             else{
                 textField.text = ""
@@ -119,7 +119,7 @@ class EventLocationCreatorViewController: UIViewController, MKMapViewDelegate, U
                 guard let placemarks = placemarks, let placemark = placemarks.first, let name = placemark.name else {return}
                 self.name = NSAttributedString(string: name)
                 self.addAnnotation(location, name: name)
-                self.mapView.selectAnnotation(self.mapView.annotations[0], animated: true)
+               // self.mapView.selectAnnotation(self.mapView.annotations[0], animated: true)
             }
             else{
                 print("Bruh how")
