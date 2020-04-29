@@ -101,45 +101,58 @@ func retrieveUsers(){
     guard let currentUID = Auth.auth().currentUser?.uid else {return}
     databaseRef.child("userProfiles").observeSingleEvent(of: .value, with: {(snapshot) in
         guard let usersDict = snapshot.value as? [String: [String: String]] else {return}
-       
+        var count = 0;
         for uid in usersDict.keys{
             guard let userData = usersDict[uid] else {return}
             guard let usernameString = userData["username"] else {return}
             usernameToUID.updateValue(uid, forKey: usernameString)
             UIDToUsername.updateValue(usernameString, forKey: uid)
-            if !(uid == currentUID) || friendDict[uid] != nil{
-                
-                
-                let username = NSAttributedString(string: "  \(usernameString)", attributes: [NSAttributedString.Key.font : UIFont.boldSystemFont(ofSize: 20), NSAttributedString.Key.foregroundColor : UIColor.systemPink])
-                
-                usernames.append(usernameString)
-                guard let imageURL = userData["imageURL"] else {
-                    createImageAndUsernameText(image: UIImage(named: "ProfilePic")!, username: username,usernameText: usernameString)
-                    continue
+            //print("UID ME? \(uid == currentUID) FRIEND DICT AT UID IS \(friendDict[uid] ?? -18)")
+            
+           
+            let username = NSAttributedString(string: "  \(usernameString)", attributes: [NSAttributedString.Key.font : UIFont.boldSystemFont(ofSize: 20), NSAttributedString.Key.foregroundColor : UIColor.systemPink])
+            
+            
+            guard let imageURL = userData["imageURL"] else {
+                createImageAndUsernameText(image: UIImage(named: "ProfilePic")!, username: username,usernameText: usernameString)
+                if uid != currentUID && friendDict[uid] == nil{
+                    print("Hi I'm happening now and only now")
+                    usernames.append(usernameString)
                 }
-                let storageRef = Storage.storage().reference(forURL: imageURL)
-                storageRef.getData(maxSize: 1024*1024) { (data, error) in
-                    if error == nil && data != nil{
-                        createImageAndUsernameText(image: UIImage(data: data!)!, username: username, usernameText: usernameString)
-                        
-                    }
-                    else{
-                        print(error?.localizedDescription)
-                    }
+                continue
+            }
+            let storageRef = Storage.storage().reference(forURL: imageURL)
+            storageRef.getData(maxSize: 1024*1024) { (data, error) in
+                if error == nil && data != nil{
+                    createImageAndUsernameText(image: UIImage(data: data!)!, username: username, usernameText: usernameString)
+                    
+                }
+                else{
+                    print(error?.localizedDescription)
                 }
             }
+            if uid != currentUID && friendDict[uid] == nil{
+                print("Hi I'm happening now and only now")
+                usernames.append(usernameString)
+            }
+            
         }
     }
     )
     
 }
-func retrieveFriends(){
+func retrieveFriendsAndUsers(){
     guard let uid = Auth.auth().currentUser?.uid else {return}
+    print("HAHAHAHHA")
     databaseRef.child("users/\(uid)/friends").observeSingleEvent(of: .value) { (snapshot) in
+        print("BAha")
         guard let friends = snapshot.value as? [String] else {return}
         for friend in friends{
+            print("Walla and the friend is... \(friend)")
             friendDict.updateValue(0, forKey: friend)
         }
+        retrieveUsers()
+        print("Bruh")
     }
 }
 func createImageAndUsernameText(image: UIImage, username: NSAttributedString, usernameText: String){
@@ -204,7 +217,9 @@ func transitiontoNewVC(_ menuType: MenuType, currentViewController: UIViewContro
     //And get rid of the .map case
     //Task for another day
     
-    //currentViewController.navigationController?.popToRootViewController(animated: true)
+    //currentViewController.navigationController?.popToRootViewController(animated: false)
+    
+    //Just know that if you go back and forth between the profile and friend manager you continue adding them to el stacko... If you go to map once el stacko is gone. 
     switch menuType{
     case .map:
         currentViewController.navigationController?.popToRootViewController(animated: true)
@@ -228,15 +243,16 @@ func transitiontoNewVC(_ menuType: MenuType, currentViewController: UIViewContro
             map.deselectAnnotation(map.selectedAnnotations[0], animated: true)
         }
         userImage = UIImage(named: "ProfilePic")!
+        usernames = []
         guard let startUpViewController = currentViewController.storyboard?.instantiateViewController(withIdentifier: "StartUpScreenViewController") else {return}
         currentViewController.navigationController?.pushViewController(startUpViewController, animated: true)
-        //Why is default never executed?
         break
     case .friendsManager:
         if let _ = currentViewController as? AddFriendsViewController{
             
         }
         else{
+            
             guard let addFriendsViewController = currentViewController.storyboard?.instantiateViewController(withIdentifier: "AddFriendsViewController") else {return}
             currentViewController.navigationController?.pushViewController(addFriendsViewController, animated: true)
             

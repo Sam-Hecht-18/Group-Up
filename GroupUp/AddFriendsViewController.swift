@@ -12,6 +12,9 @@ import FirebaseStorage
 class AddFriendsViewController: UIViewController, UITextFieldDelegate, UITableViewDelegate, UITableViewDataSource {
     
     
+    @IBAction func sidebarButtonTapped(_ sender: UIBarButtonItem) {
+        slideOutSidebar(self)
+    }
     let textField = UITextField()
     let tableView = UITableView()
     var showFriendRequests = false
@@ -29,12 +32,18 @@ class AddFriendsViewController: UIViewController, UITextFieldDelegate, UITableVi
         friendRequestUsernames.sort { (arg1, arg2) -> Bool in
             return arg1.lowercased() < arg2.lowercased()
         }
+        for username in usernames{
+            print(username)
+        }
         viableUsernames = usernames
         setUpTextField()
         setUpTableView()
         let switchTableViewButton = UIBarButtonItem(title: "Show Friend Requests", style: .plain, target: self, action: #selector(switchTableView))
         navigationItem.rightBarButtonItem = switchTableViewButton
         // Do any additional setup after loading the view.
+    }
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        self.textField.resignFirstResponder()
     }
     @objc func switchTableView(){
         if showFriendRequests{
@@ -80,7 +89,7 @@ class AddFriendsViewController: UIViewController, UITextFieldDelegate, UITableVi
     func setUpTableView(){
         view.addSubview(tableView)
         tableView.translatesAutoresizingMaskIntoConstraints = false
-        
+        tableView.allowsSelection = false
         tableView.topAnchor.constraint(equalTo: textField.bottomAnchor, constant: 10).isActive = true
         tableView.heightAnchor.constraint(equalToConstant: 700).isActive = true
         tableView.centerXAnchor.constraint(equalTo: view.centerXAnchor, constant: 0).isActive = true
@@ -236,7 +245,10 @@ class AddFriendsViewController: UIViewController, UITextFieldDelegate, UITableVi
             databaseRef.child("users/\(requestUID)").updateChildValues(["friends": friends])
         }
         print("Yah yah yahaaaaa")
-        viableUsernames.remove(at: acceptButton.tag)
+        friendRequestUsernames.remove(at: acceptButton.tag)
+        friendRequests.remove(at: acceptButton.tag)
+        viableUsernames = friendRequestUsernames
+        textField.text = ""
         tableView.reloadSections([0], with: .automatic)
     }
     @objc func denyRequest(_ denyButton : UIButton){
@@ -244,6 +256,11 @@ class AddFriendsViewController: UIViewController, UITextFieldDelegate, UITableVi
         let username = viableUsernames[denyButton.tag]
         guard let requestUID = usernameToUID[username] else {return}
         databaseRef.child("friendRequests/\(currentUID)/\(requestUID)").removeValue()
+        friendRequestUsernames.remove(at: denyButton.tag)
+        friendRequests.remove(at: denyButton.tag)
+        viableUsernames = friendRequestUsernames
+        textField.text = ""
+        tableView.reloadSections([0], with: .automatic)
     }
     
     @objc func addFriend(_ addButton : UIButton){
@@ -267,6 +284,11 @@ class AddFriendsViewController: UIViewController, UITextFieldDelegate, UITableVi
         print("Time to update")
         databaseRef.child("friendRequests").updateChildValues(request)
         print("Done!")
+        
+        usernames.remove(at: addButton.tag)
+        viableUsernames = usernames
+        textField.text = ""
+        tableView.reloadSections([0], with: .automatic)
     }
 }
 /*

@@ -640,6 +640,14 @@
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <viewLayoutGuide key="safeArea" id="l4K-dd-hnp"/>
                     </view>
+                    <navigationItem key="navigationItem" id="PIy-uT-8s0">
+                        <barButtonItem key="leftBarButtonItem" title="Item" image="Menu" id="DGd-ES-OvM">
+                            <color key="tintColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            <connections>
+                                <action selector="sidebarButtonTapped:" destination="Phv-33-Kd3" id="QVE-lE-gsK"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="7Ln-dq-bd0" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>

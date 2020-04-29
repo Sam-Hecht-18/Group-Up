@@ -29,19 +29,24 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        setUpObservers()
+       
         //overrideUserInterfaceStyle = .dark
         view.addSubview(map)
         setUpMapView()
         checkLocationServices()
        
         checkLogIn()
+        retrieveFriendsAndUsers()
+        setUpObservers()
+        
+        
+        
+        
         
         setUpNavigationControllerBackground()
         
         //databaseRef.child("users/\(Auth.auth().currentUser?.uid!)")
-        retrieveUsers()
+        
         
         eventCreator.addTarget(self, action: #selector(buttonClicked(_:)), for: .touchUpInside)
         
