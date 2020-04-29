@@ -28,6 +28,7 @@
 		A2AFBE24240449160090F639 /* LogInViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2AFBE23240449160090F639 /* LogInViewController.swift */; };
 		A2D8B27B24101A25002C6195 /* EventCreator.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2D8B27A24101A25002C6195 /* EventCreator.swift */; };
 		A8197E992410293600E048A4 /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A8197E982410293600E048A4 /* ProfileViewController.swift */; };
+		A823682C2459FF3F00C89466 /* MyFriendsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A823682B2459FF3F00C89466 /* MyFriendsViewController.swift */; };
 		A85DBB7A240EB3D4004E60DA /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A85DBB79240EB3D4004E60DA /* Main.storyboard */; };
 		F51B812024044ACA0082A3C9 /* StartUpScreenViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F51B811F24044ACA0082A3C9 /* StartUpScreenViewController.swift */; };
 		F51B81262412D8200082A3C9 /* NotificationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F51B81252412D8200082A3C9 /* NotificationViewController.swift */; };
@@ -80,6 +81,7 @@
 		A2AFBE23240449160090F639 /* LogInViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogInViewController.swift; sourceTree = "<group>"; };
 		A2D8B27A24101A25002C6195 /* EventCreator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventCreator.swift; sourceTree = "<group>"; };
 		A8197E982410293600E048A4 /* ProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
+		A823682B2459FF3F00C89466 /* MyFriendsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyFriendsViewController.swift; sourceTree = "<group>"; };
 		A85DBB79240EB3D4004E60DA /* Main.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
 		E7C79C16E538BC64438B52B1 /* Pods-GroupUp.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-GroupUp.debug.xcconfig"; path = "Target Support Files/Pods-GroupUp/Pods-GroupUp.debug.xcconfig"; sourceTree = "<group>"; };
 		F51B811F24044ACA0082A3C9 /* StartUpScreenViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StartUpScreenViewController.swift; sourceTree = "<group>"; };
@@ -164,6 +166,7 @@
 				A06DD5F323FC5D4F000DFF7C /* Assets.xcassets */,
 				A06DD5F523FC5D4F000DFF7C /* LaunchScreen.storyboard */,
 				A85DBB79240EB3D4004E60DA /* Main.storyboard */,
+				A823682B2459FF3F00C89466 /* MyFriendsViewController.swift */,
 				A0BF04352451433C00BF6B2D /* AddFriendsViewController.swift */,
 				A086D33F240446B800E3A640 /* SidebarMenuViewController.swift */,
 				A086D341240446DD00E3A640 /* SidebarSlideInTransition.swift */,
@@ -371,6 +374,7 @@
 				A2D8B27B24101A25002C6195 /* EventCreator.swift in Sources */,
 				F51B81262412D8200082A3C9 /* NotificationViewController.swift in Sources */,
 				A06DD5ED23FC5D4C000DFF7C /* SceneDelegate.swift in Sources */,
+				A823682C2459FF3F00C89466 /* MyFriendsViewController.swift in Sources */,
 				A01314C5243455DD00A47168 /* EventLocationCreatorViewController.swift in Sources */,
 				F51B812024044ACA0082A3C9 /* StartUpScreenViewController.swift in Sources */,
 				A07E1B5A23FDC56D005E999B /* MapViewController.swift in Sources */,
