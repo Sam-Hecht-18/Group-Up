@@ -24,6 +24,8 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
     @IBAction func upcomingEvents(_ sender: UIButton) {
     }
     @IBAction func myFriends(_ sender: UIButton) {
+        guard let myFriendsVC = storyboard?.instantiateViewController(identifier: "MyFriendsViewController") else {return}
+        navigationController?.pushViewController(myFriendsVC, animated: true)
         
     }
     @IBAction func changeProfilePic(_ sender: UIButton) {

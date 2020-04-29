@@ -19,7 +19,7 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
     
     
     var timeAndDistance = String()
-    let eventCreator = UIButton(type: .contactAdd)
+    //let eventCreator = UIButton(type: .contactAdd)
     let locationManager = CLLocationManager()
     let eventManagerSlideUpView = EventManagerSlideUpViewController()
     
@@ -48,7 +48,7 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
         //databaseRef.child("users/\(Auth.auth().currentUser?.uid!)")
         
         
-        eventCreator.addTarget(self, action: #selector(buttonClicked(_:)), for: .touchUpInside)
+//        eventCreator.addTarget(self, action: #selector(buttonClicked(_:)), for: .touchUpInside)
         
         
 //        eventCreator.titleLabel?.lineBreakMode = .byWordWrapping
@@ -64,8 +64,10 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
 //        eventCreator.layer.cornerRadius = 10
         
         
-        let plz = UIBarButtonItem(customView: eventCreator)
-        navigationItem.rightBarButtonItem = plz
+        let eventCreatorButton = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(buttonClicked(_:)))
+        
+        
+        navigationItem.rightBarButtonItem = eventCreatorButton
         addEventManagerSlideUpViewController()
     }
     
@@ -245,7 +247,16 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
         goodDistance /= 10
         timeAndDistance.append("(\(goodDistance) mi)")
     }
-    
+    func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
+        if annotation.coordinate.latitude == mapView.userLocation.coordinate.latitude && annotation.coordinate.longitude == mapView.userLocation.coordinate.longitude{
+                   print("this happened")
+                   return nil
+               }
+        let annotationView = MKAnnotationView()
+        annotationView.annotation = annotation
+        annotationView.image = UIImage(named: "Blue pin")!
+        return annotationView
+    }
     func mapView(_ mapView: MKMapView, didDeselect view: MKAnnotationView) {
         print("left")
         if !map.overlays.isEmpty{

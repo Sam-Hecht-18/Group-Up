@@ -265,7 +265,6 @@
                                     </userDefinedRuntimeAttribute>
                                 </userDefinedRuntimeAttributes>
                                 <connections>
-                                    <action selector="FirebaseTestPush2:" destination="0OW-9D-nOg" eventType="touchUpInside" id="1Jy-0j-7Sg"/>
                                     <action selector="myFriends:" destination="0OW-9D-nOg" eventType="touchUpInside" id="WMX-e8-L0B"/>
                                 </connections>
                             </button>
@@ -286,7 +285,6 @@
                                     </userDefinedRuntimeAttribute>
                                 </userDefinedRuntimeAttributes>
                                 <connections>
-                                    <action selector="FirebaseTestPull:" destination="0OW-9D-nOg" eventType="touchUpInside" id="TfX-qw-z2k"/>
                                     <action selector="upcomingEvents:" destination="0OW-9D-nOg" eventType="touchUpInside" id="a4h-Uo-rNs"/>
                                 </connections>
                             </button>
@@ -308,7 +306,6 @@
                                 </userDefinedRuntimeAttributes>
                                 <connections>
                                     <action selector="createdEvents:" destination="0OW-9D-nOg" eventType="touchUpInside" id="PAP-4p-sbs"/>
-                                    <action selector="firebaseTestPush:" destination="0OW-9D-nOg" eventType="touchUpInside" id="sYQ-Ws-Z4z"/>
                                 </connections>
                             </button>
                         </subviews>
@@ -659,7 +656,7 @@
         <!--My Friends View Controller-->
         <scene sceneID="pmX-rQ-RS8">
             <objects>
-                <tableViewController id="aip-gN-6p6" customClass="MyFriendsViewController" customModule="GroupUp" customModuleProvider="target" sceneMemberID="viewController">
+                <tableViewController storyboardIdentifier="MyFriendsViewController" id="aip-gN-6p6" customClass="MyFriendsViewController" customModule="GroupUp" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="6nE-ld-feU">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -679,6 +676,9 @@
                             <outlet property="delegate" destination="aip-gN-6p6" id="w8J-pk-iGZ"/>
                         </connections>
                     </tableView>
+                    <connections>
+                        <outlet property="tableView" destination="6nE-ld-feU" id="rey-Jd-9M5"/>
+                    </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="bvu-gq-f7d" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
