@@ -185,6 +185,7 @@ class EventManagerSlideUpViewController: UIViewController, UIGestureRecognizerDe
     func populateJoinedTableView(event: Event){
         for i in 0..<event.joined.count{
             print("ITS POPULATING THE TABLE VIEW AHGHG")
+            
             guard let username = UIDToUsername[event.joined[i]] else {
                 print("Rippp")
                 return

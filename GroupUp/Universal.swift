@@ -101,7 +101,7 @@ func retrieveUsers(){
     guard let currentUID = Auth.auth().currentUser?.uid else {return}
     databaseRef.child("userProfiles").observeSingleEvent(of: .value, with: {(snapshot) in
         guard let usersDict = snapshot.value as? [String: [String: String]] else {return}
-        var count = 0;
+        
         for uid in usersDict.keys{
             guard let userData = usersDict[uid] else {return}
             guard let usernameString = userData["username"] else {return}
@@ -146,7 +146,11 @@ func retrieveFriendsAndUsers(){
     print("HAHAHAHHA")
     databaseRef.child("users/\(uid)/friends").observeSingleEvent(of: .value) { (snapshot) in
         print("BAha")
-        guard let friends = snapshot.value as? [String] else {return}
+        guard let friends = snapshot.value as? [String] else {
+            retrieveUsers()
+            return
+            
+        }
         for friend in friends{
             print("Walla and the friend is... \(friend)")
             friendDict.updateValue(0, forKey: friend)
