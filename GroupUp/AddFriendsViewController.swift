@@ -280,9 +280,14 @@ class AddFriendsViewController: UIViewController, UITextFieldDelegate, UITableVi
             print("fuodse")
             return}
         print("Time to request")
-        let request = [toUID: [currentUID: currentUserName]]
+        //let request = [toUID: [currentUID: currentUserName]]
         print("Time to update")
-        databaseRef.child("friendRequests").updateChildValues(request)
+        databaseRef.child("friendRequests/\(toUID)").observeSingleEvent(of: .value) { (snapshot) in
+            guard var friendReqs = snapshot.value as? [String: String] else {return}
+            friendReqs.updateValue(currentUserName, forKey: currentUID)
+            databaseRef.child("friendRequests").updateChildValues([toUID: friendReqs])
+        }
+        //databaseRef.child("friendRequests").updateChildValues(request)
         print("Done!")
         
         usernames.remove(at: addButton.tag)

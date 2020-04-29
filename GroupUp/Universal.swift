@@ -35,7 +35,7 @@ var usernameToUID = [String: String]()
 var usernameToFormattedProfile = [String: NSMutableAttributedString]()
 var UIDToUsername = [String: String]()
 var viableUsernames = [String]()
-var friendDict = [String : Int]()
+var friendDict = [String]()
 var friendRequests = [String]()
 var friendRequestUsernames = [String]()
 var usernames = [String]()
@@ -115,7 +115,7 @@ func retrieveUsers(){
             
             guard let imageURL = userData["imageURL"] else {
                 createImageAndUsernameText(image: UIImage(named: "ProfilePic")!, username: username,usernameText: usernameString)
-                if uid != currentUID && friendDict[uid] == nil{
+                if uid != currentUID && !friendDict.contains(uid) && !friendRequests.contains(uid){
                     print("Hi I'm happening now and only now")
                     usernames.append(usernameString)
                 }
@@ -131,7 +131,7 @@ func retrieveUsers(){
                     print(error?.localizedDescription)
                 }
             }
-            if uid != currentUID && friendDict[uid] == nil{
+            if uid != currentUID && !friendDict.contains(uid) && !friendRequests.contains(uid){
                 print("Hi I'm happening now and only now")
                 usernames.append(usernameString)
             }
@@ -153,7 +153,7 @@ func retrieveFriendsAndUsers(){
         }
         for friend in friends{
             print("Walla and the friend is... \(friend)")
-            friendDict.updateValue(0, forKey: friend)
+            friendDict.append(friend)
         }
         retrieveUsers()
         print("Bruh")
