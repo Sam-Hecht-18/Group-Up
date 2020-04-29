@@ -256,7 +256,7 @@
                                     <constraint firstAttribute="width" constant="200" id="qXP-ze-rWg"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="17"/>
-                                <state key="normal" title="Firebase Test Push 2">
+                                <state key="normal" title="Friends">
                                     <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 </state>
                                 <userDefinedRuntimeAttributes>
@@ -266,6 +266,7 @@
                                 </userDefinedRuntimeAttributes>
                                 <connections>
                                     <action selector="FirebaseTestPush2:" destination="0OW-9D-nOg" eventType="touchUpInside" id="1Jy-0j-7Sg"/>
+                                    <action selector="myFriends:" destination="0OW-9D-nOg" eventType="touchUpInside" id="WMX-e8-L0B"/>
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="55s-Hg-46l">
@@ -276,7 +277,7 @@
                                     <constraint firstAttribute="height" constant="50" id="tw1-Vz-Mev"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="17"/>
-                                <state key="normal" title="Firebase Test Pull">
+                                <state key="normal" title="Upcoming Events">
                                     <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 </state>
                                 <userDefinedRuntimeAttributes>
@@ -286,6 +287,7 @@
                                 </userDefinedRuntimeAttributes>
                                 <connections>
                                     <action selector="FirebaseTestPull:" destination="0OW-9D-nOg" eventType="touchUpInside" id="TfX-qw-z2k"/>
+                                    <action selector="upcomingEvents:" destination="0OW-9D-nOg" eventType="touchUpInside" id="a4h-Uo-rNs"/>
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="pDb-qa-KKx">
@@ -296,7 +298,7 @@
                                     <constraint firstAttribute="height" constant="50" id="NC9-Cc-HnR"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="17"/>
-                                <state key="normal" title="Firebase Test Push">
+                                <state key="normal" title="My Created Events">
                                     <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 </state>
                                 <userDefinedRuntimeAttributes>
@@ -305,6 +307,7 @@
                                     </userDefinedRuntimeAttribute>
                                 </userDefinedRuntimeAttributes>
                                 <connections>
+                                    <action selector="createdEvents:" destination="0OW-9D-nOg" eventType="touchUpInside" id="PAP-4p-sbs"/>
                                     <action selector="firebaseTestPush:" destination="0OW-9D-nOg" eventType="touchUpInside" id="sYQ-Ws-Z4z"/>
                                 </connections>
                             </button>
@@ -652,6 +655,34 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="7Ln-dq-bd0" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1992.753623188406" y="979.6875"/>
+        </scene>
+        <!--My Friends View Controller-->
+        <scene sceneID="pmX-rQ-RS8">
+            <objects>
+                <tableViewController id="aip-gN-6p6" customClass="MyFriendsViewController" customModule="GroupUp" customModuleProvider="target" sceneMemberID="viewController">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="6nE-ld-feU">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="separatorColor" white="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <prototypes>
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" id="5Ou-Ri-4AS">
+                                <rect key="frame" x="0.0" y="28" width="414" height="43.5"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="5Ou-Ri-4AS" id="gf9-tJ-ex0">
+                                    <rect key="frame" x="0.0" y="0.0" width="414" height="43.5"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                </tableViewCellContentView>
+                            </tableViewCell>
+                        </prototypes>
+                        <connections>
+                            <outlet property="dataSource" destination="aip-gN-6p6" id="Xft-UH-eL4"/>
+                            <outlet property="delegate" destination="aip-gN-6p6" id="w8J-pk-iGZ"/>
+                        </connections>
+                    </tableView>
+                </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="bvu-gq-f7d" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2939" y="388"/>
         </scene>
     </scenes>
     <resources>

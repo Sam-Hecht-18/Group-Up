@@ -17,19 +17,15 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
     @IBOutlet weak var username: UILabel!
     var imagePicker : UIImagePickerController?
     
-    @IBAction func FirebaseTestPull(_ sender: UIButton) {
-       
+    @IBAction func createdEvents(_ sender: UIButton) {
     }
-    @IBAction func firebaseTestPush(_ sender: UIButton) {
-
-    }
-    @IBAction func FirebaseTestPush2(_ sender: UIButton) {
-        
-    }
-    
-    
     @IBOutlet weak var profilePic: UIButton!
     
+    @IBAction func upcomingEvents(_ sender: UIButton) {
+    }
+    @IBAction func myFriends(_ sender: UIButton) {
+        
+    }
     @IBAction func changeProfilePic(_ sender: UIButton) {
         self.present(imagePicker!, animated: true, completion: nil)
     }
