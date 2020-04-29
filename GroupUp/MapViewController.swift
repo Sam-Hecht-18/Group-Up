@@ -19,7 +19,7 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
     
     
     var timeAndDistance = String()
-    let eventCreator = UIButton(type: .custom)
+    let eventCreator = UIButton(type: .contactAdd)
     let locationManager = CLLocationManager()
     let eventManagerSlideUpView = EventManagerSlideUpViewController()
     
@@ -51,17 +51,18 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
         eventCreator.addTarget(self, action: #selector(buttonClicked(_:)), for: .touchUpInside)
         
         
-        eventCreator.titleLabel?.lineBreakMode = .byWordWrapping
-        eventCreator.titleLabel?.textAlignment = .center
-        eventCreator.setAttributedTitle(NSAttributedString(string: "Create\nEvent", attributes: [NSAttributedString.Key.foregroundColor: UIColor.black]), for: .normal)
-        eventCreator.frame = CGRect(x: 0, y: 0, width: 70, height: 50)
-        eventCreator.setTitleColor(.black, for: .normal)
-       
-        eventCreator.backgroundColor = .white
-        eventCreator.setTitleColor(.black, for: .normal)
-
-//        eventCreator.clipsToBounds = true
-        eventCreator.layer.cornerRadius = 10
+//        eventCreator.titleLabel?.lineBreakMode = .byWordWrapping
+//        eventCreator.titleLabel?.textAlignment = .center
+//        eventCreator.setAttributedTitle(NSAttributedString(string: "Create\nEvent", attributes: [NSAttributedString.Key.foregroundColor: UIColor.black]), for: .normal)
+//        eventCreator.frame = CGRect(x: 0, y: 0, width: 70, height: 50)
+//        eventCreator.setTitleColor(.black, for: .normal)
+//
+//        eventCreator.backgroundColor = .white
+//        eventCreator.setTitleColor(.black, for: .normal)
+//
+//       eventCreator.clipsToBounds = true
+//        eventCreator.layer.cornerRadius = 10
+        
         
         let plz = UIBarButtonItem(customView: eventCreator)
         navigationItem.rightBarButtonItem = plz
