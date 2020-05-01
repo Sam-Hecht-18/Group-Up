@@ -28,6 +28,7 @@ class EventManagerSlideUpViewController: UIViewController, UIGestureRecognizerDe
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        joinedTableView = UITableView.init(frame: .init(), style: .grouped)
         setUpPanGesture()
         setUpJoinedTableView()
         setUpTimeAndDistanceLabel()
@@ -35,7 +36,13 @@ class EventManagerSlideUpViewController: UIViewController, UIGestureRecognizerDe
         setUpDateLabel()
         
     }
-    
+    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        return 10
+    }
+    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        UIView.init()
+
+    }
     func setUpDateLabel(){
         dateLabel.isHidden = true
         view.addSubview(dateLabel)
@@ -48,7 +55,7 @@ class EventManagerSlideUpViewController: UIViewController, UIGestureRecognizerDe
         dateLabel.heightAnchor.constraint(equalToConstant: 100).isActive = true
         dateLabel.numberOfLines = 3
         dateLabel.textAlignment = .center
-        dateLabel.textColor = .systemIndigo
+        dateLabel.textColor = .white
         
     }
     
@@ -63,8 +70,8 @@ class EventManagerSlideUpViewController: UIViewController, UIGestureRecognizerDe
         
         joinedTableView.translatesAutoresizingMaskIntoConstraints = false
         
-        joinedTableView.centerXAnchor.constraint(equalTo: view.centerXAnchor, constant: -100).isActive = true
-        joinedTableView.topAnchor.constraint(equalTo: view.topAnchor, constant: 60).isActive = true
+        joinedTableView.centerXAnchor.constraint(equalTo: view.centerXAnchor, constant: -85).isActive = true
+        joinedTableView.topAnchor.constraint(equalTo: view.topAnchor, constant: 30).isActive = true
         joinedTableView.widthAnchor.constraint(equalToConstant: view.frame.width/2).isActive = true
         joinedTableView.heightAnchor.constraint(equalToConstant: view.frame.height-20).isActive = true
         
@@ -80,8 +87,10 @@ class EventManagerSlideUpViewController: UIViewController, UIGestureRecognizerDe
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = joinedTableView.dequeueReusableCell(withIdentifier: "cellID") else {return UITableViewCell()}
+        cell.layer.cornerRadius = 10
         cell.textLabel?.attributedText = eventMembers[indexPath.row]
-        cell.backgroundColor = .cyan
+        cell.textLabel?.font = UIFont(name: "Helvetica Neue", size: 20)
+        cell.backgroundColor = .systemGray3
         return cell
     }
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
@@ -91,19 +100,21 @@ class EventManagerSlideUpViewController: UIViewController, UIGestureRecognizerDe
     
     func setUpJoinButton(){
         joinButton.setTitle("Join Event", for: .normal)
+        joinButton.titleLabel?.font = UIFont(name: "Helvetica Neue", size: 20)
+        
         joinButton.addTarget(self, action: #selector(joinEvent), for: .touchUpInside)
         
-        joinButton.backgroundColor = .purple
-        joinButton.layer.cornerRadius = 7
+        joinButton.backgroundColor = .systemGray3
+        joinButton.layer.cornerRadius = 10
         joinButton.layer.borderWidth = 3
-        joinButton.layer.borderColor = UIColor.purple.cgColor
+        joinButton.layer.borderColor = UIColor.systemGray3.cgColor
         joinButton.isHidden = true
         joinButton.isEnabled = false
         
         view.addSubview(joinButton)
         
         joinButton.translatesAutoresizingMaskIntoConstraints = false
-        joinButton.centerYAnchor.constraint(equalTo: view.centerYAnchor, constant: -200).isActive = true
+        joinButton.centerYAnchor.constraint(equalTo: view.centerYAnchor, constant: -316).isActive = true
         joinButton.centerXAnchor.constraint(equalTo: view.centerXAnchor, constant: 100).isActive = true
         joinButton.widthAnchor.constraint(equalToConstant: 150).isActive = true
         joinButton.heightAnchor.constraint(equalToConstant: 50).isActive = true
@@ -125,7 +136,7 @@ class EventManagerSlideUpViewController: UIViewController, UIGestureRecognizerDe
         
         timeAndDistanceLabel.backgroundColor = .systemGray5
         timeAndDistanceLabel.textAlignment = .center
-        timeAndDistanceLabel.textColor = .systemGreen
+        timeAndDistanceLabel.textColor = .white
         timeAndDistanceLabel.font = UIFont(name: "Helvetica Neue", size: 30)
     }
     
