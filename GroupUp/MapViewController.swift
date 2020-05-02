@@ -176,6 +176,7 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
     func mapView(_ mapView: MKMapView, didSelect view: MKAnnotationView) {
         //Checks to make sure you're not clicking on your own location
         print("right")
+        view.image = UIImage(named: "Red Pin Big")!
         if view.annotation?.coordinate.latitude != mapView.userLocation.coordinate.latitude && view.annotation?.coordinate.longitude != mapView.userLocation.coordinate.longitude{
             
             //eventManagerSlideUpView.popUpViewToMiddle()
@@ -254,11 +255,12 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
                }
         let annotationView = MKAnnotationView()
         annotationView.annotation = annotation
-        annotationView.image = UIImage(named: "Blue pin")!
+        annotationView.image = UIImage(named: "Red Pin Small")!
         return annotationView
     }
     func mapView(_ mapView: MKMapView, didDeselect view: MKAnnotationView) {
         print("left")
+        view.image = UIImage(named: "Red Pin Small")!
         if !map.overlays.isEmpty{
             map.removeOverlays(map.overlays)
         }
