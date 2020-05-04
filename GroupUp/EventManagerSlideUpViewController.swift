@@ -17,31 +17,54 @@ class EventManagerSlideUpViewController: UIViewController, UIGestureRecognizerDe
     let joinButton = UIButton(type: .system)
     var eventMembers = [NSAttributedString]()
     let dateLabel = UILabel()
-    lazy var frame = CGRect(x: 50, y: 50, width: 100, height: 100)
-    lazy var joinedTableView = UITableView(frame: frame, style: .grouped)
+    lazy var frame = CGRect(x: 50, y: 70, width: 100, height: 100)
+    lazy var joinedTableView = UITableView(frame: frame, style: .plain)
     var partialView : CGFloat {
         return UIScreen.main.bounds.height-300
     }
     var collapsedView : CGFloat {
         return UIScreen.main.bounds.height-80
     }
+    let attendeeLabel = UILabel()
+
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        joinedTableView = UITableView.init(frame: .init(), style: .grouped)
         setUpPanGesture()
+        setUpAttendeeLabel()
         setUpJoinedTableView()
         setUpTimeAndDistanceLabel()
         setUpJoinButton()
         setUpDateLabel()
         
+        
     }
+    
+    func setUpAttendeeLabel(){
+        attendeeLabel.text = "Attendees"
+        attendeeLabel.textAlignment = .center
+        attendeeLabel.textColor = .white
+        attendeeLabel.font = UIFont(name: "Helvetica Neue", size: 26)
+        attendeeLabel.isHidden = true
+        
+        view.addSubview(attendeeLabel)
+        attendeeLabel.translatesAutoresizingMaskIntoConstraints = false
+        attendeeLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor, constant: -85).isActive = true
+        attendeeLabel.topAnchor.constraint(equalTo: view.topAnchor, constant: 76).isActive = true
+        attendeeLabel.widthAnchor.constraint(equalToConstant: view.frame.width/2).isActive = true
+        attendeeLabel.heightAnchor.constraint(equalToConstant: 30).isActive = true
+    }
+    
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        return 10
+       
+        return 2
     }
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        UIView.init()
-
+        let frame = CGRect(x: 0, y: 0, width: 100, height: 1)
+        let view = UIView(frame: frame)
+        view.backgroundColor = .clear
+        return view
+        
     }
     func setUpDateLabel(){
         dateLabel.isHidden = true
@@ -65,31 +88,38 @@ class EventManagerSlideUpViewController: UIViewController, UIGestureRecognizerDe
         joinedTableView.allowsSelection = false
         joinedTableView.register(UITableViewCell.self, forCellReuseIdentifier: "cellID")
         joinedTableView.backgroundColor = .clear
+        joinedTableView.separatorColor =  .clear
         
         view.addSubview(joinedTableView)
         
         joinedTableView.translatesAutoresizingMaskIntoConstraints = false
         
         joinedTableView.centerXAnchor.constraint(equalTo: view.centerXAnchor, constant: -85).isActive = true
-        joinedTableView.topAnchor.constraint(equalTo: view.topAnchor, constant: 30).isActive = true
+        joinedTableView.topAnchor.constraint(equalTo: attendeeLabel.bottomAnchor, constant: 5).isActive = true
         joinedTableView.widthAnchor.constraint(equalToConstant: view.frame.width/2).isActive = true
         joinedTableView.heightAnchor.constraint(equalToConstant: view.frame.height-20).isActive = true
         
         joinedTableView.isScrollEnabled = false
     }
     
-    
+    func numberOfSections(in tableView: UITableView) -> Int {
+        print("Event members count is \(eventMembers.count)")
+        return eventMembers.count
+    }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        
-        return eventMembers.count
+        print("There's 1 row man")
+        return 1
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = joinedTableView.dequeueReusableCell(withIdentifier: "cellID") else {return UITableViewCell()}
+        print("Hello moto")
         cell.layer.cornerRadius = 10
-        cell.textLabel?.attributedText = eventMembers[indexPath.row]
-        cell.textLabel?.font = UIFont(name: "Helvetica Neue", size: 20)
+        cell.layer.borderColor = UIColor.systemGray3.cgColor
+        cell.layer.borderWidth = 3
+        cell.textLabel?.attributedText = eventMembers[indexPath.section]
+        cell.textLabel?.adjustsFontSizeToFitWidth = true
         cell.backgroundColor = .systemGray3
         return cell
     }
@@ -114,7 +144,7 @@ class EventManagerSlideUpViewController: UIViewController, UIGestureRecognizerDe
         view.addSubview(joinButton)
         
         joinButton.translatesAutoresizingMaskIntoConstraints = false
-        joinButton.centerYAnchor.constraint(equalTo: view.centerYAnchor, constant: -316).isActive = true
+        joinButton.centerYAnchor.constraint(equalTo: view.centerYAnchor, constant: -310).isActive = true
         joinButton.centerXAnchor.constraint(equalTo: view.centerXAnchor, constant: 100).isActive = true
         joinButton.widthAnchor.constraint(equalToConstant: 150).isActive = true
         joinButton.heightAnchor.constraint(equalToConstant: 50).isActive = true
@@ -169,7 +199,6 @@ class EventManagerSlideUpViewController: UIViewController, UIGestureRecognizerDe
     }
     func updateEventSelected(_ event: Event){
         self.event = event
-        joinButton.isHidden = false
         guard let uid = Auth.auth().currentUser?.uid else {return}
         if !event.joined.contains(uid){
             joinButton.isHidden = false
@@ -182,16 +211,21 @@ class EventManagerSlideUpViewController: UIViewController, UIGestureRecognizerDe
         eventMembers = []
         populateJoinedTableView(event: event)
         dateLabel.isHidden = false
+        attendeeLabel.isHidden = false
         dateLabel.text = dateFormatter.string(from: event.time)
         
     }
+    
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         prepareBackgroundView()
     }
     func unpopulate(){
         eventMembers = []
-        joinedTableView.reloadSections([0], with: .automatic)
+        attendeeLabel.isHidden = true
+        dateLabel.isHidden = true
+        joinButton.isHidden = true
+        joinedTableView.reloadData()
     }
     func populateJoinedTableView(event: Event){
         for i in 0..<event.joined.count{
@@ -209,7 +243,7 @@ class EventManagerSlideUpViewController: UIViewController, UIGestureRecognizerDe
             self.eventMembers.append(formattedProfile)
             
         }
-        joinedTableView.reloadSections([0], with: .automatic)
+        joinedTableView.reloadData()
     }
 
     

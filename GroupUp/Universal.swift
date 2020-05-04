@@ -11,7 +11,7 @@ import MapKit
 //  Copyright © 2020 Samuel Hecht (student LM). All rights reserved.
 //
 var databaseRef: DatabaseReference = {
-    //Database.database().isPersistenceEnabled = true
+    Database.database().isPersistenceEnabled = true
     return Database.database().reference()
 }()
 var storageRef = Storage.storage().reference()
@@ -41,13 +41,44 @@ var friendRequestUsernames = [String]()
 var usernames = [String]()
 
 func setUpObservers(){
+    
     guard let uid = Auth.auth().currentUser?.uid else {return}
+    
     databaseRef.child("events").observe(.childAdded) { (eventAdded) in
         let event = getSnapshotAsEvent(snapshot: eventAdded)
-        events.updateValue(event, forKey: event.identifier)
-        map.addAnnotation(event)
-        print("Child Added")
+        print("Child added")
+        print("The my friends contains \(myFriends.count) people")
+        if (event.permission == "Friends" && (myFriends.contains(event.owner) || uid == event.owner)
+            || event.permission == "Anyone"){
+          
+        
+        if event.time.timeIntervalSinceReferenceDate < Date(timeIntervalSinceNow: 0).timeIntervalSinceReferenceDate {
+            databaseRef.child("events/\(event.identifier)").removeValue()
+            let description = event.subtitle ?? ""
+            let eventDictionary = [
+            "owner" : event.owner,
+            "joined" : event.joined,
+            "time" : event.time.timeIntervalSinceReferenceDate,
+            "title" : event.title!,
+            "latitude" : "\(event.coordinate.latitude)",
+                "longitude" : "\(event.coordinate.longitude)" ,
+                "description" : description,
+                "activity" : event.activity,
+                "permission" : event.permission
+            ] as [String : Any]
+            databaseRef.child("prevEvents").updateChildValues([event.identifier : eventDictionary])
+        }
+        else{
+            events.updateValue(event, forKey: event.identifier)
+            map.addAnnotation(event)
+            //print("Child Added")
+        }
+        }
+        else{
+            print("The owner is: \(event.owner) and I am \(uid)")
+        }
     }
+    
     databaseRef.child("events").observe(.childRemoved) { (eventRemoved) in
         let removedEvent = getSnapshotAsEvent(snapshot: eventRemoved)
         events[removedEvent.identifier] = nil
@@ -62,14 +93,15 @@ func setUpObservers(){
     }
     
     databaseRef.child("friendRequests/\(uid)").observe(.value) { (snapshot) in
-        guard let friendRequestUID = snapshot.value as? [String:String] else {return}
-        for key in friendRequestUID.keys{
-            friendRequests.append(key)
-            guard let friendsRequestUsername = friendRequestUID[key] else {
+        print("Getting dem friend reqs")
+        guard let friendRequestUsers = snapshot.value as? [String:String] else {return}
+        for username in friendRequestUsers.keys{
+            friendRequestUsernames.append(username)
+            guard let friendsRequestUID = friendRequestUsers[username] else {
                 print("YIKERS SCOOBS")
                 return}
-            print("The friend request username is: \(friendsRequestUsername)")
-            friendRequestUsernames.append(friendsRequestUsername)
+            print("The friend request uid is: \(friendsRequestUID)")
+            friendRequests.append(friendsRequestUID)
         }
         
     }
@@ -85,16 +117,18 @@ func getSnapshotAsEvent(snapshot : DataSnapshot) -> Event{
     guard let latitudeString = eventInformation["latitude"] as? String else {return Event()}
     guard let description = eventInformation["description"] as? String else {return Event()}
     guard let activity = eventInformation["activity"] as? String else {return Event()}
+    guard let permission = eventInformation["permissions"] as? String else {return Event()}
     guard let latitudeDouble = Double(latitudeString) else {return Event()}
     guard let longitudeString = eventInformation["longitude"] as? String else {return Event()}
     guard let longitudeDouble = Double(longitudeString) else {return Event()}
+    
     let location = CLLocationCoordinate2D(latitude: latitudeDouble, longitude: longitudeDouble)
     let identifier = snapshot.key
     guard let timeInterval = Double(timeString) else {return Event()}
     
     let time = Date(timeIntervalSinceReferenceDate: timeInterval)
     print(name)
-    return Event(title: name, owner: ownerString, coordinate: location, time: time, description : description, joined: joinedArray, activity: activity, identifier: identifier)
+    return Event(title: name, owner: ownerString, coordinate: location, time: time, description : description, joined: joinedArray, activity: activity, identifier: identifier, permission: permission)
     
 }
 func retrieveUsers(){
@@ -110,7 +144,9 @@ func retrieveUsers(){
             //print("UID ME? \(uid == currentUID) FRIEND DICT AT UID IS \(friendDict[uid] ?? -18)")
             
            
-            let username = NSAttributedString(string: "  \(usernameString)", attributes: [NSAttributedString.Key.font : UIFont.boldSystemFont(ofSize: 20), NSAttributedString.Key.foregroundColor : UIColor.systemBlue])
+            
+            
+            let username = NSAttributedString(string: "  \(usernameString)", attributes: [NSAttributedString.Key.font : UIFont(name: "HelveticaNeue-Bold", size: 24)!, NSAttributedString.Key.foregroundColor : UIColor(red: 208/255.0, green: 222/255.0, blue: 39/255.0, alpha: 1.0)])
             
             
             guard let imageURL = userData["imageURL"] else {
@@ -141,6 +177,26 @@ func retrieveUsers(){
     )
     
 }
+func resetEverything(){
+    
+    databaseRef.removeAllObservers()
+    events = [:]
+    
+    userImage = UIImage(named: "ProfilePic")!
+    
+    location = CLLocationCoordinate2D()
+    if !map.annotations.isEmpty{
+        map.removeAnnotations(map.annotations)
+    }
+    
+    viableUsernames = [String]()
+    myFriends = [String]()
+    friendRequests = [String]()
+    friendRequestUsernames = [String]()
+    usernames = [String]()
+    retrieveFriendsAndUsers()
+
+}
 func retrieveFriendsAndUsers(){
     guard let uid = Auth.auth().currentUser?.uid else {return}
     print("HAHAHAHHA")
@@ -148,6 +204,7 @@ func retrieveFriendsAndUsers(){
         print("BAha")
         guard let friends = snapshot.value as? [String] else {
             retrieveUsers()
+            setUpObservers()
             return
             
         }
@@ -156,6 +213,7 @@ func retrieveFriendsAndUsers(){
             myFriends.append(friend)
         }
         retrieveUsers()
+        setUpObservers()
         print("Bruh")
     }
 }
@@ -167,6 +225,7 @@ func createImageAndUsernameText(image: UIImage, username: NSAttributedString, us
     let attachmentString = NSAttributedString(attachment: imageAttachment)
     let completeName = NSMutableAttributedString(string: "")
     completeName.append(attachmentString)
+    print("username is \(username)")
     completeName.append(username)
     usernameToFormattedProfile.updateValue(completeName, forKey: usernameText)
 }

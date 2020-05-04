@@ -11,10 +11,10 @@ import FirebaseAuth
 import MapKit
 
 
-class EventCreator: UITableViewController, UITextFieldDelegate, UIPickerViewDelegate, UIPickerViewDataSource{
+class EventCreator: UITableViewController, UITextFieldDelegate{
     var locationString = NSAttributedString(string: "Set Location")
     var openDatePicker = false
-    var openActivityPicker = false
+    var openActivityControl = false
     var openPermissionControl = false
     
     
@@ -30,19 +30,25 @@ class EventCreator: UITableViewController, UITextFieldDelegate, UIPickerViewDele
         segmentedControl.addTarget(self, action: #selector(permissionsChanged(_:)), for: .valueChanged)
         return segmentedControl
     }()
+    let activityPossibilities = ["Athletic", "Scholarly", "Misc."]
+    lazy var activityControl: UISegmentedControl = {
+        let segmentedControl = UISegmentedControl(items: activityPossibilities)
+        segmentedControl.frame = CGRect(x: 1, y: 0, width: 410, height: 50)
+        segmentedControl.selectedSegmentIndex = 0
+        segmentedControl.addTarget(self, action: #selector(activityChanged(_:)), for: .valueChanged)
+        return segmentedControl
+    }()
     
-    
-    let activityPickerView = UIPickerView()
     let datePickerView =  UIDatePicker()
       
-    var types = ["Basketball", "Soccer", "Lacrosse", "Badminton"]
+    //var types = ["Basketball", "Soccer", "Lacrosse", "Badminton"]
        
        
     var tableViewArray = [
         [NSAttributedString(string: "Name"), NSAttributedString(string: "Description")],
         [NSAttributedString(string: "Set Location")],
         [NSAttributedString(string: "Set Date")],
-        [NSAttributedString(string: "Set Activity")],
+        [NSAttributedString(string: "Set Type of Activity")],
         [NSAttributedString(string: "Set Permissions")]
     ]
     
@@ -69,9 +75,7 @@ class EventCreator: UITableViewController, UITextFieldDelegate, UIPickerViewDele
         datePickerView.minuteInterval = 5
         datePickerView.addTarget(self, action: #selector(dateChanged(picker:)), for: .valueChanged)
         
-        activityPickerView.delegate = self
-        activityPickerView.dataSource = self
-        activityPickerView.frame = CGRect(x: 0, y: 0, width: 380, height: 180)
+        
     }
     
     func setUpTextFields(){
@@ -107,7 +111,7 @@ class EventCreator: UITableViewController, UITextFieldDelegate, UIPickerViewDele
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         
-        return (openDatePicker && section == 2) || (openActivityPicker && section == 3) || (openPermissionControl && section == 4) ? 2 : tableViewArray[section].count
+        return (openDatePicker && section == 2) || (openActivityControl && section == 3) || (openPermissionControl && section == 4) ? 2 : tableViewArray[section].count
     }
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
@@ -129,11 +133,13 @@ class EventCreator: UITableViewController, UITextFieldDelegate, UIPickerViewDele
             
         }
         else if indexPath.section == 3 && indexPath.row == 0{
-            let activityPickerIndexPath = IndexPath(row: indexPath.row + 1, section: indexPath.section)
-            let selectedRow = activityPickerView.selectedRow(inComponent: 0)
-            pickerView(activityPickerView, didSelectRow: selectedRow, inComponent: 0)
-            openActivityPicker = !openActivityPicker
-            collapseExpand(boolean: openActivityPicker, indexPath: activityPickerIndexPath)
+            let activityControlIndexPath = IndexPath(row: indexPath.row + 1, section: indexPath.section)
+            activityChanged(activityControl)
+            //let selectedRow = activityPickerView.selectedRow(inComponent: 0)
+            //pickerView(activityPickerView, didSelectRow: selectedRow, inComponent: 0)
+            openActivityControl = !openActivityControl
+            collapseExpand(boolean: openActivityControl, indexPath: activityControlIndexPath)
+            allowEventCreation[3] = true
         }
         else if indexPath.section == 4 && indexPath.row == 0{
             let permissionControlIndexPath = IndexPath(row: indexPath.row + 1, section: indexPath.section)
@@ -182,7 +188,7 @@ class EventCreator: UITableViewController, UITextFieldDelegate, UIPickerViewDele
         else if indexPath.section == 3 && indexPath.row == 1{
             
             cell.backgroundColor = .systemGray5
-            cell.addSubview(activityPickerView)
+            cell.addSubview(activityControl)
             
             return cell
         }
@@ -210,7 +216,7 @@ class EventCreator: UITableViewController, UITextFieldDelegate, UIPickerViewDele
         return 30
     }
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return (openDatePicker && indexPath.section == 2 || openActivityPicker && indexPath.section == 3) && indexPath.row == 1 ? 180 : 50
+        return (openDatePicker && indexPath.section == 2) && indexPath.row == 1 ? 180 : 50
     }
     override func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         let headerView = UIView()
@@ -244,27 +250,6 @@ class EventCreator: UITableViewController, UITextFieldDelegate, UIPickerViewDele
     
     
     
-    func numberOfComponents(in pickerView: UIPickerView) -> Int {
-        return 1
-    }
-    
-    func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
-        return types.count
-    }
-    
-    func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
-        tableViewArray[3][0] = NSAttributedString(string: types[row], attributes: [NSAttributedString.Key.foregroundColor : UIColor.systemBlue])
-        tableView.reloadRows(at: [IndexPath(row: 0, section: 3)], with: .automatic)
-        allowEventCreation[3] = true
-        checkEventCreationStatus()
-        
-    }
-    
-    func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
-        //If you want to change the colors or add a picutre instead do the attributed title for row method
-        return "\(types[row])"
-    }
-    
     @objc func activateNameField(){
         nameTextField.becomeFirstResponder()
     }
@@ -274,17 +259,30 @@ class EventCreator: UITableViewController, UITextFieldDelegate, UIPickerViewDele
     
     @objc func dateChanged(picker: UIDatePicker){
         let date = picker.date
-        let displayDate = dateFormatter.string(from: date)
-        tableViewArray[2][0] = NSAttributedString(string: displayDate, attributes: [NSAttributedString.Key.foregroundColor : UIColor.systemBlue])
         
-        tableView.reloadRows(at: [IndexPath(row: 0, section: 2)], with: .automatic)
-        allowEventCreation[2] = true
+        if date.timeIntervalSinceReferenceDate < Date(timeIntervalSinceNow: 0).timeIntervalSinceReferenceDate{
+             tableViewArray[2][0] = NSAttributedString(string: "Invalid Date", attributes: [NSAttributedString.Key.foregroundColor : UIColor.systemRed])
+            tableView.reloadRows(at: [IndexPath(row: 0, section: 2)], with: .automatic)
+
+            allowEventCreation[2] = false
+        }
+        else{
+            let displayDate = dateFormatter.string(from: date)
+            tableViewArray[2][0] = NSAttributedString(string: displayDate, attributes: [NSAttributedString.Key.foregroundColor : UIColor.systemBlue])
+        
+            tableView.reloadRows(at: [IndexPath(row: 0, section: 2)], with: .automatic)
+            allowEventCreation[2] = true
+        }
         checkEventCreationStatus()
     }
     
     @objc func permissionsChanged(_ segmentedControl: UISegmentedControl){
         tableViewArray[4][0] = NSAttributedString(string: "Visible to: \(permissionPossibilities[segmentedControl.selectedSegmentIndex])", attributes: [NSAttributedString.Key.foregroundColor : UIColor.systemBlue])
         tableView.reloadRows(at: [IndexPath(row: 0, section: 4)], with: .automatic)
+    }
+    @objc func activityChanged(_ segmentedControl: UISegmentedControl){
+        tableViewArray[3][0] = NSAttributedString(string: " \(activityPossibilities[segmentedControl.selectedSegmentIndex])", attributes: [NSAttributedString.Key.foregroundColor : UIColor.systemBlue])
+        tableView.reloadRows(at: [IndexPath(row: 0, section: 3)], with: .automatic)
     }
     func checkEventCreationStatus(){
         for boolean in allowEventCreation{
@@ -295,8 +293,8 @@ class EventCreator: UITableViewController, UITextFieldDelegate, UIPickerViewDele
         navigationItem.rightBarButtonItem?.isEnabled = true
     }
     @objc func createEvent(){
-        
-        
+        eventLocationCreator = EventLocationCreatorViewController()
+
         guard let name = nameTextField.text else {return}
         guard let owner = Auth.auth().currentUser else {return}
         var description = ""
@@ -306,7 +304,8 @@ class EventCreator: UITableViewController, UITextFieldDelegate, UIPickerViewDele
         
         //Fix location
         let time = datePickerView.date
-        let activity = types[activityPickerView.selectedRow(inComponent: 0)]
+        let activity = activityPossibilities[activityControl.selectedSegmentIndex]
+        let permission = permissionPossibilities[permissionControl.selectedSegmentIndex]
         
         let eventDictionary = [
             "owner" : owner.uid,
@@ -316,7 +315,8 @@ class EventCreator: UITableViewController, UITextFieldDelegate, UIPickerViewDele
             "latitude" : "\(eventLocation.latitude)",
             "longitude" : "\(eventLocation.longitude)" ,
             "description" : description,
-            "activity" : activity
+            "activity" : activity,
+            "permissions" : permission
             ] as [String : Any]
             
         guard let identifier = databaseRef.child("events/").childByAutoId().key else {return}
@@ -333,7 +333,6 @@ class EventCreator: UITableViewController, UITextFieldDelegate, UIPickerViewDele
         
         
         
-        eventLocationCreator = EventLocationCreatorViewController()
         navigationController?.popToRootViewController(animated: true)
     }
 }

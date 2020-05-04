@@ -22,6 +22,7 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
     //let eventCreator = UIButton(type: .contactAdd)
     let locationManager = CLLocationManager()
     let eventManagerSlideUpView = EventManagerSlideUpViewController()
+    var strokeColor: UIColor = UIColor()
     
     
     
@@ -37,31 +38,13 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
        
         checkLogIn()
         retrieveFriendsAndUsers()
-        setUpObservers()
+        //setUpObservers()
         
         
         
         
         
         setUpNavigationControllerBackground()
-        
-        //databaseRef.child("users/\(Auth.auth().currentUser?.uid!)")
-        
-        
-//        eventCreator.addTarget(self, action: #selector(buttonClicked(_:)), for: .touchUpInside)
-        
-        
-//        eventCreator.titleLabel?.lineBreakMode = .byWordWrapping
-//        eventCreator.titleLabel?.textAlignment = .center
-//        eventCreator.setAttributedTitle(NSAttributedString(string: "Create\nEvent", attributes: [NSAttributedString.Key.foregroundColor: UIColor.black]), for: .normal)
-//        eventCreator.frame = CGRect(x: 0, y: 0, width: 70, height: 50)
-//        eventCreator.setTitleColor(.black, for: .normal)
-//
-//        eventCreator.backgroundColor = .white
-//        eventCreator.setTitleColor(.black, for: .normal)
-//
-//       eventCreator.clipsToBounds = true
-//        eventCreator.layer.cornerRadius = 10
         
         
         let eventCreatorButton = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(buttonClicked(_:)))
@@ -117,18 +100,7 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
         }
         
     }
-//    func mapViewDidChangeVisibleRegion(_ mapView: MKMapView) {
-//        let width = map.region.span.longitudeDelta
-//        let height = map.region.span.latitudeDelta
-//        let startLong = map.region.center.longitude - width/2
-//        let startLat = map.region.center.latitude + height/2
-//        print(width)
-//        print(height)
-//        print(startLat)
-//        print(startLong)
-//
-//
-//    }
+
     
     func setUpLocationManager(){
         
@@ -167,7 +139,7 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
     func mapView(_ mapView: MKMapView, rendererFor overlay: MKOverlay) -> MKOverlayRenderer {
         if let polyline = overlay as? MKPolyline{
             let render = MKPolylineRenderer(overlay: polyline)
-            render.strokeColor = .purple
+            render.strokeColor = strokeColor
             return render
         }
         return MKOverlayRenderer()
@@ -176,7 +148,21 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
     func mapView(_ mapView: MKMapView, didSelect view: MKAnnotationView) {
         //Checks to make sure you're not clicking on your own location
         print("right")
-        view.image = UIImage(named: "Red Pin Big")!
+        var beginString = ""
+        if view.tag == 0{
+            beginString = "Red Pin"
+            strokeColor = UIColor(red: 201/255.0, green: 26/255.0, blue: 31/255.0, alpha: 1.0)
+        }
+        else if(view.tag == 1){
+            beginString = "Blue Pin"
+            strokeColor = UIColor(red: 65/255.0, green: 95/255.0, blue: 196/255.0, alpha: 1.0)
+        }
+        else{
+            beginString = "Yellow Pin"
+            strokeColor = UIColor(red: 208/255.0, green: 222/255.0, blue: 39/255.0, alpha: 1.0)
+        }
+        view.image = UIImage(named: "\(beginString) Big")!
+        
         if view.annotation?.coordinate.latitude != mapView.userLocation.coordinate.latitude && view.annotation?.coordinate.longitude != mapView.userLocation.coordinate.longitude{
             
             //eventManagerSlideUpView.popUpViewToMiddle()
@@ -224,7 +210,7 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
                 self.eventManagerSlideUpView.popUpViewToMiddle()
                 self.timeAndDistance = String()
                 map.addOverlay(route.polyline)
-                self.resetMapViewBounds(withNew: route)
+                //self.resetMapViewBounds(withNew: route)
                 
             }
         }
@@ -254,16 +240,44 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
                    return nil
                }
         let annotationView = MKAnnotationView()
+        annotationView.canShowCallout = true
+        //let nameLabel = UILabel()
+        //nameLabel.text = annotation.title ?? ""
+       // annotationView.detailCalloutAccessoryView = nameLabel
+        annotationView.calloutOffset = CGPoint(x: 8, y: 0)
         annotationView.annotation = annotation
-        annotationView.image = UIImage(named: "Red Pin Small")!
+        guard let event = annotation as? Event else {return annotationView}
+        switch event.activity{
+        case "Athletic":
+            annotationView.image = UIImage(named: "Red Pin Small")!
+            annotationView.tag = 0
+            break
+        case "Scholarly":
+            annotationView.image = UIImage(named: "Blue Pin Small")!
+            annotationView.tag = 1
+            break
+        default:
+            annotationView.image = UIImage(named: "Yellow Pin Small")!
+            annotationView.tag = 2
+        }
+        
+       
         return annotationView
     }
     func mapView(_ mapView: MKMapView, didDeselect view: MKAnnotationView) {
         print("left")
-        view.image = UIImage(named: "Red Pin Small")!
+        var beginString = "Red Pin"
+        if(view.tag == 1){
+            beginString = "Blue Pin"
+        }
+        else if(view.tag == 2){
+            beginString = "Yellow Pin"
+        }
+        view.image = UIImage(named: "\(beginString) Small")!
         if !map.overlays.isEmpty{
             map.removeOverlays(map.overlays)
         }
+        
         eventManagerSlideUpView.updateTimeAndDistanceLabel("")
         eventManagerSlideUpView.unpopulate()
         eventManagerSlideUpView.popUpViewToBottom()

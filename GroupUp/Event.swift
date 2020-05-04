@@ -20,17 +20,18 @@ class Event: NSObject, MKAnnotation{
     var subtitle: String?
     var activity: String
     var identifier: String
+    var permission: String
     
     override convenience init(){
-        self.init(title: String(), owner: String(), coordinate: CLLocationCoordinate2D(), time: Date(), description: String(), joined: [], activity: String(), identifier: String())
+        self.init(title: String(), owner: String(), coordinate: CLLocationCoordinate2D(), time: Date(), description: String(), joined: [], activity: String(), identifier: String(), permission: String())
     }
     convenience init(coordinate: CLLocationCoordinate2D){
-        self.init(title: String(), owner: String(), coordinate: coordinate, time: Date(), description: String(), joined: [], activity: String(), identifier: String())
+        self.init(title: String(), owner: String(), coordinate: coordinate, time: Date(), description: String(), joined: [], activity: String(), identifier: String(), permission: String())
     }
     convenience init(title: String, coordinate: CLLocationCoordinate2D){
-        self.init(title: title, owner: String(), coordinate: coordinate, time: Date(), description: String(), joined: [], activity: String(), identifier: String())
+        self.init(title: title, owner: String(), coordinate: coordinate, time: Date(), description: String(), joined: [], activity: String(), identifier: String(), permission: String())
     }
-    init(title: String, owner: String, coordinate: CLLocationCoordinate2D, time: Date, description: String, joined: [String], activity: String, identifier: String){
+    init(title: String, owner: String, coordinate: CLLocationCoordinate2D, time: Date, description: String, joined: [String], activity: String, identifier: String, permission: String){
         self.title = title
         self.owner = owner
         self.coordinate = coordinate
@@ -39,6 +40,7 @@ class Event: NSObject, MKAnnotation{
         self.subtitle = description
         self.activity = activity
         self.identifier = identifier
+        self.permission = permission
     }
     
     func getTitle() -> String?{

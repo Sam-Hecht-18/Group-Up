@@ -25,6 +25,7 @@ class LogInViewController: UIViewController, UITextFieldDelegate {
                 self.navigationController?.popToRootViewController(animated: true)
                 print("uhh I hope so")
                 downloadPicture()
+                resetEverything()
             }
             else{
                 print(error!.localizedDescription)

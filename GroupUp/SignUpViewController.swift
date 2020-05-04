@@ -34,6 +34,7 @@ class SignUpViewController: UIViewController, UITextFieldDelegate{
                 let newUser = ["username" : name]
                 databaseRef.child("users/\(uid)").updateChildValues(newUser)
                 databaseRef.child("userProfiles/\(uid)").updateChildValues(newUser)
+                resetEverything()
                 self.navigationController?.popToRootViewController(animated: true)
             }
             else{

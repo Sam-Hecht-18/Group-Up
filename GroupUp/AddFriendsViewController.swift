@@ -19,7 +19,7 @@ class AddFriendsViewController: UIViewController, UITextFieldDelegate, UITableVi
     let tableView = UITableView()
     var showFriendRequests = false
     var deleted = false
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -38,7 +38,7 @@ class AddFriendsViewController: UIViewController, UITextFieldDelegate, UITableVi
         viableUsernames = usernames
         setUpTextField()
         setUpTableView()
-        let switchTableViewButton = UIBarButtonItem(title: "Show Friend Requests", style: .plain, target: self, action: #selector(switchTableView))
+        let switchTableViewButton = UIBarButtonItem(title: "Friend Requests", style: .plain, target: self, action: #selector(switchTableView))
         navigationItem.rightBarButtonItem = switchTableViewButton
         // Do any additional setup after loading the view.
     }
@@ -48,15 +48,16 @@ class AddFriendsViewController: UIViewController, UITextFieldDelegate, UITableVi
     @objc func switchTableView(){
         if showFriendRequests{
             showFriendRequests = false
-            navigationItem.rightBarButtonItem?.title = "Show Friend Requests"
+            navigationItem.rightBarButtonItem?.title = "Friend Requests"
             viableUsernames = usernames
-            tableView.reloadSections([0], with: .right)
+            tableView.reloadData()
+            
         }
         else{
             showFriendRequests = true
-            navigationItem.rightBarButtonItem?.title = "Show Friend Adder"
+            navigationItem.rightBarButtonItem?.title = "Add Friends"
             viableUsernames = friendRequestUsernames
-            tableView.reloadSections([0], with: .left)
+            tableView.reloadData()
         }
         print("About to reload data")
     }
@@ -95,21 +96,34 @@ class AddFriendsViewController: UIViewController, UITextFieldDelegate, UITableVi
         tableView.centerXAnchor.constraint(equalTo: view.centerXAnchor, constant: 0).isActive = true
         tableView.widthAnchor.constraint(equalToConstant: view.frame.width).isActive = true
         
+        tableView.separatorColor = .clear
         tableView.backgroundColor = .systemGray5
-        tableView.layer.cornerRadius = 10
+        
         tableView.delegate = self
         tableView.dataSource = self
         tableView.register(UITableViewCell.self, forCellReuseIdentifier: "CellFriends")
         tableView.register(UITableViewCell.self, forCellReuseIdentifier: "CellRequests")
-
+        
         
     }
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 70
     }
+    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        return 2
+    }
+    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        let frame = CGRect(x: 0, y: 0, width: 100, height: 1)
+        let view = UIView(frame: frame)
+        view.backgroundColor = .clear
+        return view
+    }
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return 1
+    }
+    func numberOfSections(in tableView: UITableView) -> Int {
         print("About to reload # of rows in section")
-
+        
         switch showFriendRequests{
         case false:
             guard let currentText = textField.text?.lowercased() else{
@@ -137,7 +151,7 @@ class AddFriendsViewController: UIViewController, UITextFieldDelegate, UITableVi
             
         case true:
             print("Hi welcome to this part")
-
+            
             guard let currentText = textField.text?.lowercased() else{
                 viableUsernames = friendRequestUsernames
                 return viableUsernames.count
@@ -162,6 +176,7 @@ class AddFriendsViewController: UIViewController, UITextFieldDelegate, UITableVi
             }
             return viableUsernames.count
         }
+        
     }
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         var cell: UITableViewCell
@@ -171,20 +186,22 @@ class AddFriendsViewController: UIViewController, UITextFieldDelegate, UITableVi
         else{
             cell = tableView.dequeueReusableCell(withIdentifier: "CellRequests") ?? UITableViewCell()
         }
+        cell.backgroundColor = .systemGray3
+        cell.layer.cornerRadius = 10
+        cell.layer.borderWidth = 3
+        cell.layer.borderColor = UIColor.systemGray3.cgColor
         if !showFriendRequests{
-            cell.backgroundColor = .systemTeal
-            cell.textLabel?.attributedText = usernameToFormattedProfile[viableUsernames[indexPath.row]]
+            cell.textLabel?.attributedText = usernameToFormattedProfile[viableUsernames[indexPath.section]]
             
-            cell.contentView.addSubview(setUpAddButton(index: indexPath.row))
+            cell.contentView.addSubview(setUpAddButton(index: indexPath.section))
             
         }
         else{
             print("Hiya!")
-            cell.backgroundColor = .systemTeal
-            cell.textLabel?.attributedText = usernameToFormattedProfile[friendRequestUsernames[indexPath.row]]
+            cell.textLabel?.attributedText = usernameToFormattedProfile[friendRequestUsernames[indexPath.section]]
             
-            cell.contentView.addSubview(setUpAcceptButton(index: indexPath.row))
-            cell.contentView.addSubview(setUpDenyButton(index: indexPath.row))
+            cell.contentView.addSubview(setUpAcceptButton(index: indexPath.section))
+            cell.contentView.addSubview(setUpDenyButton(index: indexPath.section))
             
         }
         
@@ -192,10 +209,15 @@ class AddFriendsViewController: UIViewController, UITextFieldDelegate, UITableVi
     }
     func setUpAddButton(index: Int) -> UIButton{
         let addButton = UIButton(type: .roundedRect)
-        addButton.backgroundColor = .green
+        
+        addButton.backgroundColor = UIColor(red: 172/255.0, green: 207/255.0, blue: 55/255.0, alpha: 1.0)
         addButton.layer.cornerRadius = 10
+        addButton.layer.borderWidth = 3
+        addButton.layer.borderColor = UIColor(red: 208/255.0, green: 222/255.0, blue: 39/255.0, alpha: 1.0).cgColor
         addButton.frame = CGRect(x: 300, y: 10, width: 100, height: 50)
-        addButton.setTitle("Add", for: .normal)
+        let addText = NSAttributedString(string: "Add", attributes: [NSAttributedString.Key.font : UIFont(name: "HelveticaNeue-Bold", size: 25)!, NSAttributedString.Key.foregroundColor : UIColor.systemGray3])
+        //addButton.setTitle("Add", for: .normal)
+        addButton.setAttributedTitle(addText, for: .normal)
         addButton.addTarget(self, action: #selector(addFriend(_:)), for: .touchUpInside)
         addButton.tag = index
         return addButton
@@ -225,7 +247,7 @@ class AddFriendsViewController: UIViewController, UITextFieldDelegate, UITableVi
         guard let currentUID = Auth.auth().currentUser?.uid else {return}
         let username = viableUsernames[acceptButton.tag]
         guard let requestUID = usernameToUID[username] else {return}
-        databaseRef.child("friendRequests/\(currentUID)/\(requestUID)").removeValue()
+        databaseRef.child("friendRequests/\(currentUID)/\(username)").removeValue()
         
         databaseRef.child("users/\(currentUID)/friends").observeSingleEvent(of: .value) { (snapshot) in
             guard var friends = snapshot.value as? [String] else{
@@ -254,8 +276,8 @@ class AddFriendsViewController: UIViewController, UITextFieldDelegate, UITableVi
     @objc func denyRequest(_ denyButton : UIButton){
         guard let currentUID = Auth.auth().currentUser?.uid else {return}
         let username = viableUsernames[denyButton.tag]
-        guard let requestUID = usernameToUID[username] else {return}
-        databaseRef.child("friendRequests/\(currentUID)/\(requestUID)").removeValue()
+        //guard let requestUID = usernameToUID[username] else {return}
+        databaseRef.child("friendRequests/\(currentUID)/\(username)").removeValue()
         friendRequestUsernames.remove(at: denyButton.tag)
         friendRequests.remove(at: denyButton.tag)
         viableUsernames = friendRequestUsernames
@@ -283,8 +305,13 @@ class AddFriendsViewController: UIViewController, UITextFieldDelegate, UITableVi
         //let request = [toUID: [currentUID: currentUserName]]
         print("Time to update")
         databaseRef.child("friendRequests/\(toUID)").observeSingleEvent(of: .value) { (snapshot) in
-            guard var friendReqs = snapshot.value as? [String: String] else {return}
-            friendReqs.updateValue(currentUserName, forKey: currentUID)
+            print("Yeah you in here")
+            guard var friendReqs = snapshot.value as? [String: String] else {
+                databaseRef.child("friendRequests").updateChildValues([toUID: [currentUserName: currentUID]])
+                return
+            }
+            print("Shnaw")
+            friendReqs.updateValue(currentUID, forKey: currentUserName)
             databaseRef.child("friendRequests").updateChildValues([toUID: friendReqs])
         }
         //databaseRef.child("friendRequests").updateChildValues(request)
@@ -293,7 +320,7 @@ class AddFriendsViewController: UIViewController, UITextFieldDelegate, UITableVi
         usernames.remove(at: addButton.tag)
         viableUsernames = usernames
         textField.text = ""
-        tableView.reloadSections([0], with: .automatic)
+        tableView.reloadSections([addButton.tag], with: .automatic)
     }
 }
 /*
