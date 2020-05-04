@@ -240,8 +240,13 @@ class EventManagerSlideUpViewController: UIViewController, UIGestureRecognizerDe
                 print("Rippp pt 2")
 
                 return}
-            self.eventMembers.append(formattedProfile)
             
+            guard let copyOfProfile = formattedProfile.mutableCopy() as? NSMutableAttributedString else{
+                print("Noperes")
+                return
+            }
+            copyOfProfile.setAttributes([NSAttributedString.Key.foregroundColor : strokeColor, NSAttributedString.Key.font : UIFont(name: "HelveticaNeue-Bold", size: 24)!], range: NSRange(1..<formattedProfile.string.count))
+            self.eventMembers.append(copyOfProfile)
         }
         joinedTableView.reloadData()
     }

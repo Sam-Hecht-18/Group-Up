@@ -12,7 +12,6 @@ import UIKit
 import MapKit
 import FirebaseAuth
 
-
 class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewDelegate {
     
     
@@ -22,7 +21,7 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
     //let eventCreator = UIButton(type: .contactAdd)
     let locationManager = CLLocationManager()
     let eventManagerSlideUpView = EventManagerSlideUpViewController()
-    var strokeColor: UIColor = UIColor()
+    
     
     
     

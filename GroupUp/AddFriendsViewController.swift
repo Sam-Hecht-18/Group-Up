@@ -19,6 +19,7 @@ class AddFriendsViewController: UIViewController, UITextFieldDelegate, UITableVi
     let tableView = UITableView()
     var showFriendRequests = false
     var deleted = false
+    let activityIndicator = UIActivityIndicatorView(frame: CGRect(x: 150, y: 100, width: 100, height: 100))
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -38,6 +39,9 @@ class AddFriendsViewController: UIViewController, UITextFieldDelegate, UITableVi
         viableUsernames = usernames
         setUpTextField()
         setUpTableView()
+        activityIndicator.hidesWhenStopped = true
+        activityIndicator.color = UIColor(red: 208/255.0, green: 222/255.0, blue: 39/255.0, alpha: 1.0)
+        view.addSubview(activityIndicator)
         let switchTableViewButton = UIBarButtonItem(title: "Friend Requests", style: .plain, target: self, action: #selector(switchTableView))
         navigationItem.rightBarButtonItem = switchTableViewButton
         // Do any additional setup after loading the view.
@@ -96,6 +100,7 @@ class AddFriendsViewController: UIViewController, UITextFieldDelegate, UITableVi
         tableView.centerXAnchor.constraint(equalTo: view.centerXAnchor, constant: 0).isActive = true
         tableView.widthAnchor.constraint(equalToConstant: view.frame.width).isActive = true
         
+        
         tableView.separatorColor = .clear
         tableView.backgroundColor = .systemGray5
         
@@ -105,6 +110,22 @@ class AddFriendsViewController: UIViewController, UITextFieldDelegate, UITableVi
         tableView.register(UITableViewCell.self, forCellReuseIdentifier: "CellRequests")
         
         
+    }
+    func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
+        if let _ = scrollView as? UITableView{
+            activityIndicator.stopAnimating()
+            tableView.reloadData()
+            
+        }
+    }
+    
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        if let tabView = scrollView as? UITableView{
+            
+            if(tabView.contentOffset.y < 0 && tabView.isDragging){
+                activityIndicator.startAnimating()
+            }
+        }
     }
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 70
@@ -216,7 +237,6 @@ class AddFriendsViewController: UIViewController, UITextFieldDelegate, UITableVi
         addButton.layer.borderColor = UIColor(red: 208/255.0, green: 222/255.0, blue: 39/255.0, alpha: 1.0).cgColor
         addButton.frame = CGRect(x: 300, y: 10, width: 100, height: 50)
         let addText = NSAttributedString(string: "Add", attributes: [NSAttributedString.Key.font : UIFont(name: "HelveticaNeue-Bold", size: 25)!, NSAttributedString.Key.foregroundColor : UIColor.systemGray3])
-        //addButton.setTitle("Add", for: .normal)
         addButton.setAttributedTitle(addText, for: .normal)
         addButton.addTarget(self, action: #selector(addFriend(_:)), for: .touchUpInside)
         addButton.tag = index
@@ -224,10 +244,13 @@ class AddFriendsViewController: UIViewController, UITextFieldDelegate, UITableVi
     }
     func setUpAcceptButton(index: Int) -> UIButton{
         let acceptButton = UIButton(type: .roundedRect)
-        acceptButton.backgroundColor = .green
+        acceptButton.backgroundColor = UIColor(red: 172/255.0, green: 207/255.0, blue: 55/255.0, alpha: 1.0)
         acceptButton.layer.cornerRadius = 10
+        acceptButton.layer.borderWidth = 3
+        acceptButton.layer.borderColor = UIColor(red: 208/255.0, green: 222/255.0, blue: 39/255.0, alpha: 1.0).cgColor
         acceptButton.frame = CGRect(x: 190, y: 10, width: 100, height: 50)
-        acceptButton.setTitle("Accept", for: .normal)
+        let acceptText = NSAttributedString(string: "Accept", attributes: [NSAttributedString.Key.font : UIFont(name: "HelveticaNeue-Bold", size: 20)!, NSAttributedString.Key.foregroundColor : UIColor.systemGray3])
+        acceptButton.setAttributedTitle(acceptText, for: .normal)
         acceptButton.addTarget(self, action: #selector(acceptRequest(_:)), for: .touchUpInside)
         acceptButton.tag = index
         return acceptButton
@@ -235,10 +258,13 @@ class AddFriendsViewController: UIViewController, UITextFieldDelegate, UITableVi
     }
     func setUpDenyButton(index: Int) -> UIButton{
         let denyButton = UIButton(type: .roundedRect)
-        denyButton.backgroundColor = .green
+        denyButton.backgroundColor = UIColor(red: 172/255.0, green: 207/255.0, blue: 55/255.0, alpha: 1.0)
         denyButton.layer.cornerRadius = 10
+        denyButton.layer.borderWidth = 3
+        denyButton.layer.borderColor = UIColor(red: 208/255.0, green: 222/255.0, blue: 39/255.0, alpha: 1.0).cgColor
         denyButton.frame = CGRect(x: 300, y: 10, width: 100, height: 50)
-        denyButton.setTitle("Deny", for: .normal)
+        let denyText = NSAttributedString(string: "Deny", attributes: [NSAttributedString.Key.font : UIFont(name: "HelveticaNeue-Bold", size: 20)!, NSAttributedString.Key.foregroundColor : UIColor.systemGray3])
+        denyButton.setAttributedTitle(denyText, for: .normal)
         denyButton.addTarget(self, action: #selector(denyRequest(_:)), for: .touchUpInside)
         denyButton.tag = index
         return denyButton

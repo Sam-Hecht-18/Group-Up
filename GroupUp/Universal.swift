@@ -17,6 +17,7 @@ var databaseRef: DatabaseReference = {
 var storageRef = Storage.storage().reference()
 var events: [String: Event] = [:]
 let map = MKMapView()
+var strokeColor: UIColor = UIColor()
 let transition = SlideInTransition()
 let universe = Universal()
 var userImage: UIImage = UIImage(named: "ProfilePic")!
@@ -102,10 +103,20 @@ func setUpObservers(){
                 return}
             print("The friend request uid is: \(friendsRequestUID)")
             friendRequests.append(friendsRequestUID)
+            guard let index = usernames.firstIndex(of: username) else {return}
+            usernames.remove(at: index)
+            
         }
         
     }
     
+    
+    databaseRef.child("users/\(uid)/friends").observe(.childAdded) { (snapshot) in
+        guard let friend = snapshot.value as? String else {return}
+        if !myFriends.contains(friend){
+            myFriends.append(friend)
+        }
+    }
     
 }
 func getSnapshotAsEvent(snapshot : DataSnapshot) -> Event{
@@ -225,7 +236,6 @@ func createImageAndUsernameText(image: UIImage, username: NSAttributedString, us
     let attachmentString = NSAttributedString(attachment: imageAttachment)
     let completeName = NSMutableAttributedString(string: "")
     completeName.append(attachmentString)
-    print("username is \(username)")
     completeName.append(username)
     usernameToFormattedProfile.updateValue(completeName, forKey: usernameText)
 }

@@ -9,12 +9,16 @@
 import UIKit
 
 class MyFriendsViewController: UITableViewController {
-
+    let activityIndicator = UIActivityIndicatorView(frame: CGRect(x: 150, y: -20, width: 100, height: 100))
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .systemGray5
         tableView.separatorColor = .clear
         tableView.register(UITableViewCell.self, forCellReuseIdentifier: "friendCell")
+        activityIndicator.hidesWhenStopped = true
+        activityIndicator.color = UIColor(red: 208/255.0, green: 222/255.0, blue: 39/255.0, alpha: 1.0)
+        view.addSubview(activityIndicator)
+        
     }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -23,6 +27,22 @@ class MyFriendsViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 70
     }
+    override func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
+        if let _ = scrollView as? UITableView{
+            activityIndicator.stopAnimating()
+            tableView.reloadData()
+            
+        }
+    }
+    
+    override func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        if let tabView = scrollView as? UITableView{
+            
+            if(tabView.contentOffset.y < 0 && tabView.isDragging){
+                activityIndicator.startAnimating()
+            }
+        }
+    }
     override func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         let frame = CGRect(x: 0, y: 0, width: 100, height: 1)
         let view = UIView(frame: frame)
@@ -30,13 +50,12 @@ class MyFriendsViewController: UITableViewController {
         return view
     }
     override func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        return 2
+        return section == 0 ? 50 : 2
     }
     override func numberOfSections(in tableView: UITableView) -> Int {
         return myFriends.count
     }
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        print("Hello I'm alex")
         guard let cell = tableView.dequeueReusableCell(withIdentifier: "friendCell") else {return UITableViewCell()}
         let friendUID = myFriends[indexPath.section]
         guard let friendUsername = UIDToUsername[friendUID] else {
