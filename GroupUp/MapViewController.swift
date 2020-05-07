@@ -11,6 +11,7 @@
 import UIKit
 import MapKit
 import FirebaseAuth
+import UserNotifications
 
 class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewDelegate {
     
@@ -29,6 +30,22 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
     
     override func viewDidLoad() {
         super.viewDidLoad()
+       
+        //Notifications
+        let content = UNMutableNotificationContent()
+        content.title = "Best Mentor"
+        content.body = "Keep up the good work"
+        content.sound = UNNotificationSound.default
+        
+        let trigger = UNTimeIntervalNotificationTrigger(timeInterval:  5, repeats: false)
+        //UNCalendarNotificationTrigger
+        //- Specify Date and time for notification
+        //UNLocationNotificationTrigger
+        //- Specify location where user will receive notifications
+         
+        let request = UNNotificationRequest(identifier: "test", content: content, trigger: trigger)
+         
+        UNUserNotificationCenter.current().add(request, withCompletionHandler: nil)
        
         //overrideUserInterfaceStyle = .dark
         view.addSubview(map)

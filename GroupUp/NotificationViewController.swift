@@ -14,21 +14,21 @@ class NotificationViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        let content = UNMutableNotificationContent()
-        content.title = "Best Mentor"
-        content.body = "Keep up the good work"
-        content.sound = UNNotificationSound.default
-       
-        let trigger = UNTimeIntervalNotificationTrigger(timeInterval:  5, repeats: true)
-        //UNCalendarNotificationTrigger
-        //- Specify Date and time for notification
-        //UNLocationNotificationTrigger
-        //- Specify location where user will receive notifications
-        
-        let request = UNNotificationRequest(identifier: "testIdentifier", content: content, trigger: trigger)
-        
-        UNUserNotificationCenter.current().add(request, withCompletionHandler: nil)
-        
+//        let content = UNMutableNotificationContent()
+//        content.title = "Best Mentor"
+//        content.body = "Keep up the good work"
+//        content.sound = UNNotificationSound.default
+//
+//        let trigger = UNTimeIntervalNotificationTrigger(timeInterval:  5, repeats: false)
+//        //UNCalendarNotificationTrigger
+//        //- Specify Date and time for notification
+//        //UNLocationNotificationTrigger
+//        //- Specify location where user will receive notifications
+//
+//        let request = UNNotificationRequest(identifier: "test", content: content, trigger: trigger)
+//
+//        UNUserNotificationCenter.current().add(request, withCompletionHandler: nil)
+//        
         
         
         
