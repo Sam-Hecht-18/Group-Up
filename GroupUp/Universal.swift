@@ -40,10 +40,12 @@ var myFriends = [String]()
 var friendRequests = [String]()
 var friendRequestUsernames = [String]()
 var usernames = [String]()
-
+var timesOfEvents = [TimeInterval]()
 func setUpObservers(){
     
     guard let uid = Auth.auth().currentUser?.uid else {return}
+    
+    
     
     databaseRef.child("events").observe(.childAdded) { (eventAdded) in
         let event = getSnapshotAsEvent(snapshot: eventAdded)
@@ -51,29 +53,29 @@ func setUpObservers(){
         print("The my friends contains \(myFriends.count) people")
         if (event.permission == "Friends" && (myFriends.contains(event.owner) || uid == event.owner)
             || event.permission == "Anyone"){
-          
-        
-        if event.time.timeIntervalSinceReferenceDate < Date(timeIntervalSinceNow: 0).timeIntervalSinceReferenceDate {
-            databaseRef.child("events/\(event.identifier)").removeValue()
-            let description = event.subtitle ?? ""
-            let eventDictionary = [
-            "owner" : event.owner,
-            "joined" : event.joined,
-            "time" : event.time.timeIntervalSinceReferenceDate,
-            "title" : event.title!,
-            "latitude" : "\(event.coordinate.latitude)",
-                "longitude" : "\(event.coordinate.longitude)" ,
-                "description" : description,
-                "activity" : event.activity,
-                "permission" : event.permission
-            ] as [String : Any]
-            databaseRef.child("prevEvents").updateChildValues([event.identifier : eventDictionary])
-        }
-        else{
-            events.updateValue(event, forKey: event.identifier)
-            map.addAnnotation(event)
-            //print("Child Added")
-        }
+            
+            
+            if event.time.timeIntervalSinceReferenceDate < Date(timeIntervalSinceNow: 0).timeIntervalSinceReferenceDate {
+                databaseRef.child("events/\(event.identifier)").removeValue()
+                let description = event.subtitle ?? ""
+                let eventDictionary = [
+                    "owner" : event.owner,
+                    "joined" : event.joined,
+                    "time" : event.time.timeIntervalSinceReferenceDate,
+                    "title" : event.title!,
+                    "latitude" : "\(event.coordinate.latitude)",
+                    "longitude" : "\(event.coordinate.longitude)" ,
+                    "description" : description,
+                    "activity" : event.activity,
+                    "permission" : event.permission
+                    ] as [String : Any]
+                databaseRef.child("prevEvents").updateChildValues([event.identifier : eventDictionary])
+            }
+            else{
+                events.updateValue(event, forKey: event.identifier)
+                map.addAnnotation(event)
+                //print("Child Added")
+            }
         }
         else{
             print("The owner is: \(event.owner) and I am \(uid)")
@@ -118,6 +120,72 @@ func setUpObservers(){
         }
     }
     
+    
+    databaseRef.child("users/\(uid)/joined").observeSingleEvent(of: .value) { (snapshot) in
+        print("Welcome to the thunder dome")
+        guard let joined = snapshot.value as? [String] else {return}
+        for i in 0..<joined.count{
+            let content = UNMutableNotificationContent()
+            content.title = "An event you signed up for is in 10 minutes!"
+            content.body = "Make sure to go to your event!"
+            databaseRef.child("events/\(joined[i])/time").observeSingleEvent(of: .value) { (snapshot) in
+                guard let timeIntervalString = snapshot.value as? String else {return}
+                guard let timeInterval = Double(timeIntervalString) else {return}
+                if(!timesOfEvents.contains(timeInterval)){
+                    let trigger = UNTimeIntervalNotificationTrigger(timeInterval: timeInterval, repeats: false)
+                    let uuid = UUID().uuidString
+                    let request = UNNotificationRequest(identifier: uuid, content: content, trigger: trigger)
+                    let notificationCenter = UNUserNotificationCenter.current()
+                    notificationCenter.add(request) { (error) in
+                        if error == nil{
+                            print("Something went wronggggg duh duh duh duh duh")
+                        }
+                        else{
+                            print("Congerts bro you set a notification for \(dateFormatter.string(from: Date(timeIntervalSinceReferenceDate: timeInterval)))")
+                            timesOfEvents.append(timeInterval)
+                        }
+                    }
+                }
+            }
+            
+            
+        }
+    }
+    
+    databaseRef.child("users/\(uid)/created").observeSingleEvent(of: .value) { (snapshot) in
+        print("Welcome to the thunder dome but I made it!")
+        guard let created = snapshot.value as? [String] else {return}
+        print("")
+        for i in 0..<created.count{
+            let content = UNMutableNotificationContent()
+            content.title = "An event you created occurs in 10 minutes!"
+            content.body = "Make sure to go to your event!"
+            databaseRef.child("events/\(created[i])/time").observeSingleEvent(of: .value) { (snapshot) in
+                guard let timeIntervalString = snapshot.value as? String else {return}
+                guard let timeInterval = Double(timeIntervalString) else {return}
+                if(!timesOfEvents.contains(timeInterval) && Date(timeIntervalSinceReferenceDate: timeInterval-600).timeIntervalSinceNow > 0){
+                    
+                    let trigger = UNTimeIntervalNotificationTrigger(timeInterval: Date(timeIntervalSinceReferenceDate: timeInterval-600).timeIntervalSinceNow, repeats: false)
+                    let uuid = UUID().uuidString
+                    let request = UNNotificationRequest(identifier: uuid, content: content, trigger: trigger)
+                    let notificationCenter = UNUserNotificationCenter.current()
+                    notificationCenter.add(request) { (error) in
+                        if error != nil{
+                            print(error?.localizedDescription)
+                            print(error.debugDescription)
+                            print("Something went wronggggg duh duh duh duh duh but I made it!")
+                        }
+                        else{
+                            print("Congerts bro you set a notification for the event you created happening: \(dateFormatter.string(from: Date(timeIntervalSinceReferenceDate: timeInterval-600)))")
+                            timesOfEvents.append(timeInterval)
+                        }
+                    }
+                }
+            }
+            
+            
+        }
+    }
 }
 func getSnapshotAsEvent(snapshot : DataSnapshot) -> Event{
     guard let eventInformation = snapshot.value as? NSDictionary else {return Event()}
@@ -154,7 +222,7 @@ func retrieveUsers(){
             UIDToUsername.updateValue(usernameString, forKey: uid)
             //print("UID ME? \(uid == currentUID) FRIEND DICT AT UID IS \(friendDict[uid] ?? -18)")
             
-           
+            
             
             
             let username = NSAttributedString(string: "  \(usernameString)", attributes: [NSAttributedString.Key.font : UIFont(name: "HelveticaNeue-Bold", size: 24)!, NSAttributedString.Key.foregroundColor : UIColor(red: 208/255.0, green: 222/255.0, blue: 39/255.0, alpha: 1.0)])
@@ -206,7 +274,7 @@ func resetEverything(){
     friendRequestUsernames = [String]()
     usernames = [String]()
     retrieveFriendsAndUsers()
-
+    
 }
 func retrieveFriendsAndUsers(){
     guard let uid = Auth.auth().currentUser?.uid else {return}
