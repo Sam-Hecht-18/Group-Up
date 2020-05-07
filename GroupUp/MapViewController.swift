@@ -12,25 +12,13 @@ import UIKit
 import MapKit
 import FirebaseAuth
 
-class customPin: NSObject, MKAnnotation{
-    var coordinate: CLLocationCoordinate2D
-    var title: String?
-    var subtitle: String?
-    init(pinTitle: String, pinSubtitle: String, location: CLLocationCoordinate2D){
-        self.title = pinTitle
-        self.subtitle = pinSubtitle
-        self.coordinate = location
-    }
-}
-
 class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewDelegate {
     
     
     
     
     var timeAndDistance = String()
-    let map = MKMapView()
-    let eventCreator = UIButton()
+    //let eventCreator = UIButton(type: .contactAdd)
     let locationManager = CLLocationManager()
     let eventManagerSlideUpView = EventManagerSlideUpViewController()
     
@@ -38,33 +26,31 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
     
     
     
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        
+       
         //overrideUserInterfaceStyle = .dark
         view.addSubview(map)
         setUpMapView()
         checkLocationServices()
-        addEventManagerSlideUpViewController()
+       
         checkLogIn()
+        retrieveFriendsAndUsers()
+        //setUpObservers()
+        
+        
+        
+        
+        
         setUpNavigationControllerBackground()
         
         
-        //Temporary pin for testing purposes
-        //let location = CLLocationCoordinate2D(latitude: 40.0423, longitude: -75.3167)
-        //map.addAnnotation(customPin(pinTitle: "Harriton", pinSubtitle: "", location: location))
-        view.addSubview(eventCreator)
-        eventCreator.translatesAutoresizingMaskIntoConstraints = false
-        eventCreator.centerXAnchor.constraint(equalTo: view.centerXAnchor, constant: 100).isActive = true
-        eventCreator.centerYAnchor.constraint(equalTo: view.centerYAnchor, constant: -100).isActive = true
-        eventCreator.widthAnchor.constraint(equalToConstant: 40).isActive = true
-        eventCreator.heightAnchor.constraint(equalToConstant: 20).isActive = true
-        eventCreator.addTarget(self, action: #selector(buttonClicked(_:)), for: .touchUpInside)
-        eventCreator.titleLabel?.text = "Create Event"
-        eventCreator.backgroundColor = .purple
+        let eventCreatorButton = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(buttonClicked(_:)))
         
-
+        
+        navigationItem.rightBarButtonItem = eventCreatorButton
+        addEventManagerSlideUpViewController()
     }
     
     func setUpNavigationControllerBackground(){
@@ -79,7 +65,7 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
             transitiontoNewVC(.logOut, currentViewController: self)
         }
         else{
-            getProfilePic()
+            downloadPicture()
         }
     }
     
@@ -113,6 +99,8 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
         }
         
     }
+
+    
     func setUpLocationManager(){
         
         locationManager.delegate = self
@@ -150,7 +138,7 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
     func mapView(_ mapView: MKMapView, rendererFor overlay: MKOverlay) -> MKOverlayRenderer {
         if let polyline = overlay as? MKPolyline{
             let render = MKPolylineRenderer(overlay: polyline)
-            render.strokeColor = .purple
+            render.strokeColor = strokeColor
             return render
         }
         return MKOverlayRenderer()
@@ -158,6 +146,21 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
     
     func mapView(_ mapView: MKMapView, didSelect view: MKAnnotationView) {
         //Checks to make sure you're not clicking on your own location
+        print("right")
+        var beginString = ""
+        if view.tag == 0{
+            beginString = "Red Pin"
+            strokeColor = UIColor(red: 201/255.0, green: 26/255.0, blue: 31/255.0, alpha: 1.0)
+        }
+        else if(view.tag == 1){
+            beginString = "Blue Pin"
+            strokeColor = UIColor(red: 65/255.0, green: 95/255.0, blue: 196/255.0, alpha: 1.0)
+        }
+        else{
+            beginString = "Yellow Pin"
+            strokeColor = UIColor(red: 208/255.0, green: 222/255.0, blue: 39/255.0, alpha: 1.0)
+        }
+        view.image = UIImage(named: "\(beginString) Big")!
         
         if view.annotation?.coordinate.latitude != mapView.userLocation.coordinate.latitude && view.annotation?.coordinate.longitude != mapView.userLocation.coordinate.longitude{
             
@@ -190,17 +193,23 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
                 }
                 let route = response.routes[0]
                 
-                var eta: Int = Int(route.expectedTravelTime)
+                var eta: Double = route.expectedTravelTime
+                print(route.expectedTravelTime)
                 //print("The travel time is: \(eta)")
-                eta /= 60
-                
-                self.getETA(withETA: eta)
+                eta /= 60.0
+                eta.round(.toNearestOrAwayFromZero)
+                print(eta)
+                self.getETA(withETA: Int(eta))
                 self.getDistance(withDistance: Int(route.distance))
                 
                 self.eventManagerSlideUpView.updateTimeAndDistanceLabel(self.timeAndDistance)
+                
+                guard let event = view.annotation as? Event else {return}
+                self.eventManagerSlideUpView.updateEventSelected(event)
+                self.eventManagerSlideUpView.popUpViewToMiddle()
                 self.timeAndDistance = String()
-                self.map.addOverlay(route.polyline)
-                self.resetMapViewBounds(withNew: route)
+                map.addOverlay(route.polyline)
+                //self.resetMapViewBounds(withNew: route)
                 
             }
         }
@@ -217,14 +226,60 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
     }
     
     func getDistance(withDistance distance : Int){
-        let goodDistance = Int(Double(distance) / 1609.34)
+        var goodDistance = Double(distance) / 1609.34
+        print(goodDistance)
+        goodDistance *= 10
+        goodDistance.round(.toNearestOrAwayFromZero)
+        goodDistance /= 10
         timeAndDistance.append("(\(goodDistance) mi)")
     }
-    
+    func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
+        if annotation.coordinate.latitude == mapView.userLocation.coordinate.latitude && annotation.coordinate.longitude == mapView.userLocation.coordinate.longitude{
+                   print("this happened")
+                   return nil
+               }
+        let annotationView = MKAnnotationView()
+        annotationView.canShowCallout = true
+        //let nameLabel = UILabel()
+        //nameLabel.text = annotation.title ?? ""
+       // annotationView.detailCalloutAccessoryView = nameLabel
+        annotationView.calloutOffset = CGPoint(x: 8, y: 0)
+        annotationView.annotation = annotation
+        guard let event = annotation as? Event else {return annotationView}
+        switch event.activity{
+        case "Athletic":
+            annotationView.image = UIImage(named: "Red Pin Small")!
+            annotationView.tag = 0
+            break
+        case "Scholarly":
+            annotationView.image = UIImage(named: "Blue Pin Small")!
+            annotationView.tag = 1
+            break
+        default:
+            annotationView.image = UIImage(named: "Yellow Pin Small")!
+            annotationView.tag = 2
+        }
+        
+       
+        return annotationView
+    }
     func mapView(_ mapView: MKMapView, didDeselect view: MKAnnotationView) {
+        print("left")
+        var beginString = "Red Pin"
+        if(view.tag == 1){
+            beginString = "Blue Pin"
+        }
+        else if(view.tag == 2){
+            beginString = "Yellow Pin"
+        }
+        view.image = UIImage(named: "\(beginString) Small")!
         if !map.overlays.isEmpty{
             map.removeOverlays(map.overlays)
         }
+        
+        eventManagerSlideUpView.updateTimeAndDistanceLabel("")
+        eventManagerSlideUpView.unpopulate()
+        eventManagerSlideUpView.popUpViewToBottom()
     }
     
     func resetMapViewBounds(withNew route : MKRoute){
@@ -235,7 +290,7 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
         
         let visibleBounds = MKMapRect(x:x,y:y,width:width,height:height)
         //self.map.setVisibleMapRect(route.polyline.boundingMapRect, animated: true)
-        self.map.setVisibleMapRect(visibleBounds, animated: true)
+        map.setVisibleMapRect(visibleBounds, animated: true)
     }
     
     func resetMapView(withNew directions: MKDirections){

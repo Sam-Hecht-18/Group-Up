@@ -18,7 +18,7 @@ class NotificationViewController: UIViewController {
         content.title = "Best Mentor"
         content.body = "Keep up the good work"
         content.sound = UNNotificationSound.default
-        
+       
         let trigger = UNTimeIntervalNotificationTrigger(timeInterval:  5, repeats: true)
         //UNCalendarNotificationTrigger
         //- Specify Date and time for notification

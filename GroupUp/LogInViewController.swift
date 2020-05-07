@@ -24,10 +24,12 @@ class LogInViewController: UIViewController, UITextFieldDelegate {
                 
                 self.navigationController?.popToRootViewController(animated: true)
                 print("uhh I hope so")
-                getProfilePic()
+                downloadPicture()
+                resetEverything()
             }
             else{
                 print(error!.localizedDescription)
+                
             }
         }
     }

@@ -8,7 +8,9 @@
 
 /* Begin PBXBuildFile section */
 		058244C8A9DDA40B972FE752 /* libPods-GroupUp.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8CF807EC91191F9BEAF867AE /* libPods-GroupUp.a */; };
+		A01314C5243455DD00A47168 /* EventLocationCreatorViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A01314C4243455DD00A47168 /* EventLocationCreatorViewController.swift */; };
 		A023B7802401D5B400A2F5ED /* EventManagerSlideUpViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A023B77F2401D5B400A2F5ED /* EventManagerSlideUpViewController.swift */; };
+		A05D5A1724296D7100BD5A46 /* Event.swift in Sources */ = {isa = PBXBuildFile; fileRef = A05D5A1624296D7100BD5A46 /* Event.swift */; };
 		A06DD5EB23FC5D4C000DFF7C /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A06DD5EA23FC5D4C000DFF7C /* AppDelegate.swift */; };
 		A06DD5ED23FC5D4C000DFF7C /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A06DD5EC23FC5D4C000DFF7C /* SceneDelegate.swift */; };
 		A06DD5F423FC5D4F000DFF7C /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A06DD5F323FC5D4F000DFF7C /* Assets.xcassets */; };
@@ -19,12 +21,14 @@
 		A086D340240446B800E3A640 /* SidebarMenuViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A086D33F240446B800E3A640 /* SidebarMenuViewController.swift */; };
 		A086D342240446DD00E3A640 /* SidebarSlideInTransition.swift in Sources */ = {isa = PBXBuildFile; fileRef = A086D341240446DD00E3A640 /* SidebarSlideInTransition.swift */; };
 		A0A3754F24186B68006A227B /* Universal.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0A3754E24186B68006A227B /* Universal.swift */; };
+		A0BF04362451433C00BF6B2D /* AddFriendsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0BF04352451433C00BF6B2D /* AddFriendsViewController.swift */; };
 		A0D59A8A24101D080025A70B /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = A0D59A8924101D080025A70B /* GoogleService-Info.plist */; };
 		A2AFBE1A240447D70090F639 /* NavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2AFBE19240447D70090F639 /* NavigationController.swift */; };
 		A2AFBE1E240448400090F639 /* SignUpViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2AFBE1D240448400090F639 /* SignUpViewController.swift */; };
 		A2AFBE24240449160090F639 /* LogInViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2AFBE23240449160090F639 /* LogInViewController.swift */; };
 		A2D8B27B24101A25002C6195 /* EventCreator.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2D8B27A24101A25002C6195 /* EventCreator.swift */; };
 		A8197E992410293600E048A4 /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A8197E982410293600E048A4 /* ProfileViewController.swift */; };
+		A823682C2459FF3F00C89466 /* MyFriendsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A823682B2459FF3F00C89466 /* MyFriendsViewController.swift */; };
 		A85DBB7A240EB3D4004E60DA /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A85DBB79240EB3D4004E60DA /* Main.storyboard */; };
 		F51B812024044ACA0082A3C9 /* StartUpScreenViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F51B811F24044ACA0082A3C9 /* StartUpScreenViewController.swift */; };
 		F51B81262412D8200082A3C9 /* NotificationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F51B81252412D8200082A3C9 /* NotificationViewController.swift */; };
@@ -50,7 +54,10 @@
 /* Begin PBXFileReference section */
 		0D60D0EE9370CE0A3FFCD53A /* Pods-GroupUp.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-GroupUp.release.xcconfig"; path = "Target Support Files/Pods-GroupUp/Pods-GroupUp.release.xcconfig"; sourceTree = "<group>"; };
 		8CF807EC91191F9BEAF867AE /* libPods-GroupUp.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-GroupUp.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		A01314C4243455DD00A47168 /* EventLocationCreatorViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventLocationCreatorViewController.swift; sourceTree = "<group>"; };
 		A023B77F2401D5B400A2F5ED /* EventManagerSlideUpViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventManagerSlideUpViewController.swift; sourceTree = "<group>"; };
+		A05D5A1624296D7100BD5A46 /* Event.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Event.swift; sourceTree = "<group>"; };
+		A05D5A19242AA84300BD5A46 /* GroupUp.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = GroupUp.entitlements; sourceTree = "<group>"; };
 		A06DD5E723FC5D4C000DFF7C /* GroupUp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = GroupUp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A06DD5EA23FC5D4C000DFF7C /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		A06DD5EC23FC5D4C000DFF7C /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -67,12 +74,14 @@
 		A086D33F240446B800E3A640 /* SidebarMenuViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SidebarMenuViewController.swift; sourceTree = "<group>"; };
 		A086D341240446DD00E3A640 /* SidebarSlideInTransition.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SidebarSlideInTransition.swift; sourceTree = "<group>"; };
 		A0A3754E24186B68006A227B /* Universal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Universal.swift; sourceTree = "<group>"; };
+		A0BF04352451433C00BF6B2D /* AddFriendsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddFriendsViewController.swift; sourceTree = "<group>"; };
 		A0D59A8924101D080025A70B /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		A2AFBE19240447D70090F639 /* NavigationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationController.swift; sourceTree = "<group>"; };
 		A2AFBE1D240448400090F639 /* SignUpViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpViewController.swift; sourceTree = "<group>"; };
 		A2AFBE23240449160090F639 /* LogInViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogInViewController.swift; sourceTree = "<group>"; };
 		A2D8B27A24101A25002C6195 /* EventCreator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventCreator.swift; sourceTree = "<group>"; };
 		A8197E982410293600E048A4 /* ProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
+		A823682B2459FF3F00C89466 /* MyFriendsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyFriendsViewController.swift; sourceTree = "<group>"; };
 		A85DBB79240EB3D4004E60DA /* Main.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
 		E7C79C16E538BC64438B52B1 /* Pods-GroupUp.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-GroupUp.debug.xcconfig"; path = "Target Support Files/Pods-GroupUp/Pods-GroupUp.debug.xcconfig"; sourceTree = "<group>"; };
 		F51B811F24044ACA0082A3C9 /* StartUpScreenViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StartUpScreenViewController.swift; sourceTree = "<group>"; };
@@ -147,6 +156,7 @@
 		A06DD5E923FC5D4C000DFF7C /* GroupUp */ = {
 			isa = PBXGroup;
 			children = (
+				A05D5A19242AA84300BD5A46 /* GroupUp.entitlements */,
 				A0A3754E24186B68006A227B /* Universal.swift */,
 				A06DD5EA23FC5D4C000DFF7C /* AppDelegate.swift */,
 				F51B81252412D8200082A3C9 /* NotificationViewController.swift */,
@@ -156,6 +166,8 @@
 				A06DD5F323FC5D4F000DFF7C /* Assets.xcassets */,
 				A06DD5F523FC5D4F000DFF7C /* LaunchScreen.storyboard */,
 				A85DBB79240EB3D4004E60DA /* Main.storyboard */,
+				A823682B2459FF3F00C89466 /* MyFriendsViewController.swift */,
+				A0BF04352451433C00BF6B2D /* AddFriendsViewController.swift */,
 				A086D33F240446B800E3A640 /* SidebarMenuViewController.swift */,
 				A086D341240446DD00E3A640 /* SidebarSlideInTransition.swift */,
 				A07E1B5923FDC56D005E999B /* MapViewController.swift */,
@@ -165,6 +177,8 @@
 				A2AFBE1D240448400090F639 /* SignUpViewController.swift */,
 				F51B811F24044ACA0082A3C9 /* StartUpScreenViewController.swift */,
 				A2D8B27A24101A25002C6195 /* EventCreator.swift */,
+				A01314C4243455DD00A47168 /* EventLocationCreatorViewController.swift */,
+				A05D5A1624296D7100BD5A46 /* Event.swift */,
 				A8197E982410293600E048A4 /* ProfileViewController.swift */,
 			);
 			path = GroupUp;
@@ -350,14 +364,18 @@
 				A2AFBE1A240447D70090F639 /* NavigationController.swift in Sources */,
 				A2AFBE24240449160090F639 /* LogInViewController.swift in Sources */,
 				A0A3754F24186B68006A227B /* Universal.swift in Sources */,
+				A05D5A1724296D7100BD5A46 /* Event.swift in Sources */,
 				A023B7802401D5B400A2F5ED /* EventManagerSlideUpViewController.swift in Sources */,
 				A2AFBE1E240448400090F639 /* SignUpViewController.swift in Sources */,
 				A086D342240446DD00E3A640 /* SidebarSlideInTransition.swift in Sources */,
 				A8197E992410293600E048A4 /* ProfileViewController.swift in Sources */,
 				A06DD5EB23FC5D4C000DFF7C /* AppDelegate.swift in Sources */,
+				A0BF04362451433C00BF6B2D /* AddFriendsViewController.swift in Sources */,
 				A2D8B27B24101A25002C6195 /* EventCreator.swift in Sources */,
 				F51B81262412D8200082A3C9 /* NotificationViewController.swift in Sources */,
 				A06DD5ED23FC5D4C000DFF7C /* SceneDelegate.swift in Sources */,
+				A823682C2459FF3F00C89466 /* MyFriendsViewController.swift in Sources */,
+				A01314C5243455DD00A47168 /* EventLocationCreatorViewController.swift in Sources */,
 				F51B812024044ACA0082A3C9 /* StartUpScreenViewController.swift in Sources */,
 				A07E1B5A23FDC56D005E999B /* MapViewController.swift in Sources */,
 			);
@@ -525,6 +543,7 @@
 			baseConfigurationReference = E7C79C16E538BC64438B52B1 /* Pods-GroupUp.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = GroupUp/GroupUp.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 8QF6ZVL946;
 				INFOPLIST_FILE = GroupUp/Info.plist;
@@ -544,6 +563,7 @@
 			baseConfigurationReference = 0D60D0EE9370CE0A3FFCD53A /* Pods-GroupUp.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = GroupUp/GroupUp.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 8QF6ZVL946;
 				INFOPLIST_FILE = GroupUp/Info.plist;
