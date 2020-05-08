@@ -22,7 +22,7 @@ class EventCreator: UITableViewController, UITextFieldDelegate{
     let nameTextField = UITextField(frame: CGRect(x: 20, y: 0, width: 410, height: 50))
     let descriptionTextField = UITextField(frame: CGRect(x: 20, y: 0, width: 410, height: 50))
     
-    let permissionPossibilities = ["Friends", "Classmates", "Anyone"]
+    let permissionPossibilities = ["Friends", "Anyone"]
     lazy var permissionControl: UISegmentedControl = {
         let segmentedControl = UISegmentedControl(items: permissionPossibilities)
         segmentedControl.frame = CGRect(x: 1, y: 0, width: 410, height: 50)
@@ -281,7 +281,17 @@ class EventCreator: UITableViewController, UITextFieldDelegate{
         tableView.reloadRows(at: [IndexPath(row: 0, section: 4)], with: .automatic)
     }
     @objc func activityChanged(_ segmentedControl: UISegmentedControl){
-        tableViewArray[3][0] = NSAttributedString(string: " \(activityPossibilities[segmentedControl.selectedSegmentIndex])", attributes: [NSAttributedString.Key.foregroundColor : UIColor.systemBlue])
+        var color: UIColor
+        if segmentedControl.selectedSegmentIndex == 0{
+            color = UIColor(red: 201/255.0, green: 26/255.0, blue: 31/255.0, alpha: 1.0)
+        }
+        else if segmentedControl.selectedSegmentIndex == 1{
+            color = UIColor(red: 65/255.0, green: 95/255.0, blue: 196/255.0, alpha: 1.0)
+        }
+        else{
+            color = UIColor(red: 208/255.0, green: 222/255.0, blue: 39/255.0, alpha: 1.0)
+        }
+        tableViewArray[3][0] = NSAttributedString(string: " \(activityPossibilities[segmentedControl.selectedSegmentIndex])", attributes: [NSAttributedString.Key.foregroundColor : color])
         tableView.reloadRows(at: [IndexPath(row: 0, section: 3)], with: .automatic)
     }
     func checkEventCreationStatus(){

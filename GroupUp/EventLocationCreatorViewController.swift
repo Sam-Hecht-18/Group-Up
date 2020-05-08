@@ -44,7 +44,7 @@ class EventLocationCreatorViewController: UIViewController, MKMapViewDelegate, U
     func setUpMapView(){
         mapView.delegate = self
         view.addSubview(mapView)
-        let region = MKCoordinateRegion(center: locationManager.location?.coordinate ?? CLLocationCoordinate2D(), span: MKCoordinateSpan(latitudeDelta: 0.025, longitudeDelta: 0.025))
+        let region = MKCoordinateRegion(center: locManager.location?.coordinate ?? CLLocationCoordinate2D(), span: MKCoordinateSpan(latitudeDelta: 0.025, longitudeDelta: 0.025))
         mapView.setRegion(region, animated: true)
         
         mapView.delegate = self

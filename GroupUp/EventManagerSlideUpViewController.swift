@@ -17,27 +17,92 @@ class EventManagerSlideUpViewController: UIViewController, UIGestureRecognizerDe
     let joinButton = UIButton(type: .system)
     var eventMembers = [NSAttributedString]()
     let dateLabel = UILabel()
-    lazy var frame = CGRect(x: 50, y: 70, width: 100, height: 100)
-    lazy var joinedTableView = UITableView(frame: frame, style: .plain)
+    let activityLabel = UILabel()
+    let joinedTableView = UITableView(frame: CGRect(x: 50, y: 70, width: 100, height: 100), style: .plain)
     var partialView : CGFloat {
         return UIScreen.main.bounds.height-300
     }
     var collapsedView : CGFloat {
-        return UIScreen.main.bounds.height-80
+        return UIScreen.main.bounds.height-90
     }
     let attendeeLabel = UILabel()
-
+    let permissionsLabel = UILabel()
+    let eventInformationLabel = UILabel()
+    let nothingLabel = UILabel()
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        setUpNothingLabel()
         setUpPanGesture()
         setUpAttendeeLabel()
         setUpJoinedTableView()
-        setUpTimeAndDistanceLabel()
-        setUpJoinButton()
         setUpDateLabel()
         
+        setUpJoinButton()
+        setUpEventInformationLabel()
+        setUpPermissionLabel()
+        setUpTimeAndDistanceLabel()
+        setUpActivityLabel()
+    }
+    func setUpNothingLabel(){
         
+        nothingLabel.text = "There's nothing here\nright now...\n \nSelect an event\nfor more information!"
+        nothingLabel.textAlignment = .center
+        nothingLabel.textColor = UIColor(red: 208/255.0, green: 222/255.0, blue: 39/255.0, alpha: 1.0)
+        nothingLabel.font = UIFont(name: "HelveticaNeue-Bold", size: 32)
+        nothingLabel.isHidden = false
+        nothingLabel.numberOfLines = 5
+        
+        view.addSubview(nothingLabel)
+        nothingLabel.translatesAutoresizingMaskIntoConstraints = false
+        nothingLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor, constant: 0).isActive = true
+        nothingLabel.centerYAnchor.constraint(equalTo: view.centerYAnchor, constant: -100).isActive = true
+        nothingLabel.widthAnchor.constraint(equalToConstant: view.frame.width-80).isActive = true
+        nothingLabel.heightAnchor.constraint(equalToConstant: 240).isActive = true
+    }
+    func setUpEventInformationLabel(){
+        let infoText = NSAttributedString(string: "     Event Info", attributes: [NSAttributedString.Key.underlineStyle : 1, NSAttributedString.Key.font : UIFont(name: "HelveticaNeue-Bold", size: 28)!, NSAttributedString.Key.foregroundColor : UIColor.white])
+        eventInformationLabel.attributedText = infoText
+        eventInformationLabel.isHidden = true
+        
+        
+        view.addSubview(eventInformationLabel)
+        eventInformationLabel.translatesAutoresizingMaskIntoConstraints = false
+        eventInformationLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor, constant: 110).isActive = true
+        eventInformationLabel.topAnchor.constraint(equalTo: joinButton.bottomAnchor, constant: -40).isActive = true
+        eventInformationLabel.widthAnchor.constraint(equalToConstant: view.frame.width/2).isActive = true
+        eventInformationLabel.heightAnchor.constraint(equalToConstant: 140).isActive = true
+    }
+    func setUpActivityLabel(){
+        
+        activityLabel.text = ""
+        activityLabel.textAlignment = .center
+        activityLabel.textColor = .white
+        activityLabel.font = UIFont(name: "HelveticaNeue", size: 26)
+        activityLabel.isHidden = true
+        activityLabel.numberOfLines = 3
+        
+        view.addSubview(activityLabel)
+        activityLabel.translatesAutoresizingMaskIntoConstraints = false
+        activityLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor, constant: 110).isActive = true
+        activityLabel.topAnchor.constraint(equalTo: timeAndDistanceLabel.bottomAnchor, constant: -20).isActive = true
+        activityLabel.widthAnchor.constraint(equalToConstant: view.frame.width/2).isActive = true
+        activityLabel.heightAnchor.constraint(equalToConstant: 140).isActive = true
+    }
+    func setUpPermissionLabel(){
+        permissionsLabel.text = ""
+        permissionsLabel.textAlignment = .center
+        permissionsLabel.textColor = .white
+        permissionsLabel.font = UIFont(name: "Helvetica Neue", size: 26)
+        permissionsLabel.isHidden = true
+        permissionsLabel.numberOfLines = 4
+        
+        view.addSubview(permissionsLabel)
+        permissionsLabel.translatesAutoresizingMaskIntoConstraints = false
+        permissionsLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor, constant: 110).isActive = true
+        permissionsLabel.topAnchor.constraint(equalTo: eventInformationLabel.bottomAnchor, constant: -35).isActive = true
+        permissionsLabel.widthAnchor.constraint(equalToConstant: view.frame.width/2).isActive = true
+        permissionsLabel.heightAnchor.constraint(equalToConstant: 150).isActive = true
     }
     
     func setUpAttendeeLabel(){
@@ -50,13 +115,12 @@ class EventManagerSlideUpViewController: UIViewController, UIGestureRecognizerDe
         view.addSubview(attendeeLabel)
         attendeeLabel.translatesAutoresizingMaskIntoConstraints = false
         attendeeLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor, constant: -85).isActive = true
-        attendeeLabel.topAnchor.constraint(equalTo: view.topAnchor, constant: 76).isActive = true
+        attendeeLabel.topAnchor.constraint(equalTo: view.topAnchor, constant: 83).isActive = true
         attendeeLabel.widthAnchor.constraint(equalToConstant: view.frame.width/2).isActive = true
         attendeeLabel.heightAnchor.constraint(equalToConstant: 30).isActive = true
     }
-    
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-       
+        
         return 2
     }
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
@@ -66,21 +130,7 @@ class EventManagerSlideUpViewController: UIViewController, UIGestureRecognizerDe
         return view
         
     }
-    func setUpDateLabel(){
-        dateLabel.isHidden = true
-        view.addSubview(dateLabel)
-        
-        dateLabel.translatesAutoresizingMaskIntoConstraints = false
-        
-        dateLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor, constant: 100).isActive = true
-        dateLabel.centerYAnchor.constraint(equalTo: view.centerYAnchor, constant: 100).isActive = true
-        dateLabel.widthAnchor.constraint(equalToConstant: 110).isActive = true
-        dateLabel.heightAnchor.constraint(equalToConstant: 100).isActive = true
-        dateLabel.numberOfLines = 3
-        dateLabel.textAlignment = .center
-        dateLabel.textColor = .white
-        
-    }
+    
     
     func setUpJoinedTableView(){
         joinedTableView.delegate = self
@@ -130,7 +180,7 @@ class EventManagerSlideUpViewController: UIViewController, UIGestureRecognizerDe
     
     func setUpJoinButton(){
         joinButton.setTitle("Join Event", for: .normal)
-        joinButton.titleLabel?.font = UIFont(name: "Helvetica Neue", size: 20)
+        joinButton.titleLabel?.font = UIFont(name: "HelveticaNeue-Bold", size: 22)
         
         joinButton.addTarget(self, action: #selector(joinEvent), for: .touchUpInside)
         
@@ -144,8 +194,8 @@ class EventManagerSlideUpViewController: UIViewController, UIGestureRecognizerDe
         view.addSubview(joinButton)
         
         joinButton.translatesAutoresizingMaskIntoConstraints = false
-        joinButton.centerYAnchor.constraint(equalTo: view.centerYAnchor, constant: -310).isActive = true
-        joinButton.centerXAnchor.constraint(equalTo: view.centerXAnchor, constant: 100).isActive = true
+        joinButton.centerYAnchor.constraint(equalTo: view.centerYAnchor, constant: -303).isActive = true
+        joinButton.centerXAnchor.constraint(equalTo: view.centerXAnchor, constant: 110).isActive = true
         joinButton.widthAnchor.constraint(equalToConstant: 150).isActive = true
         joinButton.heightAnchor.constraint(equalToConstant: 50).isActive = true
     }
@@ -159,17 +209,39 @@ class EventManagerSlideUpViewController: UIViewController, UIGestureRecognizerDe
         view.addSubview(timeAndDistanceLabel)
         
         timeAndDistanceLabel.translatesAutoresizingMaskIntoConstraints = false
-        timeAndDistanceLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor, constant: 0).isActive = true
-        timeAndDistanceLabel.widthAnchor.constraint(equalToConstant: view.frame.width).isActive = true
-        timeAndDistanceLabel.heightAnchor.constraint(equalToConstant: 30).isActive = true
-        timeAndDistanceLabel.topAnchor.constraint(equalTo: view.topAnchor, constant: 15).isActive = true
-        
-        timeAndDistanceLabel.backgroundColor = .systemGray5
+        timeAndDistanceLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor, constant: 110).isActive = true
+        timeAndDistanceLabel.topAnchor.constraint(equalTo: permissionsLabel.bottomAnchor, constant: -15).isActive = true
+        timeAndDistanceLabel.widthAnchor.constraint(equalToConstant: view.frame.width/2).isActive = true
+        timeAndDistanceLabel.heightAnchor.constraint(equalToConstant: 200).isActive = true
+        timeAndDistanceLabel.numberOfLines = 4
         timeAndDistanceLabel.textAlignment = .center
-        timeAndDistanceLabel.textColor = .white
+        timeAndDistanceLabel.textColor = strokeColor
         timeAndDistanceLabel.font = UIFont(name: "Helvetica Neue", size: 30)
+        timeAndDistanceLabel.isHidden = true
     }
-    
+    func setUpDateLabel(){
+        dateLabel.isHidden = true
+        view.addSubview(dateLabel)
+        
+        dateLabel.translatesAutoresizingMaskIntoConstraints = false
+        
+        dateLabel.translatesAutoresizingMaskIntoConstraints = false
+        dateLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor, constant: 0).isActive = true
+        dateLabel.widthAnchor.constraint(equalToConstant: view.frame.width-20).isActive = true
+        dateLabel.heightAnchor.constraint(equalToConstant: 80).isActive = true
+        dateLabel.topAnchor.constraint(equalTo: view.topAnchor, constant: 10).isActive = true
+        
+        dateLabel.numberOfLines = 2
+        dateLabel.backgroundColor = .systemGray5
+        dateLabel.textAlignment = .center
+        dateLabel.textColor = strokeColor
+        dateLabel.font = UIFont(name: "HelveticaNeue-Bold", size: 25)
+        //dateLabel.adjustsFontSizeToFitWidth = true
+        
+        
+        
+        
+    }
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         
@@ -191,28 +263,57 @@ class EventManagerSlideUpViewController: UIViewController, UIGestureRecognizerDe
         UIView.animate(withDuration: 0.5, delay: 0.0, options: [.allowUserInteraction], animations: {
             self.view.frame = CGRect(x: 0, y: self.partialView, width: self.view.frame.width, height: self.view.frame.height)
         })
+        
     }
     
     
     func updateTimeAndDistanceLabel(_ text : String){
-        timeAndDistanceLabel.text = text
+        //timeAndDistanceLabel.text = text
+        let distanceText = NSMutableAttributedString()
+        distanceText.append(NSAttributedString(string: "How far    away is it?\n", attributes: [NSAttributedString.Key.foregroundColor : UIColor.white, NSAttributedString.Key.font: UIFont(name: "HelveticaNeue", size: 32)!]))
+        distanceText.append(NSAttributedString(string: text, attributes: [NSAttributedString.Key.foregroundColor : strokeColor, NSAttributedString.Key.font: UIFont(name: "HelveticaNeue-Bold", size: 28)!]))
+        timeAndDistanceLabel.attributedText = distanceText
     }
     func updateEventSelected(_ event: Event){
         self.event = event
         guard let uid = Auth.auth().currentUser?.uid else {return}
         if !event.joined.contains(uid){
-            joinButton.isHidden = false
+            joinButton.setTitle("Join Event", for: .normal)
             joinButton.isEnabled = true
         }
         else{
-            joinButton.isHidden = true
+            joinButton.setTitle("You Joined", for: .normal)
             joinButton.isEnabled = false
         }
         eventMembers = []
         populateJoinedTableView(event: event)
+        nothingLabel.isHidden = true
+        joinButton.isHidden = false
         dateLabel.isHidden = false
         attendeeLabel.isHidden = false
+        permissionsLabel.isHidden = false
+        eventInformationLabel.isHidden = false
+        activityLabel.isHidden = false
+        timeAndDistanceLabel.isHidden = false
+        dateLabel.textColor = strokeColor
         dateLabel.text = dateFormatter.string(from: event.time)
+        let permissionsText = NSMutableAttributedString()
+        permissionsText.append(NSAttributedString(string: "Who can see this event?   \n", attributes: [NSAttributedString.Key.foregroundColor : UIColor.white, NSAttributedString.Key.font: UIFont(name: "HelveticaNeue", size: 28)!]))
+        if event.permission == "Friends"{
+            permissionsText.append(NSAttributedString(string: "Creator's friends", attributes: [NSAttributedString.Key.foregroundColor : strokeColor, NSAttributedString.Key.font: UIFont(name: "HelveticaNeue-Bold", size: 22)!]))
+            permissionsLabel.attributedText = permissionsText
+        }
+        else{
+            
+            permissionsText.append(NSAttributedString(string: "Anyone", attributes: [NSAttributedString.Key.foregroundColor : strokeColor, NSAttributedString.Key.font: UIFont(name: "HelveticaNeue-Bold", size: 28)!]))
+            permissionsLabel.attributedText = permissionsText
+        }
+        let activityText = NSMutableAttributedString()
+        activityText.append(NSAttributedString(string: "What type of\n event is it?\n", attributes: [NSAttributedString.Key.foregroundColor : UIColor.white, NSAttributedString.Key.font: UIFont(name: "HelveticaNeue", size: 28)!]))
+        
+        activityText.append(NSAttributedString(string: event.activity, attributes: [NSAttributedString.Key.foregroundColor : strokeColor, NSAttributedString.Key.font: UIFont(name: "HelveticaNeue-Bold", size: 28)!]))
+        activityLabel.attributedText = activityText
+        
         
     }
     
@@ -222,9 +323,14 @@ class EventManagerSlideUpViewController: UIViewController, UIGestureRecognizerDe
     }
     func unpopulate(){
         eventMembers = []
+        nothingLabel.isHidden = false
         attendeeLabel.isHidden = true
         dateLabel.isHidden = true
         joinButton.isHidden = true
+        permissionsLabel.isHidden = true
+        eventInformationLabel.isHidden = true
+        activityLabel.isHidden = true
+        timeAndDistanceLabel.isHidden = true
         joinedTableView.reloadData()
     }
     func populateJoinedTableView(event: Event){
@@ -238,7 +344,7 @@ class EventManagerSlideUpViewController: UIViewController, UIGestureRecognizerDe
             guard let formattedProfile = usernameToFormattedProfile[username] else {
                 print("Username is: \(username)")
                 print("Rippp pt 2")
-
+                
                 return}
             
             guard let copyOfProfile = formattedProfile.mutableCopy() as? NSMutableAttributedString else{
@@ -250,7 +356,7 @@ class EventManagerSlideUpViewController: UIViewController, UIGestureRecognizerDe
         }
         joinedTableView.reloadData()
     }
-
+    
     
     @objc func joinEvent(){
         print("something's got a hold on me")
@@ -269,7 +375,6 @@ class EventManagerSlideUpViewController: UIViewController, UIGestureRecognizerDe
             databaseRef.child("users/\(uid)").updateChildValues(["joined": joined])
             
         }
-        joinButton.isHidden = true
         updateEventSelected(event)
     }
     
@@ -328,7 +433,7 @@ class EventManagerSlideUpViewController: UIViewController, UIGestureRecognizerDe
                 //So set the view to the full view
                 if velocity.y < 0 && finalYPosition <= self.partialView || finalYPosition <= self.fullView {
                     self.view.frame = CGRect(x: 0, y: self.fullView, width: self.view.frame.width, height: self.view.frame.height)
-                    self.joinedTableView.isScrollEnabled = true
+                    self.joinedTableView.isScrollEnabled = self.joinedTableView.cellForRow(at: IndexPath(row: 0, section: 0)) != nil
                 }
                     //If the gesture left a positive velocity, then it was a swipe down
                     //It is between the full view and the partial view
@@ -336,6 +441,7 @@ class EventManagerSlideUpViewController: UIViewController, UIGestureRecognizerDe
                 else if  velocity.y >= 0 && finalYPosition <= self.partialView {
                     self.view.frame = CGRect(x: 0, y: self.partialView, width: self.view.frame.width, height: self.view.frame.height)
                     self.joinedTableView.isScrollEnabled = false
+                    
                 }
                     //Swipe was down and its between partial and collapsed
                     //So set the view to the collapsed view
@@ -351,13 +457,13 @@ class EventManagerSlideUpViewController: UIViewController, UIGestureRecognizerDe
                 }
                 
             })
-                //            A completion handler that would enable scrolling on a possible tableview
-                //            Once the animation is complete, can also be used for whatever view used
-//                , completion: { [weak self] _ in
-//                    if ( velocity.y < 0 ) {
-//                        self?.joinedTableView.isScrollEnabled = true
-//                    }
-//            })
+            //            A completion handler that would enable scrolling on a possible tableview
+            //            Once the animation is complete, can also be used for whatever view used
+            //                , completion: { [weak self] _ in
+            //                    if ( velocity.y < 0 ) {
+            //                        self?.joinedTableView.isScrollEnabled = true
+            //                    }
+            //            })
         }
         
         

@@ -8,6 +8,8 @@
 
 import UIKit
 import FirebaseAuth
+import MapKit
+
 class LogInViewController: UIViewController, UITextFieldDelegate {
     
     @IBOutlet weak var usernameTextField: UITextField!
@@ -26,6 +28,7 @@ class LogInViewController: UIViewController, UITextFieldDelegate {
                 print("uhh I hope so")
                 downloadPicture()
                 resetEverything()
+                
             }
             else{
                 print(error!.localizedDescription)

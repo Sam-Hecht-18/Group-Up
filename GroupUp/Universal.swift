@@ -17,11 +17,11 @@ var databaseRef: DatabaseReference = {
 var storageRef = Storage.storage().reference()
 var events: [String: Event] = [:]
 let map = MKMapView()
-var strokeColor: UIColor = UIColor()
+var strokeColor: UIColor = UIColor.clear
 let transition = SlideInTransition()
 let universe = Universal()
 var userImage: UIImage = UIImage(named: "ProfilePic")!
-let locationManager = CLLocationManager()
+let locManager = CLLocationManager()
 var location = CLLocationCoordinate2D()
 var eventLocationCreator = EventLocationCreatorViewController()
 let dateFormatter: DateFormatter = {
@@ -40,8 +40,15 @@ var myFriends = [String]()
 var friendRequests = [String]()
 var friendRequestUsernames = [String]()
 var usernames = [String]()
-var timesOfEvents = [TimeInterval]()
+
 func setUpObservers(){
+    
+    var pendingNotificationIDs = [String]()
+    UNUserNotificationCenter.current().getPendingNotificationRequests { (requests) in
+        for request in requests {
+            pendingNotificationIDs.append(request.identifier)
+        }
+    }
     
     guard let uid = Auth.auth().currentUser?.uid else {return}
     
@@ -55,7 +62,7 @@ func setUpObservers(){
             || event.permission == "Anyone"){
             
             
-            if event.time.timeIntervalSinceReferenceDate < Date(timeIntervalSinceNow: 0).timeIntervalSinceReferenceDate {
+            if event.time < Date(timeIntervalSinceNow: 0) {
                 databaseRef.child("events/\(event.identifier)").removeValue()
                 let description = event.subtitle ?? ""
                 let eventDictionary = [
@@ -76,6 +83,7 @@ func setUpObservers(){
                 map.addAnnotation(event)
                 //print("Child Added")
             }
+            print("This continues to happen even though we persisting")
         }
         else{
             print("The owner is: \(event.owner) and I am \(uid)")
@@ -85,6 +93,7 @@ func setUpObservers(){
     databaseRef.child("events").observe(.childRemoved) { (eventRemoved) in
         let removedEvent = getSnapshotAsEvent(snapshot: eventRemoved)
         events[removedEvent.identifier] = nil
+        map.removeAnnotation(removedEvent)
         print("Child Removed")
     }
     //For if we get to the point where people can edit the events they created
@@ -124,51 +133,69 @@ func setUpObservers(){
     databaseRef.child("users/\(uid)/joined").observeSingleEvent(of: .value) { (snapshot) in
         print("Welcome to the thunder dome")
         guard let joined = snapshot.value as? [String] else {return}
+        
+        
+        
         for i in 0..<joined.count{
+            
             let content = UNMutableNotificationContent()
-            content.title = "An event you signed up for is in 10 minutes!"
-            content.body = "Make sure to go to your event!"
+            content.title = "An event you joined occurs in 10 minutes"
+            content.body = "Make sure to go to your event"
             databaseRef.child("events/\(joined[i])/time").observeSingleEvent(of: .value) { (snapshot) in
                 guard let timeIntervalString = snapshot.value as? String else {return}
                 guard let timeInterval = Double(timeIntervalString) else {return}
-                if(!timesOfEvents.contains(timeInterval)){
-                    let trigger = UNTimeIntervalNotificationTrigger(timeInterval: timeInterval, repeats: false)
-                    let uuid = UUID().uuidString
-                    let request = UNNotificationRequest(identifier: uuid, content: content, trigger: trigger)
-                    let notificationCenter = UNUserNotificationCenter.current()
+                let notificationCenter = UNUserNotificationCenter.current()
+                if !pendingNotificationIDs.contains("\(timeInterval-600)") &&
+                Date(timeIntervalSinceReferenceDate: timeInterval-600).timeIntervalSinceNow > 0{
+                    let trigger = UNTimeIntervalNotificationTrigger(timeInterval: Date(timeIntervalSinceReferenceDate: timeInterval-600).timeIntervalSinceNow, repeats: false)
+                    
+                    let request = UNNotificationRequest(identifier: "\(timeInterval-600)", content: content, trigger: trigger)
+                    
                     notificationCenter.add(request) { (error) in
-                        if error == nil{
-                            print("Something went wronggggg duh duh duh duh duh")
+                        if error != nil{
+                            print(error?.localizedDescription)
+                            print(error.debugDescription)
+                            print("Something went wronggggg duh duh duh duh duh but I made it!")
                         }
                         else{
-                            print("Congerts bro you set a notification for \(dateFormatter.string(from: Date(timeIntervalSinceReferenceDate: timeInterval)))")
-                            timesOfEvents.append(timeInterval)
+                            print("Congerts bro you set a notification for the event you joined happening: \(dateFormatter.string(from: Date(timeIntervalSinceReferenceDate: timeInterval-600)))")
                         }
                     }
                 }
+                
+                
+                if !pendingNotificationIDs.contains("\(timeInterval-3600)") &&
+                    Date(timeIntervalSinceReferenceDate: timeInterval-3600).timeIntervalSinceNow > 0{
+                    let hourContent = UNMutableNotificationContent()
+                    hourContent.title = "An event you joined occurs in 1 hour"
+                    hourContent.body = "Make sure to go to your event"
+                    let hourTrigger = UNTimeIntervalNotificationTrigger(timeInterval: Date(timeIntervalSinceReferenceDate: timeInterval-3600).timeIntervalSinceNow, repeats: false)
+                    let hourRequest = UNNotificationRequest(identifier: "\(timeInterval-3600)", content: hourContent, trigger: hourTrigger)
+                    notificationCenter.add(hourRequest, withCompletionHandler: nil)
+                }
             }
-            
-            
         }
     }
-    
     databaseRef.child("users/\(uid)/created").observeSingleEvent(of: .value) { (snapshot) in
         print("Welcome to the thunder dome but I made it!")
         guard let created = snapshot.value as? [String] else {return}
         print("")
+        
+        
         for i in 0..<created.count{
+            
             let content = UNMutableNotificationContent()
             content.title = "An event you created occurs in 10 minutes!"
             content.body = "Make sure to go to your event!"
+            let notificationCenter = UNUserNotificationCenter.current()
+            
             databaseRef.child("events/\(created[i])/time").observeSingleEvent(of: .value) { (snapshot) in
                 guard let timeIntervalString = snapshot.value as? String else {return}
                 guard let timeInterval = Double(timeIntervalString) else {return}
-                if(!timesOfEvents.contains(timeInterval) && Date(timeIntervalSinceReferenceDate: timeInterval-600).timeIntervalSinceNow > 0){
-                    
+                if !pendingNotificationIDs.contains("\(timeInterval-600)") && Date(timeIntervalSinceReferenceDate: timeInterval-600).timeIntervalSinceNow > 0{
                     let trigger = UNTimeIntervalNotificationTrigger(timeInterval: Date(timeIntervalSinceReferenceDate: timeInterval-600).timeIntervalSinceNow, repeats: false)
-                    let uuid = UUID().uuidString
-                    let request = UNNotificationRequest(identifier: uuid, content: content, trigger: trigger)
-                    let notificationCenter = UNUserNotificationCenter.current()
+                    
+                    let request = UNNotificationRequest(identifier: "\(timeInterval-600)", content: content, trigger: trigger)
                     notificationCenter.add(request) { (error) in
                         if error != nil{
                             print(error?.localizedDescription)
@@ -177,10 +204,21 @@ func setUpObservers(){
                         }
                         else{
                             print("Congerts bro you set a notification for the event you created happening: \(dateFormatter.string(from: Date(timeIntervalSinceReferenceDate: timeInterval-600)))")
-                            timesOfEvents.append(timeInterval)
                         }
                     }
                 }
+                
+                
+                if !pendingNotificationIDs.contains("\(timeInterval-3600)") &&
+                Date(timeIntervalSinceReferenceDate: timeInterval-3600).timeIntervalSinceNow > 0{
+                    let hourContent = UNMutableNotificationContent()
+                    hourContent.title = "An event you created occurs in 1 hour"
+                    hourContent.body = "Make sure to go to your event"
+                    let hourTrigger = UNTimeIntervalNotificationTrigger(timeInterval: Date(timeIntervalSinceReferenceDate: timeInterval-3600).timeIntervalSinceNow, repeats: false)
+                    let hourRequest = UNNotificationRequest(identifier: "\(timeInterval-3600)", content: hourContent, trigger: hourTrigger)
+                    notificationCenter.add(hourRequest, withCompletionHandler: nil)
+                }
+                
             }
             
             
@@ -360,7 +398,7 @@ func transitiontoNewVC(_ menuType: MenuType, currentViewController: UIViewContro
     
     //currentViewController.navigationController?.popToRootViewController(animated: false)
     
-    //Just know that if you go back and forth between the profile and friend manager you continue adding them to el stacko... If you go to map once el stacko is gone. 
+    //Just know that if you go back and forth between the profile and friend manager you continue adding them to el stacko... If you go to map once el stacko is gone.
     switch menuType{
     case .map:
         currentViewController.navigationController?.popToRootViewController(animated: true)

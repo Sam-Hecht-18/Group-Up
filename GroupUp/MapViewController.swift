@@ -19,8 +19,6 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
     
     
     var timeAndDistance = String()
-    //let eventCreator = UIButton(type: .contactAdd)
-    let locationManager = CLLocationManager()
     let eventManagerSlideUpView = EventManagerSlideUpViewController()
     
     
@@ -30,31 +28,14 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
     
     override func viewDidLoad() {
         super.viewDidLoad()
-       
-        //Notifications
-        let content = UNMutableNotificationContent()
-        content.title = "Best Mentor"
-        content.body = "Keep up the good work"
-        content.sound = UNNotificationSound.default
         
-        let trigger = UNTimeIntervalNotificationTrigger(timeInterval:  5, repeats: false)
-        //UNCalendarNotificationTrigger
-        //- Specify Date and time for notification
-        //UNLocationNotificationTrigger
-        //- Specify location where user will receive notifications
-         
-        let request = UNNotificationRequest(identifier: "test", content: content, trigger: trigger)
-         
-        UNUserNotificationCenter.current().add(request, withCompletionHandler: nil)
-       
-        //overrideUserInterfaceStyle = .dark
+        
         view.addSubview(map)
         setUpMapView()
         checkLocationServices()
-       
+        
         checkLogIn()
         retrieveFriendsAndUsers()
-        //setUpObservers()
         
         
         
@@ -68,6 +49,11 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
         
         navigationItem.rightBarButtonItem = eventCreatorButton
         addEventManagerSlideUpViewController()
+        
+        
+        
+        
+        
     }
     
     func setUpNavigationControllerBackground(){
@@ -89,7 +75,7 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
     func checkLocationServices(){
         if CLLocationManager.locationServicesEnabled(){
             checkLocationAuthorization()
-            setUpLocationManager()
+            setUplocationManage()
         }
     }
     
@@ -97,13 +83,13 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
         
         switch CLLocationManager.authorizationStatus(){
         case .authorizedWhenInUse:
-            locationManager.startUpdatingLocation()
+            locManager.startUpdatingLocation()
             break
         case .denied:
             //Show alert instructing them how to turn on permissions
             break
         case .notDetermined:
-            locationManager.requestWhenInUseAuthorization()
+            locManager.requestWhenInUseAuthorization()
         // break
         case .restricted:
             //Show alert instructing them how to turn on permissions
@@ -116,23 +102,23 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
         }
         
     }
-
     
-    func setUpLocationManager(){
+    
+    func setUplocationManage(){
         
-        locationManager.delegate = self
-        locationManager.desiredAccuracy = kCLLocationAccuracyBest
-        locationManager.requestAlwaysAuthorization()
-        locationManager.requestWhenInUseAuthorization()
-        locationManager.startUpdatingLocation()
-        locationManager.distanceFilter = 20
+        locManager.delegate = self
+        locManager.desiredAccuracy = kCLLocationAccuracyBest
+        locManager.requestAlwaysAuthorization()
+        locManager.requestWhenInUseAuthorization()
+        locManager.startUpdatingLocation()
+        locManager.distanceFilter = 20
         
     }
     
     func setUpMapView(){
         
         map.showsUserLocation = true
-        let region = MKCoordinateRegion(center: locationManager.location?.coordinate ?? CLLocationCoordinate2D(), span: MKCoordinateSpan(latitudeDelta: 0.025, longitudeDelta: 0.025))
+        let region = MKCoordinateRegion(center: locManager.location?.coordinate ?? CLLocationCoordinate2D(), span: MKCoordinateSpan(latitudeDelta: 0.025, longitudeDelta: 0.025))
         map.setRegion(region, animated: true)
         
         map.delegate = self
@@ -146,7 +132,7 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
     
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         
-        let region = MKCoordinateRegion(center: locationManager.location?.coordinate ?? CLLocationCoordinate2D(), span: MKCoordinateSpan(latitudeDelta: 0.025, longitudeDelta: 0.025))
+        let region = MKCoordinateRegion(center: locManager.location?.coordinate ?? CLLocationCoordinate2D(), span: MKCoordinateSpan(latitudeDelta: 0.025, longitudeDelta: 0.025))
         
         map.setRegion(region, animated: true)
         
@@ -163,6 +149,11 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
     
     func mapView(_ mapView: MKMapView, didSelect view: MKAnnotationView) {
         //Checks to make sure you're not clicking on your own location
+        if view.annotation?.coordinate.latitude == mapView.userLocation.coordinate.latitude && view.annotation?.coordinate.longitude == mapView.userLocation.coordinate.longitude{
+            print("this happened")
+            return
+        }
+        
         print("right")
         var beginString = ""
         if view.tag == 0{
@@ -179,58 +170,56 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
         }
         view.image = UIImage(named: "\(beginString) Big")!
         
-        if view.annotation?.coordinate.latitude != mapView.userLocation.coordinate.latitude && view.annotation?.coordinate.longitude != mapView.userLocation.coordinate.longitude{
-            
-            //eventManagerSlideUpView.popUpViewToMiddle()
-            
-            let destCoordinate = view.annotation?.coordinate ?? CLLocationCoordinate2D()
-            let sourceCoordinate = locationManager.location?.coordinate ?? CLLocationCoordinate2D()
-            
-            let sourcePlaceMark = MKPlacemark(coordinate: sourceCoordinate)
-            let destPlaceMark = MKPlacemark(coordinate: destCoordinate)
-            
-            let sourceItem = MKMapItem(placemark: sourcePlaceMark)
-            let destItem = MKMapItem(placemark: destPlaceMark)
-            
-            let destinationRequest = MKDirections.Request()
-            destinationRequest.source = sourceItem
-            destinationRequest.destination = destItem
-            destinationRequest.transportType = .automobile
-            destinationRequest.requestsAlternateRoutes = false
-            
-            let directions = MKDirections(request: destinationRequest)
-            resetMapView(withNew: directions)
-            
-            directions.calculate { (response, error) in
-                guard let response = response else{
-                    if error != nil{
-                        print("Something is wrong :(")
-                    }
-                    return
+        
+        
+        let destCoordinate = view.annotation?.coordinate ?? CLLocationCoordinate2D()
+        let sourceCoordinate = locManager.location?.coordinate ?? CLLocationCoordinate2D()
+        
+        let sourcePlaceMark = MKPlacemark(coordinate: sourceCoordinate)
+        let destPlaceMark = MKPlacemark(coordinate: destCoordinate)
+        
+        let sourceItem = MKMapItem(placemark: sourcePlaceMark)
+        let destItem = MKMapItem(placemark: destPlaceMark)
+        
+        let destinationRequest = MKDirections.Request()
+        destinationRequest.source = sourceItem
+        destinationRequest.destination = destItem
+        destinationRequest.transportType = .automobile
+        destinationRequest.requestsAlternateRoutes = false
+        
+        let directions = MKDirections(request: destinationRequest)
+        resetMapView(withNew: directions)
+        
+        directions.calculate { (response, error) in
+            guard let response = response else{
+                if error != nil{
+                    print("Something is wrong :(")
                 }
-                let route = response.routes[0]
-                
-                var eta: Double = route.expectedTravelTime
-                print(route.expectedTravelTime)
-                //print("The travel time is: \(eta)")
-                eta /= 60.0
-                eta.round(.toNearestOrAwayFromZero)
-                print(eta)
-                self.getETA(withETA: Int(eta))
-                self.getDistance(withDistance: Int(route.distance))
-                
-                self.eventManagerSlideUpView.updateTimeAndDistanceLabel(self.timeAndDistance)
-                
-                guard let event = view.annotation as? Event else {return}
-                self.eventManagerSlideUpView.updateEventSelected(event)
-                self.eventManagerSlideUpView.popUpViewToMiddle()
-                self.timeAndDistance = String()
-                map.addOverlay(route.polyline)
-                //self.resetMapViewBounds(withNew: route)
-                
+                return
             }
+            let route = response.routes[0]
+            
+            var eta: Double = route.expectedTravelTime
+            print(route.expectedTravelTime)
+            //print("The travel time is: \(eta)")
+            eta /= 60.0
+            eta.round(.toNearestOrAwayFromZero)
+            print(eta)
+            self.getETA(withETA: Int(eta))
+            self.getDistance(withDistance: Int(route.distance))
+            
+            self.eventManagerSlideUpView.updateTimeAndDistanceLabel(self.timeAndDistance)
+            
+            guard let event = view.annotation as? Event else {return}
+            self.eventManagerSlideUpView.updateEventSelected(event)
+            self.eventManagerSlideUpView.popUpViewToMiddle()
+            self.timeAndDistance = String()
+            map.addOverlay(route.polyline)
+            //self.resetMapViewBounds(withNew: route)
+            
         }
     }
+    
     
     func getETA(withETA eta : Int){
         var etaMutable = eta
@@ -238,7 +227,7 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
             self.timeAndDistance.append("\(etaMutable/60) hr ")
             etaMutable -= eta/60 * 60
         }
-        self.timeAndDistance.append("\(etaMutable) min ")
+        self.timeAndDistance.append("\(etaMutable) min\n")
         
     }
     
@@ -248,18 +237,18 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
         goodDistance *= 10
         goodDistance.round(.toNearestOrAwayFromZero)
         goodDistance /= 10
-        timeAndDistance.append("(\(goodDistance) mi)")
+        timeAndDistance.append("\(goodDistance) miles")
     }
     func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
         if annotation.coordinate.latitude == mapView.userLocation.coordinate.latitude && annotation.coordinate.longitude == mapView.userLocation.coordinate.longitude{
-                   print("this happened")
-                   return nil
-               }
+            print("this happened")
+            return nil
+        }
         let annotationView = MKAnnotationView()
         annotationView.canShowCallout = true
         //let nameLabel = UILabel()
         //nameLabel.text = annotation.title ?? ""
-       // annotationView.detailCalloutAccessoryView = nameLabel
+        // annotationView.detailCalloutAccessoryView = nameLabel
         annotationView.calloutOffset = CGPoint(x: 8, y: 0)
         annotationView.annotation = annotation
         guard let event = annotation as? Event else {return annotationView}
@@ -277,10 +266,14 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
             annotationView.tag = 2
         }
         
-       
+        
         return annotationView
     }
     func mapView(_ mapView: MKMapView, didDeselect view: MKAnnotationView) {
+        if view.annotation?.coordinate.latitude == mapView.userLocation.coordinate.latitude && view.annotation?.coordinate.longitude == mapView.userLocation.coordinate.longitude{
+            print("this happened")
+            return
+        }
         print("left")
         var beginString = "Red Pin"
         if(view.tag == 1){
@@ -343,5 +336,5 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
         //self.present(eventViewController, animated: true, completion: nil)
     }
     
-           
+    
 }
