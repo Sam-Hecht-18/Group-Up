@@ -307,6 +307,10 @@
                                     <action selector="createdEvents:" destination="0OW-9D-nOg" eventType="touchUpInside" id="PAP-4p-sbs"/>
                                 </connections>
                             </button>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="Iconic" translatesAutoresizingMaskIntoConstraints="NO" id="hra-1r-trk">
+                                <rect key="frame" x="35" y="515" width="344" height="341"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            </imageView>
                         </subviews>
                         <color key="backgroundColor" cocoaTouchSystemColor="viewFlipsideBackgroundColor"/>
                         <constraints>
@@ -328,6 +332,9 @@
                     </navigationItem>
                     <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
                     <connections>
+                        <outlet property="appIcon" destination="hra-1r-trk" id="dL5-g8-WV0"/>
+                        <outlet property="createdEventsButton" destination="pDb-qa-KKx" id="xP3-wP-CbO"/>
+                        <outlet property="joinedEventsButton" destination="55s-Hg-46l" id="wii-3m-eLF"/>
                         <outlet property="profilePic" destination="ibT-pR-F54" id="gg8-hH-6sf"/>
                         <outlet property="username" destination="ipj-Y6-44u" id="NvZ-0D-4Gv"/>
                     </connections>
@@ -695,6 +702,7 @@
     </scenes>
     <resources>
         <image name="Icon" width="679" height="267"/>
+        <image name="Iconic" width="1024" height="1024"/>
         <image name="Manage Friends" width="40" height="40"/>
         <image name="Menu" width="24" height="24"/>
         <image name="Profile" width="256" height="256"/>
