@@ -308,7 +308,7 @@
                                 </connections>
                             </button>
                         </subviews>
-                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <color key="backgroundColor" cocoaTouchSystemColor="viewFlipsideBackgroundColor"/>
                         <constraints>
                             <constraint firstItem="ibT-pR-F54" firstAttribute="top" secondItem="3Jg-2w-OIV" secondAttribute="top" constant="100" id="8kR-bG-eJj"/>
                             <constraint firstItem="ipj-Y6-44u" firstAttribute="centerX" secondItem="3Jg-2w-OIV" secondAttribute="centerX" id="9Yv-hG-M7p"/>
@@ -406,7 +406,7 @@
                                 </connections>
                             </button>
                         </subviews>
-                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <color key="backgroundColor" cocoaTouchSystemColor="viewFlipsideBackgroundColor"/>
                         <constraints>
                             <constraint firstItem="OLc-0Y-gT4" firstAttribute="trailing" secondItem="aw9-o7-qZ5" secondAttribute="trailing" constant="81" id="0iR-0P-xub"/>
                             <constraint firstItem="OLc-0Y-gT4" firstAttribute="trailing" secondItem="Ths-pw-9Ca" secondAttribute="trailing" constant="132" id="1I2-b0-bVQ"/>
@@ -483,7 +483,7 @@
                                 </connections>
                             </button>
                         </subviews>
-                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <color key="backgroundColor" cocoaTouchSystemColor="viewFlipsideBackgroundColor"/>
                         <constraints>
                             <constraint firstItem="3cw-5w-UE9" firstAttribute="leading" secondItem="dUq-Du-jo7" secondAttribute="leading" constant="32" id="0A0-rT-mnX"/>
                             <constraint firstItem="vqp-Oc-VEF" firstAttribute="leading" secondItem="dUq-Du-jo7" secondAttribute="leading" constant="20" id="1zI-Ag-u4o"/>
@@ -584,7 +584,7 @@
                                 </connections>
                             </button>
                         </subviews>
-                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <color key="backgroundColor" cocoaTouchSystemColor="viewFlipsideBackgroundColor"/>
                         <constraints>
                             <constraint firstItem="HCX-nF-FeD" firstAttribute="leading" secondItem="Nex-YT-wyH" secondAttribute="leading" constant="40" id="Gtf-Di-AXE"/>
                             <constraint firstItem="z0e-Lh-L2w" firstAttribute="top" secondItem="xAG-S8-cVW" secondAttribute="bottom" constant="7.5" id="IAD-SU-AZy"/>
@@ -632,7 +632,7 @@
                     <view key="view" contentMode="scaleToFill" id="cJ0-iE-Ai3">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <color key="backgroundColor" cocoaTouchSystemColor="viewFlipsideBackgroundColor"/>
                         <viewLayoutGuide key="safeArea" id="l4K-dd-hnp"/>
                     </view>
                     <navigationItem key="navigationItem" id="PIy-uT-8s0">
@@ -655,7 +655,8 @@
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="6nE-ld-feU">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="separatorColor" white="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <color key="separatorColor" cocoaTouchSystemColor="viewFlipsideBackgroundColor"/>
+                        <color key="sectionIndexBackgroundColor" cocoaTouchSystemColor="viewFlipsideBackgroundColor"/>
                         <prototypes>
                             <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" id="5Ou-Ri-4AS">
                                 <rect key="frame" x="0.0" y="28" width="414" height="43.5"/>
