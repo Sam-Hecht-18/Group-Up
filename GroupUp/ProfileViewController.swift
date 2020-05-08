@@ -31,8 +31,9 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
         cell.textLabel?.numberOfLines = 10
         cell.textLabel?.textAlignment = .center
         let cellText = NSMutableAttributedString()
-        cellText.append(NSAttributedString(string: "\(myEvents[tableView.tag][indexPath.section].title!)\n", attributes: [NSAttributedString.Key.foregroundColor : UIColor(red: 208/255.0, green: 222/255.0, blue: 39/255.0, alpha: 1.0), NSAttributedString.Key.font : UIFont(name: "HelveticaNeue-Bold", size: 30)!]))
-        cellText.append(NSAttributedString(string: myEvents[tableView.tag][indexPath.section].subtitle!, attributes: [NSAttributedString.Key.foregroundColor : UIColor(red: 208/255.0, green: 222/255.0, blue: 39/255.0, alpha: 1.0), NSAttributedString.Key.font : UIFont(name: "HelveticaNeue", size: 26)!]))
+        cellText.append(NSAttributedString(string: "\(myEvents[tableView.tag][indexPath.section].title!)\n", attributes: [NSAttributedString.Key.foregroundColor : UIColor(red: 43/255.0, green: 183/255.0, blue: 183/255.0, alpha: 1.0), NSAttributedString.Key.font : UIFont(name: "HelveticaNeue-Bold", size: 30)!]))
+        
+        cellText.append(NSAttributedString(string: myEvents[tableView.tag][indexPath.section].subtitle!, attributes: [NSAttributedString.Key.foregroundColor : UIColor(red: 43/255.0, green: 183/255.0, blue: 183/255.0, alpha: 1.0), NSAttributedString.Key.font : UIFont(name: "HelveticaNeue", size: 26)!]))
         cell.textLabel?.adjustsFontForContentSizeCategory = true
         cell.textLabel?.attributedText = cellText
         cell.layer.cornerRadius = 10
@@ -78,7 +79,6 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
         joinedTableView.isScrollEnabled = false
         
         view.addSubview(joinedTableView)
-        joinedTableView.translatesAutoresizingMaskIntoConstraints = false
         joinedTableView.translatesAutoresizingMaskIntoConstraints = false
         joinedTableView.topAnchor.constraint(equalTo: joinedEventsButton.bottomAnchor, constant: 10).isActive = true
         joinedTableView.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
@@ -159,7 +159,7 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
         overrideUserInterfaceStyle = .dark
         view.backgroundColor = .systemGray5
         username.text = Auth.auth().currentUser?.displayName
-        username.textColor = UIColor(red: 208/255.0, green: 222/255.0, blue: 39/255.0, alpha: 1.0)
+        username.textColor = UIColor(red: 43/255.0, green: 183/255.0, blue: 183/255.0, alpha: 1.0)
         setUpProfilePic()
         setUpImagePicker()
         getMyEvents()
