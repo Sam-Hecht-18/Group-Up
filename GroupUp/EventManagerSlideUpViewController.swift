@@ -32,6 +32,7 @@ class EventManagerSlideUpViewController: UIViewController, UIGestureRecognizerDe
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         setUpNothingLabel()
         setUpPanGesture()
         setUpAttendeeLabel()
@@ -44,6 +45,8 @@ class EventManagerSlideUpViewController: UIViewController, UIGestureRecognizerDe
         setUpTimeAndDistanceLabel()
         setUpActivityLabel()
     }
+    
+      
     func setUpNothingLabel(){
         
         nothingLabel.text = "There's nothing here\nright now...\n \nSelect an event\nfor more information!"
@@ -236,28 +239,17 @@ class EventManagerSlideUpViewController: UIViewController, UIGestureRecognizerDe
         dateLabel.textAlignment = .center
         dateLabel.textColor = strokeColor
         dateLabel.font = UIFont(name: "HelveticaNeue-Bold", size: 25)
-        //dateLabel.adjustsFontSizeToFitWidth = true
-        
         
         
         
     }
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-        
-        UIView.animate(withDuration: 0.3) {
-            let frame = self.view.frame
-            let yComponent = UIScreen.main.bounds.height-80
-            self.view.frame = CGRect(x: 0, y: yComponent, width: frame.width, height: frame.height)
-            
-        }
-    }
-    
+  
     func popUpViewToBottom(){
         UIView.animate(withDuration: 0.3, delay: 0.0, options: [.allowUserInteraction], animations: {
             self.view.frame = CGRect(x: 0, y: self.collapsedView, width: self.view.frame.width, height: self.view.frame.height)
             self.joinedTableView.isScrollEnabled = false
         })
+        print("Why you going down man!")
     }
     func popUpViewToMiddle(){
         UIView.animate(withDuration: 0.5, delay: 0.0, options: [.allowUserInteraction], animations: {
@@ -397,6 +389,7 @@ class EventManagerSlideUpViewController: UIViewController, UIGestureRecognizerDe
             view.frame = CGRect(x: 0, y: finalYPosition, width: view.frame.width, height: view.frame.height)
             //Resets the translation to zero so it stops doing the translation
             recognizer.setTranslation(CGPoint.zero, in: view)
+            print("Uhhh this one???")
         }
         
         
@@ -448,6 +441,7 @@ class EventManagerSlideUpViewController: UIViewController, UIGestureRecognizerDe
                 else if velocity.y >= 0 || finalYPosition >= self.collapsedView{
                     self.view.frame = CGRect(x: 0, y: self.collapsedView, width: self.view.frame.width, height: self.view.frame.height)
                     self.joinedTableView.isScrollEnabled = false
+                    print("DEES is why you going down man!")
                 }
                     //Swipe was up and its between collapsed and partial
                     //So set the view to the partial view

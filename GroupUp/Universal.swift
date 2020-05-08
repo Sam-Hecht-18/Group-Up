@@ -40,7 +40,7 @@ var myFriends = [String]()
 var friendRequests = [String]()
 var friendRequestUsernames = [String]()
 var usernames = [String]()
-var createdEvents = [String]()
+var myCreatedEvents = [String]()
 var joinedEvents = [String]()
 
 
@@ -183,7 +183,7 @@ func setUpObservers(){
         print("Welcome to the thunder dome but I made it!")
         guard let created = snapshot.value as? [String] else {return}
         print("")
-        createdEvents = created
+        myCreatedEvents = created
         
         for i in 0..<created.count{
             
@@ -314,7 +314,7 @@ func resetEverything(){
     friendRequests = [String]()
     friendRequestUsernames = [String]()
     usernames = [String]()
-    createdEvents = [String]()
+    myCreatedEvents = [String]()
     joinedEvents = [String]()
     retrieveFriendsAndUsers()
     
@@ -448,6 +448,7 @@ func transitiontoNewVC(_ menuType: MenuType, currentViewController: UIViewContro
 }
 
 func slideOutSidebar(_ currentViewController: UIViewController){
+    print("Why on earth is the side bar sliding out but not...?")
     guard let sidebarMenuViewController = currentViewController.storyboard?.instantiateViewController(withIdentifier: "SidebarMenuViewController") as? SidebarMenuViewController else {return}
     sidebarMenuViewController.didTapMenuType = {menuType in
         transitiontoNewVC(menuType, currentViewController: currentViewController)

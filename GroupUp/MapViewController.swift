@@ -29,30 +29,19 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        
         view.addSubview(map)
         setUpMapView()
         checkLocationServices()
         
         checkLogIn()
         retrieveFriendsAndUsers()
-        
-        
-        
-        
-        
         setUpNavigationControllerBackground()
         
-        
+    
         let eventCreatorButton = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(buttonClicked(_:)))
-        
         
         navigationItem.rightBarButtonItem = eventCreatorButton
         addEventManagerSlideUpViewController()
-        
-        
-        
-        
         
     }
     
@@ -212,10 +201,12 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
             
             guard let event = view.annotation as? Event else {return}
             self.eventManagerSlideUpView.updateEventSelected(event)
+            print("Im about to slide up to the middle")
             self.eventManagerSlideUpView.popUpViewToMiddle()
+            print("I slid up my guy")
             self.timeAndDistance = String()
             map.addOverlay(route.polyline)
-            //self.resetMapViewBounds(withNew: route)
+            self.resetMapViewBounds(withNew: route)
             
         }
     }
@@ -289,6 +280,7 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
         
         eventManagerSlideUpView.updateTimeAndDistanceLabel("")
         eventManagerSlideUpView.unpopulate()
+        print("For some odd reason I'm bringing you downnnnn")
         eventManagerSlideUpView.popUpViewToBottom()
     }
     
@@ -323,7 +315,7 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
         // 3- Adjust event manager frame and initial position.
         let height = view.frame.height
         let width  = view.frame.width
-        eventManagerSlideUpView.view.frame = CGRect(x: 0, y: self.view.frame.maxY, width: width, height: height)
+        eventManagerSlideUpView.view.frame = CGRect(x: 0, y: eventManagerSlideUpView.collapsedView, width: width, height: height)
     }
     
     @IBAction func SidebarButtonTapped(_ sender: UIBarButtonItem) {

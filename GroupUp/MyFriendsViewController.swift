@@ -9,7 +9,7 @@
 import UIKit
 
 class MyFriendsViewController: UITableViewController {
-    let activityIndicator = UIActivityIndicatorView(frame: CGRect(x: 150, y: -20, width: 100, height: 100))
+    let activityIndicator = UIActivityIndicatorView(frame: CGRect(x: 150, y: -25, width: 100, height: 100))
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .systemGray5

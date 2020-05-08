@@ -23,7 +23,6 @@
 		A0A3754F24186B68006A227B /* Universal.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0A3754E24186B68006A227B /* Universal.swift */; };
 		A0BF04362451433C00BF6B2D /* AddFriendsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0BF04352451433C00BF6B2D /* AddFriendsViewController.swift */; };
 		A0D59A8A24101D080025A70B /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = A0D59A8924101D080025A70B /* GoogleService-Info.plist */; };
-		A2AFBE1A240447D70090F639 /* NavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2AFBE19240447D70090F639 /* NavigationController.swift */; };
 		A2AFBE1E240448400090F639 /* SignUpViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2AFBE1D240448400090F639 /* SignUpViewController.swift */; };
 		A2AFBE24240449160090F639 /* LogInViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2AFBE23240449160090F639 /* LogInViewController.swift */; };
 		A2D8B27B24101A25002C6195 /* EventCreator.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2D8B27A24101A25002C6195 /* EventCreator.swift */; };
@@ -76,7 +75,6 @@
 		A0A3754E24186B68006A227B /* Universal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Universal.swift; sourceTree = "<group>"; };
 		A0BF04352451433C00BF6B2D /* AddFriendsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddFriendsViewController.swift; sourceTree = "<group>"; };
 		A0D59A8924101D080025A70B /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
-		A2AFBE19240447D70090F639 /* NavigationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationController.swift; sourceTree = "<group>"; };
 		A2AFBE1D240448400090F639 /* SignUpViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpViewController.swift; sourceTree = "<group>"; };
 		A2AFBE23240449160090F639 /* LogInViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogInViewController.swift; sourceTree = "<group>"; };
 		A2D8B27A24101A25002C6195 /* EventCreator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventCreator.swift; sourceTree = "<group>"; };
@@ -174,7 +172,6 @@
 				A086D341240446DD00E3A640 /* SidebarSlideInTransition.swift */,
 				A07E1B5923FDC56D005E999B /* MapViewController.swift */,
 				A023B77F2401D5B400A2F5ED /* EventManagerSlideUpViewController.swift */,
-				A2AFBE19240447D70090F639 /* NavigationController.swift */,
 				A2AFBE23240449160090F639 /* LogInViewController.swift */,
 				A2AFBE1D240448400090F639 /* SignUpViewController.swift */,
 				F51B811F24044ACA0082A3C9 /* StartUpScreenViewController.swift */,
@@ -363,7 +360,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				A086D340240446B800E3A640 /* SidebarMenuViewController.swift in Sources */,
-				A2AFBE1A240447D70090F639 /* NavigationController.swift in Sources */,
 				A2AFBE24240449160090F639 /* LogInViewController.swift in Sources */,
 				A0A3754F24186B68006A227B /* Universal.swift in Sources */,
 				A05D5A1724296D7100BD5A46 /* Event.swift in Sources */,
