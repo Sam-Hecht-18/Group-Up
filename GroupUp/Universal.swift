@@ -40,6 +40,9 @@ var myFriends = [String]()
 var friendRequests = [String]()
 var friendRequestUsernames = [String]()
 var usernames = [String]()
+var createdEvents = [String]()
+var joinedEvents = [String]()
+
 
 func setUpObservers(){
     
@@ -133,7 +136,7 @@ func setUpObservers(){
     databaseRef.child("users/\(uid)/joined").observeSingleEvent(of: .value) { (snapshot) in
         print("Welcome to the thunder dome")
         guard let joined = snapshot.value as? [String] else {return}
-        
+        joinedEvents = joined
         
         
         for i in 0..<joined.count{
@@ -180,7 +183,7 @@ func setUpObservers(){
         print("Welcome to the thunder dome but I made it!")
         guard let created = snapshot.value as? [String] else {return}
         print("")
-        
+        createdEvents = created
         
         for i in 0..<created.count{
             
@@ -311,7 +314,10 @@ func resetEverything(){
     friendRequests = [String]()
     friendRequestUsernames = [String]()
     usernames = [String]()
+    createdEvents = [String]()
+    joinedEvents = [String]()
     retrieveFriendsAndUsers()
+    
     
 }
 func retrieveFriendsAndUsers(){
