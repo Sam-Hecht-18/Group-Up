@@ -248,14 +248,11 @@
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="aZf-DQ-IqP">
-                                <rect key="frame" x="107" y="381" width="200" height="50"/>
-                                <color key="backgroundColor" systemColor="systemIndigoColor" red="0.34509803919999998" green="0.33725490200000002" blue="0.83921568629999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="50" id="6EA-HR-43z"/>
-                                    <constraint firstAttribute="width" constant="200" id="qXP-ze-rWg"/>
-                                </constraints>
-                                <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="17"/>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="aZf-DQ-IqP">
+                                <rect key="frame" x="104" y="343" width="204" height="59"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="backgroundColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="24"/>
                                 <state key="normal" title="Friends">
                                     <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 </state>
@@ -268,14 +265,12 @@
                                     <action selector="myFriends:" destination="0OW-9D-nOg" eventType="touchUpInside" id="WMX-e8-L0B"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="55s-Hg-46l">
-                                <rect key="frame" x="107" y="506" width="200" height="50"/>
-                                <color key="backgroundColor" systemColor="systemIndigoColor" red="0.34509803919999998" green="0.33725490200000002" blue="0.83921568629999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                <constraints>
-                                    <constraint firstAttribute="width" constant="200" id="20V-tS-MDO"/>
-                                    <constraint firstAttribute="height" constant="50" id="tw1-Vz-Mev"/>
-                                </constraints>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="55s-Hg-46l">
+                                <rect key="frame" x="20" y="430" width="175" height="61"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="backgroundColor" red="0.0" green="0.58980089430000004" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="17"/>
+                                <color key="tintColor" red="0.0" green="0.58980089430000004" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <state key="normal" title="Upcoming Events">
                                     <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 </state>
@@ -288,13 +283,15 @@
                                     <action selector="upcomingEvents:" destination="0OW-9D-nOg" eventType="touchUpInside" id="a4h-Uo-rNs"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="pDb-qa-KKx">
-                                <rect key="frame" x="107" y="638" width="200" height="50"/>
-                                <color key="backgroundColor" systemColor="systemIndigoColor" red="0.34509803919999998" green="0.33725490200000002" blue="0.83921568629999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                <constraints>
-                                    <constraint firstAttribute="width" constant="200" id="7mO-Sk-qAR"/>
-                                    <constraint firstAttribute="height" constant="50" id="NC9-Cc-HnR"/>
-                                </constraints>
+                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="nAj-dh-V9u">
+                                <rect key="frame" x="20" y="314" width="374" height="6"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="backgroundColor" red="0.0048598507420000003" green="0.096086271109999996" blue="0.57499289509999996" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            </view>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="pDb-qa-KKx">
+                                <rect key="frame" x="219" y="430" width="175" height="61"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="backgroundColor" red="0.0" green="0.58980089430000004" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="17"/>
                                 <state key="normal" title="My Created Events">
                                     <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -311,15 +308,9 @@
                         </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <constraints>
-                            <constraint firstItem="aZf-DQ-IqP" firstAttribute="centerX" secondItem="3Jg-2w-OIV" secondAttribute="centerX" id="5XV-IA-kmF"/>
                             <constraint firstItem="ibT-pR-F54" firstAttribute="top" secondItem="3Jg-2w-OIV" secondAttribute="top" constant="100" id="8kR-bG-eJj"/>
                             <constraint firstItem="ipj-Y6-44u" firstAttribute="centerX" secondItem="3Jg-2w-OIV" secondAttribute="centerX" id="9Yv-hG-M7p"/>
-                            <constraint firstItem="55s-Hg-46l" firstAttribute="centerX" secondItem="3Jg-2w-OIV" secondAttribute="centerX" id="JVo-ka-eYa"/>
                             <constraint firstItem="ibT-pR-F54" firstAttribute="centerX" secondItem="3Jg-2w-OIV" secondAttribute="centerX" id="LQN-yC-Kfv"/>
-                            <constraint firstItem="55s-Hg-46l" firstAttribute="top" secondItem="aZf-DQ-IqP" secondAttribute="bottom" constant="75" id="MAJ-t6-yKB"/>
-                            <constraint firstItem="pDb-qa-KKx" firstAttribute="top" secondItem="55s-Hg-46l" secondAttribute="bottom" constant="82" id="Vck-z9-6jA"/>
-                            <constraint firstItem="aZf-DQ-IqP" firstAttribute="top" secondItem="ipj-Y6-44u" secondAttribute="bottom" constant="75" id="dVh-hx-IVH"/>
-                            <constraint firstItem="pDb-qa-KKx" firstAttribute="centerX" secondItem="3Jg-2w-OIV" secondAttribute="centerX" id="gzR-XW-GY1"/>
                             <constraint firstItem="ipj-Y6-44u" firstAttribute="top" secondItem="ibT-pR-F54" secondAttribute="bottom" constant="25" id="zjQ-xO-ZOD"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="Pee-TM-0oa"/>
@@ -341,7 +332,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="xxc-lj-VoT" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1993" y="198"/>
+            <point key="canvasLocation" x="1992.753623188406" y="197.54464285714286"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="8tq-xz-r68">
