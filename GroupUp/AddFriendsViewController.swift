@@ -25,7 +25,6 @@ class AddFriendsViewController: UIViewController, UITextFieldDelegate, UITableVi
         super.viewDidLoad()
         
         view.backgroundColor = UIColor(red: 31/255.0, green: 33/255.0, blue: 36/255.0, alpha: 1.0)
-        tableView.backgroundColor = UIColor(red: 31/255.0, green: 33/255.0, blue: 36/255.0, alpha: 1.0)
         //viableUsernames = usernames
         //usernames.sort()
         usernames.sort { (arg1, arg2) -> Bool in
@@ -103,7 +102,7 @@ class AddFriendsViewController: UIViewController, UITextFieldDelegate, UITableVi
         
         
         tableView.separatorColor = .clear
-        tableView.backgroundColor = .systemGray5
+        tableView.backgroundColor = UIColor(red: 31/255.0, green: 33/255.0, blue: 36/255.0, alpha: 1.0)
         
         tableView.delegate = self
         tableView.dataSource = self
