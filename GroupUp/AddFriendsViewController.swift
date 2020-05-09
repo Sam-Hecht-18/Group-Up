@@ -297,7 +297,7 @@ class AddFriendsViewController: UIViewController, UITextFieldDelegate, UITableVi
         friendRequests.remove(at: acceptButton.tag)
         viableUsernames = friendRequestUsernames
         textField.text = ""
-        tableView.reloadSections([0], with: .automatic)
+        tableView.reloadData()
     }
     @objc func denyRequest(_ denyButton : UIButton){
         guard let currentUID = Auth.auth().currentUser?.uid else {return}
@@ -308,7 +308,7 @@ class AddFriendsViewController: UIViewController, UITextFieldDelegate, UITableVi
         friendRequests.remove(at: denyButton.tag)
         viableUsernames = friendRequestUsernames
         textField.text = ""
-        tableView.reloadSections([0], with: .automatic)
+        tableView.reloadData()
     }
     
     @objc func addFriend(_ addButton : UIButton){
@@ -346,7 +346,7 @@ class AddFriendsViewController: UIViewController, UITextFieldDelegate, UITableVi
         usernames.remove(at: addButton.tag)
         viableUsernames = usernames
         textField.text = ""
-        tableView.reloadSections([addButton.tag], with: .automatic)
+        tableView.reloadData()
     }
 }
 /*
