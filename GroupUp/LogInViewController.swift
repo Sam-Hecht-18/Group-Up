@@ -62,6 +62,8 @@ class LogInViewController: UIViewController, UITextFieldDelegate {
         usernameTextField.delegate = self
         passwordTextField.delegate = self
         usernameTextField.becomeFirstResponder()
+        let placeHolder = NSAttributedString(string: "Must be at least 6 characters", attributes: [NSAttributedString.Key.foregroundColor : UIColor.systemGray2])
+        passwordTextField.attributedPlaceholder = placeHolder
     }
     
     

@@ -65,6 +65,8 @@ class SignUpViewController: UIViewController, UITextFieldDelegate{
         usernameTextField.autocorrectionType = .no
         
         usernameTextField.becomeFirstResponder()
+        let placeHolder = NSAttributedString(string: "Must be at least 6 characters", attributes: [NSAttributedString.Key.foregroundColor : UIColor.systemGray2])
+        passwordTextField.attributedPlaceholder = placeHolder
     }
     
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
