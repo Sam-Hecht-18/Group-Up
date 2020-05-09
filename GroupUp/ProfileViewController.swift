@@ -28,10 +28,10 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
     }
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = createdTableView.dequeueReusableCell(withIdentifier: "event") else {return UITableViewCell()}
-        cell.textLabel?.numberOfLines = 10
+        cell.textLabel?.numberOfLines = 5
         cell.textLabel?.textAlignment = .center
         let cellText = NSMutableAttributedString()
-        cellText.append(NSAttributedString(string: "\(myEvents[tableView.tag][indexPath.section].title!)\n", attributes: [NSAttributedString.Key.foregroundColor : UIColor(red: 43/255.0, green: 183/255.0, blue: 183/255.0, alpha: 1.0), NSAttributedString.Key.font : UIFont(name: "HelveticaNeue-Bold", size: 30)!]))
+        cellText.append(NSAttributedString(string: "\(myEvents[tableView.tag][indexPath.section].title!)\n", attributes: [NSAttributedString.Key.foregroundColor : UIColor(red: 43/255.0, green: 183/255.0, blue: 183/255.0, alpha: 1.0), NSAttributedString.Key.font : UIFont(name: "HelveticaNeue-Bold", size: 25)!]))
         
         cellText.append(NSAttributedString(string: myEvents[tableView.tag][indexPath.section].subtitle!, attributes: [NSAttributedString.Key.foregroundColor : UIColor(red: 43/255.0, green: 183/255.0, blue: 183/255.0, alpha: 1.0), NSAttributedString.Key.font : UIFont(name: "HelveticaNeue", size: 26)!]))
         cell.textLabel?.adjustsFontForContentSizeCategory = true
@@ -157,7 +157,7 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
     override func viewDidLoad() {
         navigationController?.hidesBarsOnTap = false
         overrideUserInterfaceStyle = .dark
-        view.backgroundColor = .systemGray5
+        view.backgroundColor = UIColor(red: 31/255.0, green: 33/255.0, blue: 36/255.0, alpha: 1.0)
         username.text = Auth.auth().currentUser?.displayName
         username.textColor = UIColor(red: 43/255.0, green: 183/255.0, blue: 183/255.0, alpha: 1.0)
         setUpProfilePic()
